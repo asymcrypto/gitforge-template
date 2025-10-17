@@ -1,14 +1,3 @@
-# 🚀 Quick Start
-
-[![Use this template](https://img.shields.io/badge/Use-Template-brightgreen)](https://github.com/asymcrypto/gitforge-template/generate)
-
-1. Click **"Use this template"** above
-2. Create your new repository
-3. Start creating bounties instantly!
-
-**Live Example:** Check our [active bounties]httpslatelate://github.com/asymcrypto/gitforge-template/issues
-
-
 # GitForge 🛠️
 **Turn Your GitHub Organization into a DAO**
 
@@ -16,10 +5,13 @@ GitForge enables decentralized collaboration using only GitHub features - Issues
 
 ## 🚀 Quick Start
 
-1. **Use this template** → Create new repository
-2. **Configure bounties** → Edit `.github/BOUNTY_CONFIG.json`
-3. **Launch first bounty** → Create new issue using "Bounty" template
-4. **Start collaborating** → Contributors submit PRs for bounties
+[![Use this template](https://img.shields.io/badge/Use-Template-brightgreen)](https://github.com/asymcrypto/gitforge-template/generate)
+
+1. Click **"Use this template"** above
+2. Create your new repository
+3. Start creating bounties instantly!
+
+**Live Example:** Check our [active bounties](https://github.com/asymcrypto/gitforge-template/issues)
 
 ## 📋 How It Works
 
@@ -42,6 +34,20 @@ GitForge enables decentralized collaboration using only GitHub features - Issues
 | 🟢 Beginner | $50-$200 | Basic coding, docs |
 | 🟡 Intermediate | $200-$500 | Features, integrations |
 | 🔴 Advanced | $500-$2000 | Protocol work, security |
+
+## 🏆 Contributor Leaderboard
+
+See [CONTRIBUTORS.md](CONTRIBUTORS.md) for top contributors this month.
+
+## 🗳️ Governance
+
+- Proposals: GitHub Discussions
+- Voting: Reactions (👍 = yes, 👎 = no)  
+- Execution: Core team implements approved proposals
+
+---
+
+**Ready to start?** Check open bounties → [Issues · Bounties](https://github.com/asymcrypto/gitforge-template/issues)| 🔴 Advanced | $500-$2000 | Protocol work, security |
 
 ## 🏆 Contributor Leaderboard
 
