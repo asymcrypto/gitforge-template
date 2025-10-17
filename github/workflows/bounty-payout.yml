@@ -1,0 +1,56 @@
+name: Bounty Payout
+on:
+  pull_request:
+    types: [closed]
+
+jobs:
+  payout:
+    if: github.event.pull_request.merged == true
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Check for bounty label
+        id: check_bounty
+        uses: actions/github-script@v6
+        with:
+          script: |
+            const issue = await github.rest.issues.get({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.payload.pull_request.number
+            });
+            
+            const isBounty = issue.data.labels.some(label => 
+              label.name.includes('bounty')
+            );
+            
+            core.setOutput('is_bounty', isBounty);
+            
+            if (isBounty) {
+              // Get bounty amount from issue body
+              const body = issue.data.body;
+              const amountMatch = body.match(/Bounty Amount[\\s\\S]*?\\$(\\d+)/);
+              return amountMatch ? amountMatch[1] : null;
+            }
+            
+      - name: Process Payout
+        if: steps.check_bounty.outputs.is_bounty == 'true'
+        run: |
+          echo "Processing bounty payout for PR #${{ github.event.pull_request.number }}"
+          echo "Amount: ${{ steps.check_bounty.outputs.amount }} USDC"
+          echo "Contributor: ${{ github.event.pull_request.user.login }}"
+          
+          # Here you would integrate with your payment processor
+          # For now, we'll just create a comment
+          
+      - name: Comment on PR
+        if: steps.check_bounty.outputs.is_bounty == 'true'
+        uses: actions/github-script@v6
+        with:
+          script: |
+            github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.payload.pull_request.number,
+              body: `🎉 **Bounty Paid!** \n\n ${{ steps.check_bounty.outputs.amount }} USDC has been processed for @${{ github.event.pull_request.user.login }}. Thanks for your contribution!`
+            });
