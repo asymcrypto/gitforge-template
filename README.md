@@ -6,7 +6,7 @@
 2. Create your new repository
 3. Start creating bounties instantly!
 
-**Live Example:** Check our [active bounties](issues?q=is%3Aopen+is%3Aissue+label%3Abounty)
+**Live Example:** Check our [active bountieshttps://github.com/asymcrypto/gitforge-template/issues
 
 
 # GitForge 🛠️
