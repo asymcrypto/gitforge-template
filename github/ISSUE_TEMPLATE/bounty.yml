@@ -1,0 +1,69 @@
+name: "💰 Bounty"
+description: "Create a new bounty for contributors"
+title: "[Bounty]: "
+labels: ["bounty", "triage"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for creating a bounty! This will help attract contributors to your project.
+
+  - type: input
+    id: bounty_amount
+    attributes:
+      label: "Bounty Amount (USDC)"
+      placeholder: "500"
+    validations:
+      required: true
+
+  - type: input
+    id: bounty_deadline
+    attributes:
+      label: "Submission Deadline"
+      description: "When should this be completed by?"
+      placeholder: "2024-12-31"
+    validations:
+      required: false
+
+  - type: dropdown
+    id: bounty_level
+    attributes:
+      label: "Difficulty Level"
+      options:
+        - "🟢 Beginner ($50-200)"
+        - "🟡 Intermediate ($200-500)" 
+        - "🔴 Advanced ($500-2000)"
+    validations:
+      required: true
+
+  - type: textarea
+    id: description
+    attributes:
+      label: "Bounty Description"
+      description: "What needs to be built? Be specific about requirements."
+      placeholder: "We need to build a GitHub Action that automatically pays out bounties when PRs are merged..."
+    validations:
+      required: true
+
+  - type: textarea
+    id: acceptance_criteria
+    attributes:
+      label: "Acceptance Criteria"
+      description: "What specific requirements must be met for the bounty to be paid?"
+      placeholder: |
+        - [ ] Code passes all tests
+        - [ ] Documentation updated
+        - [ ] PR reviewed and approved
+    validations:
+      required: true
+
+  - type: textarea
+    id: skills_required
+    attributes:
+      label: "Skills Required"
+      placeholder: |
+        - JavaScript
+        - GitHub Actions
+        - Smart Contracts
+    validations:
+      required: true
