@@ -1,3 +1,14 @@
+# 🚀 Quick Start
+
+[![Use this template](https://img.shields.io/badge/Use-Template-brightgreen)](https://github.com/asymcrypto/gitforge-template/generate)
+
+1. Click **"Use this template"** above
+2. Create your new repository
+3. Start creating bounties instantly!
+
+**Live Example:** Check our [active bounties](issues?q=is%3Aopen+is%3Aissue+label%3Abounty)
+
+
 # GitForge 🛠️
 **Turn Your GitHub Organization into a DAO**
 
