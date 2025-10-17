@@ -1,0 +1,22 @@
+name: Update Leaderboard
+on:
+  schedule:
+    - cron: '0 0 * * 1' # Weekly on Sunday
+  pull_request:
+    types: [closed]
+
+jobs:
+  update-leaderboard:
+    if: github.event.pull_request.merged == true
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Update contributor stats
+        uses: actions/github-script@v6
+        with:
+          script: |
+            // This would update CONTRIBUTORS.md with latest stats
+            const contributor = context.payload.pull_request.user.login;
+            
+            // For now, just log the contribution
+            console.log(`New contribution from: ${contributor}`);
