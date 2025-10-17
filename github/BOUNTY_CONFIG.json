@@ -1,0 +1,14 @@
+{
+  "payment_token": "USDC",
+  "default_chain": "polygon",
+  "payout_delay_hours": 24,
+  "min_bounty_amount": 50,
+  "max_bounty_amount": 5000,
+  "auto_assign_in_review": true,
+  "require_approval": false,
+  "reputation_thresholds": {
+    "beginner": 0,
+    "intermediate": 3,
+    "advanced": 10
+  }
+}
