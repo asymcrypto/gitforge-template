@@ -1,0 +1,26 @@
+name: "🗳️ Governance Proposal"
+description: "Submit a proposal for community voting"
+title: "[Proposal]: "
+labels: ["proposal", "governance"]
+body:
+  - type: textarea
+    id: proposal
+    attributes:
+      label: "Proposal Details"
+      description: "What are you proposing? Why?"
+      placeholder: "I propose we implement a reputation system based on merged PRs..."
+    validations:
+      required: true
+
+  - type: textarea
+    id: implementation
+    attributes:
+      label: "Implementation Plan"
+      description: "How would this be implemented?"
+      placeholder: "This would require modifying the GitHub Action to track contributor stats..."
+
+  - type: textarea
+    id: voting_period
+    attributes:
+      label: "Suggested Voting Period"
+      placeholder: "7 days"
