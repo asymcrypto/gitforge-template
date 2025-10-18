@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Get started with GitForge in 5 minutes">
+    <title>Quick Start - GitForge Documentation</title>
+    <link rel="stylesheet" href="../assets/css/style.css">
+    <link rel="stylesheet" href="../assets/css/docs.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container">
+            <div class="nav-wrapper">
+                <a href="../index.html" class="logo">
+                    <i class="fas fa-hammer"></i>
+                    <span>GitForge</span>
+                </a>
+                <button class="mobile-menu-toggle" aria-label="Toggle menu">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+                <ul class="nav-menu">
+                    <li><a href="../index.html#features">Features</a></li>
+                    <li><a href="../index.html#how-it-works">How It Works</a></li>
+                    <li><a href="../index.html#bounties">Bounties</a></li>
+                    <li><a href="index.html" style="color: var(--primary-color);">Documentation</a></li>
+                    <li><a href="https://github.com/asymcrypto/gitforge-template" target="_blank" class="btn-secondary">GitHub</a></li>
+                    <li><a href="https://github.com/asymcrypto/gitforge-template/generate" target="_blank" class="btn-primary">Get Started</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="docs-layout">
+        <aside class="docs-sidebar">
+            <div class="sidebar-content">
+                <h3>Getting Started</h3>
+                <ul>
+                    <li><a href="index.html">Introduction</a></li>
+                    <li><a href="setup-guide.html">Setup Guide</a></li>
+                    <li><a href="quick-start.html" class="active">Quick Start</a></li>
+                </ul>
+                
+                <h3>Core Features</h3>
+                <ul>
+                    <li><a href="bounty-creation.html">Creating Bounties</a></li>
+                    <li><a href="contributing.html">Contributing Guide</a></li>
+                    <li><a href="governance.html">Governance</a></li>
+                    <li><a href="reputation.html">Reputation System</a></li>
+                </ul>
+                
+                <h3>Configuration</h3>
+                <ul>
+                    <li><a href="config-reference.html">Configuration Reference</a></li>
+                    <li><a href="issue-templates.html">Issue Templates</a></li>
+                    <li><a href="github-actions.html">GitHub Actions</a></li>
+                </ul>
+                
+                <h3>Advanced</h3>
+                <ul>
+                    <li><a href="integrations.html">Integrations</a></li>
+                    <li><a href="api-reference.html">API Reference</a></li>
+                    <li><a href="troubleshooting.html">Troubleshooting</a></li>
+                </ul>
+            </div>
+        </aside>
+
+        <main class="docs-content">
+            <div class="docs-header">
+                <h1>Quick Start</h1>
+                <p class="lead">Get your GitForge DAO up and running in 5 minutes</p>
+            </div>
+
+            <div class="info-box">
+                <i class="fas fa-clock"></i>
+                <div>
+                    <strong>Time Required: 5 minutes</strong>
+                    <p>This quick start guide will have you creating your first bounty in no time.</p>
+                </div>
+            </div>
+
+            <section class="doc-section">
+                <h2 id="step-1">1. Use the Template (30 seconds)</h2>
+                <p>Click the button below to create your repository from the GitForge template:</p>
+                
+                <a href="https://github.com/asymcrypto/gitforge-template/generate" target="_blank" class="btn-primary btn-large" style="display: inline-flex; margin: 20px 0;">
+                    <i class="fas fa-rocket"></i> Create Repository
+                </a>
+
+                <ol class="numbered-list">
+                    <li>Choose your organization or personal account</li>
+                    <li>Name your repository (e.g., "my-dao")</li>
+                    <li>Select "Public" visibility</li>
+                    <li>Click "Create repository from template"</li>
+                </ol>
+
+                <div class="success-box">
+                    <i class="fas fa-check-circle"></i>
+                    <div>
+                        <strong>✓ Done!</strong>
+                        <p>You now have a complete GitForge setup in your repository.</p>
+                    </div>
+                </div>
+            </section>
+
+            <section class="doc-section">
+                <h2 id="step-2">2. Enable GitHub Actions (1 minute)</h2>
+                <p>Navigate to your new repository and enable Actions:</p>
+                
+                <ol class="numbered-list">
+                    <li>Click "Settings" in your repository</li>
+                    <li>Click "Actions" → "General" in the left sidebar</li>
+                    <li>Select "Allow all actions and reusable workflows"</li>
+                    <li>Click "Save"</li>
+                </ol>
+
+                <div class="success-box">
+                    <i class="fas fa-check-circle"></i>
+                    <div>
+                        <strong>✓ Done!</strong>
+                        <p>Automatic bounty workflows are now enabled.</p>
+                    </div>
+                </div>
+            </section>
+
+            <section class="doc-section">
+                <h2 id="step-3">3. Optional: Customize Config (2 minutes)</h2>
+                <p>Edit <code>.github/BOUNTY_CONFIG.json</code> to customize your bounty amounts:</p>
+
+                <div class="code-block">
+                    <div class="code-header">
+                        <span>.github/BOUNTY_CONFIG.json</span>
+                        <button class="copy-btn" data-copy="config-quickstart">
+                            <i class="fas fa-copy"></i>
+                        </button>
+                    </div>
+                    <pre id="config-quickstart"><code>{
+  "bounty_levels": {
+    "beginner": {
+      "emoji": "🟢",
+      "amount": "$50-$200",  // ← Change these amounts
+      "description": "Basic coding, documentation"
+    },
+    "intermediate": {
+      "emoji": "🟡",
+      "amount": "$200-$500",  // ← Change these amounts
+      "description": "Features, integrations"
+    },
+    "advanced": {
+      "emoji": "🔴",
+      "amount": "$500-$2000",  // ← Change these amounts
+      "description": "Protocol work, security"
+    }
+  },
+  "payment_method": "USDC",  // ← or "manual", "equity", etc.
+  "auto_payout": false  // ← Set to true when ready for auto-payments
+}</code></pre>
+                </div>
+
+                <p>Click the "Edit" button (pencil icon) in GitHub, make your changes, and commit.</p>
+
+                <div class="info-box">
+                    <i class="fas fa-info-circle"></i>
+                    <div>
+                        <strong>Tip</strong>
+                        <p>You can skip customization for now and use the default values. You can always change them later.</p>
+                    </div>
+                </div>
+            </section>
+
+            <section class="doc-section">
+                <h2 id="step-4">4. Create Your First Bounty (1.5 minutes)</h2>
+                <p>Let's create a simple bounty to test the system:</p>
+
+                <ol class="numbered-list">
+                    <li>Go to the "Issues" tab in your repository</li>
+                    <li>Click "New issue"</li>
+                    <li>Select "Create a Bounty"</li>
+                    <li>Fill out the form with these example values:</li>
+                </ol>
+
+                <div class="code-block">
+                    <div class="code-header">
+                        <span>Example Bounty</span>
+                        <button class="copy-btn" data-copy="example-bounty">
+                            <i class="fas fa-copy"></i>
+                        </button>
+                    </div>
+                    <pre id="example-bounty"><code>Title: [BOUNTY] Improve README documentation
+
+Bounty Amount: $50
+
+Difficulty Level: Beginner
+
+Description:
+Update the README.md file to include:
+- A better project description
+- Setup instructions
+- Contributing guidelines
+- License information
+
+Acceptance Criteria:
+- [ ] README has clear project description
+- [ ] Setup instructions are complete
+- [ ] Contributing section added
+- [ ] Proper formatting and grammar
+
+Skills Required: Technical writing, Markdown
+
+Estimated Time: 1-2 hours</code></pre>
+                </div>
+
+                <ol class="numbered-list" start="5">
+                    <li>Click "Submit new issue"</li>
+                </ol>
+
+                <div class="success-box">
+                    <i class="fas fa-check-circle"></i>
+                    <div>
+                        <strong>🎉 Congratulations!</strong>
+                        <p>You've created your first bounty! Contributors can now claim it and submit work.</p>
+                    </div>
+                </div>
+            </section>
+
+            <section class="doc-section">
+                <h2 id="whats-next">What Happens Next?</h2>
+                
+                <h3>1. Contributors Find Your Bounty</h3>
+                <p>Contributors browsing GitHub will see your bounty in the Issues tab. Make sure to:</p>
+                <ul>
+                    <li>Share it on social media (Twitter, Discord, etc.)</li>
+                    <li>Post in relevant developer communities</li>
+                    <li>Tag it with appropriate labels</li>
+                </ul>
+
+                <h3>2. Someone Claims It</h3>
+                <p>When a contributor comments "I'll take this bounty":</p>
+                <ul>
+                    <li>Review their profile and past work</li>
+                    <li>Assign them to the issue if they're qualified</li>
+                    <li>Respond with any clarifications they need</li>
+                </ul>
+
+                <h3>3. They Submit a Pull Request</h3>
+                <p>When work is submitted:</p>
+                <ul>
+                    <li>Review the PR within 2-3 days</li>
+                    <li>Check if it meets the acceptance criteria</li>
+                    <li>Provide feedback or approve</li>
+                    <li>Merge when ready</li>
+                </ul>
+
+                <h3>4. Payment is Processed</h3>
+                <p>After merging:</p>
+                <ul>
+                    <li>Manual: Send payment via your chosen method</li>
+                    <li>Automatic: GitHub Actions triggers payment</li>
+                    <li>Confirm payment with the contributor</li>
+                </ul>
+            </section>
+
+            <section class="doc-section">
+                <h2 id="next-steps">Next Steps</h2>
+                
+                <div class="step-cards">
+                    <a href="bounty-creation.html" class="step-card">
+                        <div class="step-number"><i class="fas fa-book"></i></div>
+                        <h3>Learn Best Practices</h3>
+                        <p>Discover how to create effective bounties that attract quality contributors</p>
+                        <span class="step-link">Bounty Creation Guide <i class="fas fa-arrow-right"></i></span>
+                    </a>
+                    
+                    <a href="setup-guide.html" class="step-card">
+                        <div class="step-number"><i class="fas fa-cog"></i></div>
+                        <h3>Advanced Setup</h3>
+                        <p>Configure payments, GitHub Pages, and advanced features</p>
+                        <span class="step-link">Full Setup Guide <i class="fas fa-arrow-right"></i></span>
+                    </a>
+                    
+                    <a href="governance.html" class="step-card">
+                        <div class="step-number"><i class="fas fa-vote-yea"></i></div>
+                        <h3>Add Governance</h3>
+                        <p>Set up transparent decision-making for your DAO</p>
+                        <span class="step-link">Governance Guide <i class="fas fa-arrow-right"></i></span>
+                    </a>
+                </div>
+            </section>
+
+            <section class="doc-section">
+                <h2 id="resources">Additional Resources</h2>
+
+                <div class="feature-list">
+                    <div class="feature-item">
+                        <i class="fab fa-discord"></i>
+                        <div>
+                            <h3>Join Our Discord</h3>
+                            <p>Get help, share ideas, and connect with other GitForge users</p>
+                            <a href="https://discord.gg/taU76cWxW" target="_blank">Join Now →</a>
+                        </div>
+                    </div>
+                    <div class="feature-item">
+                        <i class="fab fa-github"></i>
+                        <div>
+                            <h3>GitHub Discussions</h3>
+                            <p>Ask questions and share feedback with the community</p>
+                            <a href="https://github.com/asymcrypto/gitforge-template/discussions" target="_blank">Visit Discussions →</a>
+                        </div>
+                    </div>
+                    <div class="feature-item">
+                        <i class="fas fa-book"></i>
+                        <div>
+                            <h3>Full Documentation</h3>
+                            <p>Dive deeper into GitForge features and configuration</p>
+                            <a href="index.html">Read Docs →</a>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="doc-section">
+                <h2 id="common-questions">Common Questions</h2>
+
+                <h3>Do I need to use cryptocurrency?</h3>
+                <p>No! You can use manual payments (PayPal, Venmo, bank transfer) or equity/shares. Crypto is just one option.</p>
+
+                <h3>How much should I pay for bounties?</h3>
+                <p>Start with the suggested ranges ($50-$200 for beginners, $200-$500 for intermediate, $500+ for advanced) and adjust based on your budget and the market.</p>
+
+                <h3>What if no one claims my bounty?</h3>
+                <p>Try:</p>
+                <ul>
+                    <li>Increasing the bounty amount</li>
+                    <li>Making requirements clearer</li>
+                    <li>Promoting it more widely</li>
+                    <li>Breaking it into smaller bounties</li>
+                </ul>
+
+                <h3>Can I use this for private repositories?</h3>
+                <p>Yes! GitForge works with both public and private repositories. Just ensure contributors have access.</p>
+
+                <h3>How do I handle disputes?</h3>
+                <p>Communicate clearly and refer to the acceptance criteria. If needed, seek community input through GitHub Discussions.</p>
+            </section>
+
+            <div class="doc-navigation">
+                <a href="setup-guide.html" class="nav-prev">
+                    <i class="fas fa-arrow-left"></i>
+                    <span>Previous: Setup Guide</span>
+                </a>
+                <a href="bounty-creation.html" class="nav-next">
+                    <span>Next: Creating Bounties</span>
+                    <i class="fas fa-arrow-right"></i>
+                </a>
+            </div>
+        </main>
+    </div>
+
+    <script src="../assets/js/main.js"></script>
+    <script src="../assets/js/docs.js"></script>
+</body>
+</html>
+

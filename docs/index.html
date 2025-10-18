@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="GitForge Documentation - Complete guide to setting up and using GitForge for your DAO">
+    <title>Documentation - GitForge</title>
+    <link rel="stylesheet" href="../assets/css/style.css">
+    <link rel="stylesheet" href="../assets/css/docs.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container">
+            <div class="nav-wrapper">
+                <a href="../index.html" class="logo">
+                    <i class="fas fa-hammer"></i>
+                    <span>GitForge</span>
+                </a>
+                <button class="mobile-menu-toggle" aria-label="Toggle menu">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+                <ul class="nav-menu">
+                    <li><a href="../index.html#features">Features</a></li>
+                    <li><a href="../index.html#how-it-works">How It Works</a></li>
+                    <li><a href="../index.html#bounties">Bounties</a></li>
+                    <li><a href="index.html" style="color: var(--primary-color);">Documentation</a></li>
+                    <li><a href="https://github.com/asymcrypto/gitforge-template" target="_blank" class="btn-secondary">GitHub</a></li>
+                    <li><a href="https://github.com/asymcrypto/gitforge-template/generate" target="_blank" class="btn-primary">Get Started</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Documentation Layout -->
+    <div class="docs-layout">
+        <!-- Sidebar -->
+        <aside class="docs-sidebar">
+            <div class="sidebar-content">
+                <h3>Getting Started</h3>
+                <ul>
+                    <li><a href="index.html" class="active">Introduction</a></li>
+                    <li><a href="setup-guide.html">Setup Guide</a></li>
+                    <li><a href="quick-start.html">Quick Start</a></li>
+                </ul>
+                
+                <h3>Core Features</h3>
+                <ul>
+                    <li><a href="bounty-creation.html">Creating Bounties</a></li>
+                    <li><a href="contributing.html">Contributing Guide</a></li>
+                    <li><a href="governance.html">Governance</a></li>
+                    <li><a href="reputation.html">Reputation System</a></li>
+                </ul>
+                
+                <h3>Configuration</h3>
+                <ul>
+                    <li><a href="config-reference.html">Configuration Reference</a></li>
+                    <li><a href="issue-templates.html">Issue Templates</a></li>
+                    <li><a href="github-actions.html">GitHub Actions</a></li>
+                </ul>
+                
+                <h3>Advanced</h3>
+                <ul>
+                    <li><a href="integrations.html">Integrations</a></li>
+                    <li><a href="api-reference.html">API Reference</a></li>
+                    <li><a href="troubleshooting.html">Troubleshooting</a></li>
+                </ul>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="docs-content">
+            <div class="docs-header">
+                <h1>GitForge Documentation</h1>
+                <p class="lead">Everything you need to know about setting up and running a GitForge-powered DAO</p>
+            </div>
+
+            <section class="doc-section">
+                <h2 id="what-is-gitforge">What is GitForge?</h2>
+                <p>GitForge is a revolutionary framework that transforms your GitHub organization into a fully functional Decentralized Autonomous Organization (DAO). It leverages GitHub's native features - Issues, Pull Requests, Discussions, and Actions - to create a transparent, automated system for bounty management, governance, and contributor reputation.</p>
+                
+                <div class="info-box">
+                    <i class="fas fa-info-circle"></i>
+                    <div>
+                        <strong>No Blockchain Required</strong>
+                        <p>GitForge works entirely within GitHub. While it can integrate with blockchain payments, it's designed to work perfectly without any blockchain infrastructure.</p>
+                    </div>
+                </div>
+            </section>
+
+            <section class="doc-section">
+                <h2 id="key-features">Key Features</h2>
+                <div class="feature-list">
+                    <div class="feature-item">
+                        <i class="fas fa-money-bill-wave"></i>
+                        <div>
+                            <h3>Automated Bounty System</h3>
+                            <p>Create bounties using issue templates, automatically track them, and trigger payments when PRs are merged.</p>
+                        </div>
+                    </div>
+                    <div class="feature-item">
+                        <i class="fas fa-vote-yea"></i>
+                        <div>
+                            <h3>Transparent Governance</h3>
+                            <p>Make organizational decisions through GitHub Discussions with reaction-based voting.</p>
+                        </div>
+                    </div>
+                    <div class="feature-item">
+                        <i class="fas fa-trophy"></i>
+                        <div>
+                            <h3>Reputation Tracking</h3>
+                            <p>Automatically track contributor reputation based on merged PRs and completed bounties.</p>
+                        </div>
+                    </div>
+                    <div class="feature-item">
+                        <i class="fas fa-cog"></i>
+                        <div>
+                            <h3>Zero Configuration</h3>
+                            <p>Use the template repository and customize minimal configuration files to get started.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="doc-section">
+                <h2 id="how-it-works">How It Works</h2>
+                <p>GitForge operates through a simple yet powerful workflow:</p>
+                
+                <ol class="numbered-list">
+                    <li>
+                        <strong>Maintainers create bounties</strong> using GitHub issue templates with predefined fields for bounty amount, difficulty level, and acceptance criteria.
+                    </li>
+                    <li>
+                        <strong>Contributors claim bounties</strong> by commenting on the issue and then submitting pull requests with their solutions.
+                    </li>
+                    <li>
+                        <strong>Maintainers review PRs</strong> using standard GitHub review workflows, ensuring quality and correctness.
+                    </li>
+                    <li>
+                        <strong>GitHub Actions trigger payment</strong> automatically when a PR is merged, sending funds to the contributor.
+                    </li>
+                    <li>
+                        <strong>Reputation updates automatically</strong> based on merged PRs, building a transparent track record for all contributors.
+                    </li>
+                </ol>
+            </section>
+
+            <section class="doc-section">
+                <h2 id="quick-example">Quick Example</h2>
+                <p>Here's what a bounty configuration looks like:</p>
+                
+                <div class="code-block">
+                    <div class="code-header">
+                        <span>.github/BOUNTY_CONFIG.json</span>
+                        <button class="copy-btn" data-copy="bounty-config">
+                            <i class="fas fa-copy"></i>
+                        </button>
+                    </div>
+                    <pre id="bounty-config"><code>{
+  "bounty_levels": {
+    "beginner": {
+      "emoji": "🟢",
+      "amount": "$50-$200",
+      "description": "Basic coding, documentation"
+    },
+    "intermediate": {
+      "emoji": "🟡",
+      "amount": "$200-$500",
+      "description": "Features, integrations"
+    },
+    "advanced": {
+      "emoji": "🔴",
+      "amount": "$500-$2000",
+      "description": "Protocol work, security"
+    }
+  },
+  "payment_method": "USDC",
+  "auto_payout": true,
+  "governance": {
+    "voting_duration_days": 7,
+    "approval_threshold": 0.6
+  }
+}</code></pre>
+                </div>
+            </section>
+
+            <section class="doc-section">
+                <h2 id="getting-started">Getting Started</h2>
+                <p>Ready to set up your own GitForge DAO? Follow these steps:</p>
+                
+                <div class="step-cards">
+                    <a href="setup-guide.html" class="step-card">
+                        <div class="step-number">1</div>
+                        <h3>Setup Guide</h3>
+                        <p>Learn how to create your repository from the template and configure it for your organization.</p>
+                        <span class="step-link">Read Setup Guide <i class="fas fa-arrow-right"></i></span>
+                    </a>
+                    
+                    <a href="quick-start.html" class="step-card">
+                        <div class="step-number">2</div>
+                        <h3>Quick Start</h3>
+                        <p>Get up and running in 5 minutes with our streamlined quick start tutorial.</p>
+                        <span class="step-link">Quick Start <i class="fas fa-arrow-right"></i></span>
+                    </a>
+                    
+                    <a href="bounty-creation.html" class="step-card">
+                        <div class="step-number">3</div>
+                        <h3>Create Bounties</h3>
+                        <p>Learn how to create effective bounties that attract quality contributors.</p>
+                        <span class="step-link">Learn More <i class="fas fa-arrow-right"></i></span>
+                    </a>
+                </div>
+            </section>
+
+            <section class="doc-section">
+                <h2 id="use-cases">Use Cases</h2>
+                <p>GitForge is perfect for various types of organizations:</p>
+                
+                <div class="use-case-grid">
+                    <div class="use-case-card">
+                        <i class="fas fa-code"></i>
+                        <h3>Open Source Projects</h3>
+                        <p>Incentivize contributors to help with issues, features, and documentation.</p>
+                    </div>
+                    <div class="use-case-card">
+                        <i class="fas fa-rocket"></i>
+                        <h3>Startups</h3>
+                        <p>Build a distributed team and pay for specific deliverables without hiring full-time.</p>
+                    </div>
+                    <div class="use-case-card">
+                        <i class="fas fa-users"></i>
+                        <h3>DAOs</h3>
+                        <p>Manage treasury allocations transparently with community governance.</p>
+                    </div>
+                    <div class="use-case-card">
+                        <i class="fas fa-university"></i>
+                        <h3>Research Groups</h3>
+                        <p>Coordinate collaborative research with transparent contribution tracking.</p>
+                    </div>
+                </div>
+            </section>
+
+            <section class="doc-section">
+                <h2 id="community">Community & Support</h2>
+                <p>Join our growing community of GitForge users:</p>
+                
+                <div class="community-links">
+                    <a href="https://discord.gg/taU76cWxW" target="_blank" class="community-card">
+                        <i class="fab fa-discord"></i>
+                        <h3>Discord</h3>
+                        <p>Join our Discord server for real-time help and discussions</p>
+                    </a>
+                    <a href="https://github.com/asymcrypto/gitforge-template/discussions" target="_blank" class="community-card">
+                        <i class="fab fa-github"></i>
+                        <h3>GitHub Discussions</h3>
+                        <p>Ask questions and share ideas with the community</p>
+                    </a>
+                    <a href="https://github.com/asymcrypto/gitforge-template/issues" target="_blank" class="community-card">
+                        <i class="fas fa-bug"></i>
+                        <h3>Report Issues</h3>
+                        <p>Found a bug? Let us know on GitHub Issues</p>
+                    </a>
+                </div>
+            </section>
+
+            <div class="doc-navigation">
+                <div></div>
+                <a href="setup-guide.html" class="nav-next">
+                    <span>Next: Setup Guide</span>
+                    <i class="fas fa-arrow-right"></i>
+                </a>
+            </div>
+        </main>
+    </div>
+
+    <script src="../assets/js/main.js"></script>
+    <script src="../assets/js/docs.js"></script>
+</body>
+</html>
+

@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Learn how to contribute to GitForge projects and earn bounties">
+    <title>Contributing Guide - GitForge Documentation</title>
+    <link rel="stylesheet" href="../assets/css/style.css">
+    <link rel="stylesheet" href="../assets/css/docs.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container">
+            <div class="nav-wrapper">
+                <a href="../index.html" class="logo">
+                    <i class="fas fa-hammer"></i>
+                    <span>GitForge</span>
+                </a>
+                <button class="mobile-menu-toggle" aria-label="Toggle menu">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+                <ul class="nav-menu">
+                    <li><a href="../index.html#features">Features</a></li>
+                    <li><a href="../index.html#how-it-works">How It Works</a></li>
+                    <li><a href="../index.html#bounties">Bounties</a></li>
+                    <li><a href="index.html" style="color: var(--primary-color);">Documentation</a></li>
+                    <li><a href="https://github.com/asymcrypto/gitforge-template" target="_blank" class="btn-secondary">GitHub</a></li>
+                    <li><a href="https://github.com/asymcrypto/gitforge-template/generate" target="_blank" class="btn-primary">Get Started</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="docs-layout">
+        <aside class="docs-sidebar">
+            <div class="sidebar-content">
+                <h3>Getting Started</h3>
+                <ul>
+                    <li><a href="index.html">Introduction</a></li>
+                    <li><a href="setup-guide.html">Setup Guide</a></li>
+                    <li><a href="quick-start.html">Quick Start</a></li>
+                </ul>
+                
+                <h3>Core Features</h3>
+                <ul>
+                    <li><a href="bounty-creation.html">Creating Bounties</a></li>
+                    <li><a href="contributing.html" class="active">Contributing Guide</a></li>
+                    <li><a href="governance.html">Governance</a></li>
+                    <li><a href="reputation.html">Reputation System</a></li>
+                </ul>
+                
+                <h3>Configuration</h3>
+                <ul>
+                    <li><a href="config-reference.html">Configuration Reference</a></li>
+                    <li><a href="issue-templates.html">Issue Templates</a></li>
+                    <li><a href="github-actions.html">GitHub Actions</a></li>
+                </ul>
+                
+                <h3>Advanced</h3>
+                <ul>
+                    <li><a href="integrations.html">Integrations</a></li>
+                    <li><a href="api-reference.html">API Reference</a></li>
+                    <li><a href="troubleshooting.html">Troubleshooting</a></li>
+                </ul>
+            </div>
+        </aside>
+
+        <main class="docs-content">
+            <div class="docs-header">
+                <h1>Contributing Guide</h1>
+                <p class="lead">Learn how to claim bounties, submit work, and get paid</p>
+            </div>
+
+            <section class="doc-section">
+                <h2 id="getting-started">Getting Started as a Contributor</h2>
+                <p>Welcome! GitForge makes it easy to contribute to projects and earn rewards. Here's everything you need to know.</p>
+
+                <div class="info-box">
+                    <i class="fas fa-rocket"></i>
+                    <div>
+                        <strong>New to Open Source?</strong>
+                        <p>No problem! Start with beginner-friendly bounties (🟢) to learn the ropes. The community is here to help you succeed.</p>
+                    </div>
+                </div>
+            </section>
+
+            <section class="doc-section">
+                <h2 id="finding-bounties">Finding Bounties</h2>
+
+                <h3>Browse Open Bounties</h3>
+                <ol class="numbered-list">
+                    <li>Visit the project's GitHub repository</li>
+                    <li>Go to the "Issues" tab</li>
+                    <li>Filter by the "bounty" label</li>
+                    <li>Look for your skill level (🟢 beginner, 🟡 intermediate, 🔴 advanced)</li>
+                </ol>
+
+                <div class="command-block">
+                    <code>https://github.com/[org]/[repo]/issues?q=is%3Aopen+is%3Aissue+label%3Abounty</code>
+                    <button class="command-copy">Copy</button>
+                </div>
+
+                <h3>What to Look For</h3>
+                <ul>
+                    <li><strong>Clear requirements:</strong> Does the bounty have specific acceptance criteria?</li>
+                    <li><strong>Realistic scope:</strong> Can you complete it in the estimated time?</li>
+                    <li><strong>Your skills:</strong> Do you have the necessary expertise?</li>
+                    <li><strong>Fair compensation:</strong> Does the bounty amount match the effort?</li>
+                </ul>
+
+                <h3>Filter by Category</h3>
+                <p>Many projects use labels to categorize bounties:</p>
+                <ul>
+                    <li><code>frontend</code> - UI/UX work</li>
+                    <li><code>backend</code> - Server-side code</li>
+                    <li><code>design</code> - Visual design work</li>
+                    <li><code>documentation</code> - Writing and editing docs</li>
+                    <li><code>testing</code> - QA and test coverage</li>
+                    <li><code>good-first-issue</code> - Perfect for beginners</li>
+                </ul>
+            </section>
+
+            <section class="doc-section">
+                <h2 id="claiming-bounty">Claiming a Bounty</h2>
+
+                <h3>Step 1: Express Interest</h3>
+                <p>Comment on the bounty issue to claim it:</p>
+                
+                <div class="code-block">
+                    <div class="code-header">
+                        <span>Example Comment</span>
+                        <button class="copy-btn" data-copy="claim-comment">
+                            <i class="fas fa-copy"></i>
+                        </button>
+                    </div>
+                    <pre id="claim-comment"><code>Hi! I'd like to work on this bounty.
+
+**My relevant experience:**
+- Built similar features in [project]
+- Familiar with [technology stack]
+- Previous contributions: [links]
+
+**My approach:**
+1. [Step 1]
+2. [Step 2]
+3. [Step 3]
+
+**Estimated completion:** 3 days
+
+Looking forward to working on this!</code></pre>
+                </div>
+
+                <h3>Step 2: Wait for Assignment</h3>
+                <p>The maintainer will review your comment and either:</p>
+                <ul>
+                    <li>✅ Assign you to the issue</li>
+                    <li>❓ Ask clarifying questions</li>
+                    <li>⏸️ Let you know if someone else was assigned first</li>
+                </ul>
+
+                <div class="warning-box">
+                    <i class="fas fa-exclamation-triangle"></i>
+                    <div>
+                        <strong>Important</strong>
+                        <p>Don't start working until you're officially assigned. Multiple people might be interested, and maintainers assign based on qualifications.</p>
+                    </div>
+                </div>
+
+                <h3>Step 3: Get Started</h3>
+                <p>Once assigned:</p>
+                <ol class="numbered-list">
+                    <li>Fork the repository</li>
+                    <li>Clone your fork locally</li>
+                    <li>Create a new branch for your work</li>
+                    <li>Set up the development environment</li>
+                </ol>
+
+                <div class="code-block">
+                    <div class="code-header">
+                        <span>Terminal</span>
+                        <button class="copy-btn" data-copy="git-commands">
+                            <i class="fas fa-copy"></i>
+                        </button>
+                    </div>
+                    <pre id="git-commands"><code># Fork the repo on GitHub, then:
+git clone https://github.com/YOUR_USERNAME/repo-name.git
+cd repo-name
+git checkout -b bounty/issue-number-description
+npm install  # or your project's setup command</code></pre>
+                </div>
+            </section>
+
+            <section class="doc-section">
+                <h2 id="doing-work">Doing the Work</h2>
+
+                <h3>Follow the Requirements</h3>
+                <p>Review the acceptance criteria carefully and make sure you:</p>
+                <ul>
+                    <li>✅ Complete all listed requirements</li>
+                    <li>✅ Follow the project's coding standards</li>
+                    <li>✅ Write tests for new functionality</li>
+                    <li>✅ Update documentation as needed</li>
+                    <li>✅ Keep commits clean and well-documented</li>
+                </ul>
+
+                <h3>Communicate Progress</h3>
+                <p>Keep maintainers updated, especially if:</p>
+                <ul>
+                    <li>You hit unexpected challenges</li>
+                    <li>You need clarification on requirements</li>
+                    <li>You need more time than estimated</li>
+                    <li>You're making good progress (share updates!)</li>
+                </ul>
+
+                <div class="success-box">
+                    <i class="fas fa-comments"></i>
+                    <div>
+                        <strong>Pro Tip</strong>
+                        <p>Share a draft PR early to get feedback. It's easier to course-correct than to redo completed work.</p>
+                    </div>
+                </div>
+
+                <h3>Quality Checklist</h3>
+                <p>Before submitting, verify:</p>
+                <ul>
+                    <li>[ ] Code works as intended</li>
+                    <li>[ ] All tests pass</li>
+                    <li>[ ] No linter errors</li>
+                    <li>[ ] Documentation is updated</li>
+                    <li>[ ] Commit messages are clear</li>
+                    <li>[ ] No unnecessary files included</li>
+                </ul>
+            </section>
+
+            <section class="doc-section">
+                <h2 id="submitting-work">Submitting Your Work</h2>
+
+                <h3>Create a Pull Request</h3>
+                <ol class="numbered-list">
+                    <li>Push your branch to your fork</li>
+                    <li>Go to the original repository on GitHub</li>
+                    <li>Click "New Pull Request"</li>
+                    <li>Select your fork and branch</li>
+                    <li>Fill out the PR template</li>
+                </ol>
+
+                <div class="code-block">
+                    <div class="code-header">
+                        <span>Example PR Description</span>
+                        <button class="copy-btn" data-copy="pr-description">
+                            <i class="fas fa-copy"></i>
+                        </button>
+                    </div>
+                    <pre id="pr-description"><code>## 🎯 Closes Issue
+Closes #123
+
+## 📝 Description
+Implemented dark mode toggle with localStorage persistence. Users can now switch between light and dark themes from the settings page.
+
+## ✅ Changes Made
+- Added theme toggle component
+- Implemented CSS variables for theming
+- Added localStorage persistence
+- Updated all components for dark mode compatibility
+- Added tests for theme switching
+
+## 🧪 Testing
+- Tested in Chrome, Firefox, and Safari
+- Verified localStorage persistence
+- Checked all pages in both themes
+- Ran full test suite (all passing)
+
+## 📸 Screenshots
+[Include before/after screenshots]
+
+## 📚 Documentation
+- Updated user guide with dark mode instructions
+- Added JSDoc comments to new functions
+
+## ⚠️ Breaking Changes
+None</code></pre>
+                </div>
+
+                <h3>Link to the Bounty</h3>
+                <p>Always reference the bounty issue in your PR:</p>
+                <div class="command-block">
+                    <code>Closes #[issue-number]</code>
+                    <button class="command-copy">Copy</button>
+                </div>
+                <p>This automatically links your PR to the bounty and closes the issue when merged.</p>
+            </section>
+
+            <section class="doc-section">
+                <h2 id="review-process">The Review Process</h2>
+
+                <h3>What to Expect</h3>
+                <p>After submitting your PR:</p>
+                <ol class="numbered-list">
+                    <li><strong>Initial Review:</strong> Maintainer reviews within 2-3 business days</li>
+                    <li><strong>Feedback:</strong> You may receive requests for changes</li>
+                    <li><strong>Iteration:</strong> Make requested changes and update the PR</li>
+                    <li><strong>Approval:</strong> Once approved, your PR will be merged</li>
+                    <li><strong>Payment:</strong> Bounty payment is triggered automatically</li>
+                </ol>
+
+                <h3>Responding to Feedback</h3>
+                <p>When you receive review comments:</p>
+                <ul>
+                    <li>✅ Read feedback carefully</li>
+                    <li>✅ Ask questions if unclear</li>
+                    <li>✅ Make requested changes promptly</li>
+                    <li>✅ Respond to each comment</li>
+                    <li>✅ Mark conversations as resolved when done</li>
+                </ul>
+
+                <div class="info-box">
+                    <i class="fas fa-heart"></i>
+                    <div>
+                        <strong>Stay Positive</strong>
+                        <p>Code review is a normal part of the process. Feedback helps you grow as a developer and improves the project.</p>
+                    </div>
+                </div>
+
+                <h3>Common Review Issues</h3>
+                <p>Avoid these common pitfalls:</p>
+                <ul>
+                    <li>❌ Not following the project's style guide</li>
+                    <li>❌ Missing tests or documentation</li>
+                    <li>❌ Incomplete implementation of requirements</li>
+                    <li>❌ Breaking existing functionality</li>
+                    <li>❌ Including unrelated changes</li>
+                </ul>
+            </section>
+
+            <section class="doc-section">
+                <h2 id="getting-paid">Getting Paid</h2>
+
+                <h3>Automatic Payment</h3>
+                <p>Most GitForge projects use automatic payments:</p>
+                <ol class="numbered-list">
+                    <li>Your PR is merged</li>
+                    <li>GitHub Action triggers payment workflow</li>
+                    <li>Payment is sent to your address</li>
+                    <li>You receive confirmation</li>
+                </ol>
+
+                <h3>Setting Up Payment</h3>
+                <p>Before claiming bounties, set up your payment method:</p>
+
+                <h4>For Crypto Payments (USDC/ETH)</h4>
+                <ul>
+                    <li>Add your wallet address to your GitHub profile or issue comment</li>
+                    <li>Use a secure wallet like MetaMask or Coinbase</li>
+                    <li>Verify the network (Ethereum mainnet, Polygon, etc.)</li>
+                </ul>
+
+                <h4>For Traditional Payments</h4>
+                <ul>
+                    <li>Provide email for PayPal/Venmo</li>
+                    <li>Or bank details for wire transfer</li>
+                    <li>Follow project-specific payment instructions</li>
+                </ul>
+
+                <div class="warning-box">
+                    <i class="fas fa-shield-alt"></i>
+                    <div>
+                        <strong>Security</strong>
+                        <p>Never share private keys or passwords. Legitimate projects will never ask for this information.</p>
+                    </div>
+                </div>
+
+                <h3>Payment Timeline</h3>
+                <ul>
+                    <li><strong>Automatic:</strong> Usually within minutes to hours</li>
+                    <li><strong>Manual:</strong> Within 24-48 hours of merge</li>
+                    <li><strong>Crypto:</strong> Dependent on blockchain confirmation times</li>
+                </ul>
+            </section>
+
+            <section class="doc-section">
+                <h2 id="building-reputation">Building Your Reputation</h2>
+
+                <h3>Reputation Points</h3>
+                <p>GitForge tracks your contributions and builds your reputation:</p>
+                <ul>
+                    <li>+10 points per merged PR</li>
+                    <li>+50 points per completed bounty</li>
+                    <li>+100 points for exceptional work</li>
+                    <li>Bonus points for mentoring others</li>
+                </ul>
+
+                <h3>Benefits of High Reputation</h3>
+                <ul>
+                    <li>🥇 Featured on contributor leaderboard</li>
+                    <li>🎯 First priority on new bounties</li>
+                    <li>💰 Access to higher-value bounties</li>
+                    <li>🌟 Special recognition and badges</li>
+                    <li>🤝 Opportunity to become a core contributor</li>
+                </ul>
+
+                <h3>Reputation Tiers</h3>
+                <div class="feature-list">
+                    <div class="feature-item">
+                        <i class="fas fa-seedling"></i>
+                        <div>
+                            <h3>Newcomer (0-100 points)</h3>
+                            <p>Just starting out. Access to beginner bounties.</p>
+                        </div>
+                    </div>
+                    <div class="feature-item">
+                        <i class="fas fa-medal"></i>
+                        <div>
+                            <h3>Contributor (100-500 points)</h3>
+                            <p>Regular contributor. Access to intermediate bounties.</p>
+                        </div>
+                    </div>
+                    <div class="feature-item">
+                        <i class="fas fa-trophy"></i>
+                        <div>
+                            <h3>Expert (500-1000 points)</h3>
+                            <p>Trusted expert. Access to advanced bounties and mentorship roles.</p>
+                        </div>
+                    </div>
+                    <div class="feature-item">
+                        <i class="fas fa-crown"></i>
+                        <div>
+                            <h3>Core (1000+ points)</h3>
+                            <p>Core team member. Can review PRs and manage bounties.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="doc-section">
+                <h2 id="best-practices">Best Practices for Contributors</h2>
+
+                <h3>Communication</h3>
+                <ul>
+                    <li>Be responsive and professional</li>
+                    <li>Update the issue with progress</li>
+                    <li>Ask questions early</li>
+                    <li>Be respectful and collaborative</li>
+                </ul>
+
+                <h3>Quality</h3>
+                <ul>
+                    <li>Follow coding standards</li>
+                    <li>Write clean, readable code</li>
+                    <li>Include tests and documentation</li>
+                    <li>Review your own code before submitting</li>
+                </ul>
+
+                <h3>Efficiency</h3>
+                <ul>
+                    <li>Start with smaller bounties to build confidence</li>
+                    <li>Read the entire issue before starting</li>
+                    <li>Set realistic timelines</li>
+                    <li>Don't claim more bounties than you can handle</li>
+                </ul>
+
+                <h3>Community</h3>
+                <ul>
+                    <li>Help other contributors</li>
+                    <li>Share your knowledge</li>
+                    <li>Participate in discussions</li>
+                    <li>Give back to the community</li>
+                </ul>
+            </section>
+
+            <section class="doc-section">
+                <h2 id="troubleshooting">Common Issues</h2>
+
+                <h3>I claimed a bounty but wasn't assigned</h3>
+                <p>This can happen if:</p>
+                <ul>
+                    <li>Someone else was assigned first</li>
+                    <li>Your experience didn't match the requirements</li>
+                    <li>The maintainer is still reviewing candidates</li>
+                </ul>
+                <p><strong>Solution:</strong> Be patient and apply to other bounties. Building a track record helps.</p>
+
+                <h3>My PR has been open for a while</h3>
+                <p><strong>Solution:</strong> Politely comment asking for a review. Maintainers are busy and might have missed it.</p>
+
+                <h3>I disagree with the feedback</h3>
+                <p><strong>Solution:</strong> Discuss respectfully. Explain your reasoning, but be open to the maintainer's perspective.</p>
+
+                <h3>I can't complete the bounty</h3>
+                <p><strong>Solution:</strong> Comment on the issue immediately. It's better to communicate early than to ghost the project.</p>
+            </section>
+
+            <section class="doc-section">
+                <h2 id="resources">Resources for Contributors</h2>
+
+                <div class="community-links">
+                    <a href="https://discord.gg/taU76cWxW" target="_blank" class="community-card">
+                        <i class="fab fa-discord"></i>
+                        <h3>Join Discord</h3>
+                        <p>Get help from the community and connect with other contributors</p>
+                    </a>
+                    <a href="https://github.com/asymcrypto/gitforge-template/discussions" target="_blank" class="community-card">
+                        <i class="fab fa-github"></i>
+                        <h3>Discussions</h3>
+                        <p>Ask questions and share ideas with the community</p>
+                    </a>
+                    <a href="https://github.com/asymcrypto/gitforge-template/issues?q=label%3Agood-first-issue" target="_blank" class="community-card">
+                        <i class="fas fa-star"></i>
+                        <h3>Good First Issues</h3>
+                        <p>Find beginner-friendly bounties to get started</p>
+                    </a>
+                </div>
+            </section>
+
+            <div class="doc-navigation">
+                <a href="bounty-creation.html" class="nav-prev">
+                    <i class="fas fa-arrow-left"></i>
+                    <span>Previous: Creating Bounties</span>
+                </a>
+                <a href="governance.html" class="nav-next">
+                    <span>Next: Governance</span>
+                    <i class="fas fa-arrow-right"></i>
+                </a>
+            </div>
+        </main>
+    </div>
+
+    <script src="../assets/js/main.js"></script>
+    <script src="../assets/js/docs.js"></script>
+</body>
+</html>
+
