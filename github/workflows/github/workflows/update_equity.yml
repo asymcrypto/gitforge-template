@@ -1,0 +1,29 @@
+name: Update Equity Tracking
+on:
+  pull_request:
+    types: [closed]
+  issues:
+    types: [closed]
+  schedule:
+    - cron: '0 0 * * *' # Daily update
+  workflow_dispatch: # Manual trigger
+
+jobs:
+  update-equity:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Update timestamp
+        run: |
+          # Update the last_updated timestamp
+          echo "🤖 Updating equity tracker timestamp..."
+          
+      - name: Commit update
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add .
+          git commit -m "🤖 Auto-update: Equity tracking refresh" || exit 0
+          git push
