@@ -1,0 +1,63 @@
+name: Update Equity Tracking
+on:
+  pull_request:
+    types: [closed]
+  issues:
+    types: [closed]
+  schedule:
+    - cron: '0 0 * * *' # Daily update
+
+jobs:
+  update-equity:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Update equity tracker
+        uses: actions/github-script@v6
+        with:
+          script: |
+            const fs = require('fs');
+            
+            // Read current equity data
+            let equityData = JSON.parse(fs.readFileSync('.github/EQUITY_TRACKING.json', 'utf8'));
+            
+            // Update timestamp
+            equityData.last_updated = new Date().toISOString();
+            
+            // Get recent activity
+            const { data: closedPRs } = await github.rest.pulls.list({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              state: 'closed',
+              sort: 'updated',
+              direction: 'desc'
+            });
+            
+            const { data: closedIssues } = await github.rest.issues.listForRepo({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              state: 'closed',
+              sort: 'updated',
+              direction: 'desc'
+            });
+            
+            // Update counts
+            equityData.bounties_completed = closedIssues.filter(issue => 
+              issue.labels.some(label => label.name === 'bounty')
+            ).length;
+            
+            // Write updated data
+            fs.writeFileSync('.github/EQUITY_TRACKING.json', JSON.stringify(equityData, null, 2));
+            
+            // Commit changes
+            await github.rest.repos.createOrUpdateFileContents({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              path: '.github/EQUITY_TRACKING.json',
+              message: '🤖 Auto-update equity tracking',
+              content: Buffer.from(JSON.stringify(equityData, null, 2)).toString('base64'),
+              sha: fs.existsSync('.github/EQUITY_TRACKING.json') ? 
+                await getFileSha('.github/EQUITY_TRACKING.json') : undefined
+            });
