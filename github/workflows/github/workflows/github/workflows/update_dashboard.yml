@@ -1,0 +1,17 @@
+name: Update Equity Dashboard
+on:
+  schedule:
+    - cron: '0 * * * *' # Hourly updates
+  workflow_dispatch: # Manual trigger
+
+jobs:
+  update-dashboard:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
+
+      - name: Update dashboard
+        run: |
+          echo "🔄 Dashboard update: $(date)"
+          # Simple timestamp for now
