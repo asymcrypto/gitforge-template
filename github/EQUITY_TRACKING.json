@@ -1,0 +1,37 @@
+{
+  "total_equity_allocated": 7,
+  "total_equity_available": 93,
+  "bounties_completed": 1,
+  "bounties_pending": 2,
+  "last_updated": "2024-10-17T22:30:00Z",
+  "contributors": [
+    {
+      "github_username": "AliRaza",
+      "bounty_completed": "Create GitForge landing page and documentation site",
+      "equity_earned": 2,
+      "completion_date": "2024-10-17",
+      "bounty_link": "https://github.com/asymcrypto/gitforge-template/issues/3",
+      "pr_link": "https://github.com/asymcrypto/gitforge-template/pulls?q=is:pr+is:closed",
+      "status": "completed",
+      "contributor_tier": "Founding Contributor"
+    }
+  ],
+  "active_bounties": [
+    {
+      "bounty_id": 1,
+      "title": "Build enhanced bounty payout system with real payments",
+      "equity_offer": 3,
+      "assigned_to": "",
+      "status": "available",
+      "issue_link": "https://github.com/asymcrypto/gitforge-template/issues/1"
+    },
+    {
+      "bounty_id": 2, 
+      "title": "Add Discord community integration for bounty notifications",
+      "equity_offer": 2,
+      "assigned_to": "",
+      "status": "available",
+      "issue_link": "https://github.com/asymcrypto/gitforge-template/issues/2"
+    }
+  ]
+}
