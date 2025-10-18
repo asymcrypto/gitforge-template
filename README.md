@@ -5,6 +5,16 @@
 **Turn Your GitHub Organization into a DAO**
 
 GitForge enables decentralized collaboration using only GitHub features - Issues, PRs, Discussions, and Actions.
+## 💬 Community Discussions
+
+Join our GitHub Discussions for:
+- 💡 Feature ideas and suggestions
+- ❓ Questions and help
+- 🗳️ Governance proposals  
+- 🎉 Progress sharing
+- 📢 Official announcements
+
+[Join the Discussion →](https://github.com/asymcrypto/gitforge-template/discussions)
 
 ## 🚀 Quick Start
 
