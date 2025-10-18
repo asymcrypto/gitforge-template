@@ -1,0 +1,20 @@
+name: Update Equity Tracking
+on:
+  pull_request:
+    types: [closed]
+  issues:
+    types: [closed]
+  schedule:
+    - cron: '0 0 * * *'
+  workflow_dispatch:
+
+jobs:
+  update-equity:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Update timestamp
+        run: |
+          echo "🤖 Equity tracker updated at $(date)"
