@@ -1,0 +1,889 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="GitHub integration examples and code snippets for GitForge">
+    <title>GitHub Integrations - GitForge Documentation</title>
+    <link rel="stylesheet" href="../assets/css/style.css">
+    <link rel="stylesheet" href="../assets/css/docs.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container">
+            <div class="nav-wrapper">
+                <a href="../index.html" class="logo">
+                    <i class="fas fa-hammer"></i>
+                    <span>GitForge</span>
+                </a>
+                <button class="mobile-menu-toggle" aria-label="Toggle menu">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+                <ul class="nav-menu">
+                    <li><a href="../index.html#features">Features</a></li>
+                    <li><a href="../index.html#how-it-works">How It Works</a></li>
+                    <li><a href="../index.html#bounties">Bounties</a></li>
+                    <li><a href="index.html" style="color: var(--primary-color);">Documentation</a></li>
+                    <li><a href="https://github.com/asymcrypto/gitforge-template" target="_blank" class="btn-secondary">GitHub</a></li>
+                    <li><a href="https://github.com/asymcrypto/gitforge-template/generate" target="_blank" class="btn-primary">Get Started</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="docs-layout">
+        <aside class="docs-sidebar">
+            <div class="sidebar-content">
+                <h3>Getting Started</h3>
+                <ul>
+                    <li><a href="index.html">Introduction</a></li>
+                    <li><a href="setup-guide.html">Setup Guide</a></li>
+                    <li><a href="quick-start.html">Quick Start</a></li>
+                </ul>
+                
+                <h3>Core Features</h3>
+                <ul>
+                    <li><a href="bounty-creation.html">Creating Bounties</a></li>
+                    <li><a href="contributing.html">Contributing Guide</a></li>
+                    <li><a href="governance.html">Governance</a></li>
+                    <li><a href="reputation.html">Reputation System</a></li>
+                </ul>
+                
+                <h3>Configuration</h3>
+                <ul>
+                    <li><a href="config-reference.html">Configuration Reference</a></li>
+                    <li><a href="issue-templates.html">Issue Templates</a></li>
+                    <li><a href="github-actions.html">GitHub Actions</a></li>
+                </ul>
+                
+                <h3>Advanced</h3>
+                <ul>
+                    <li><a href="integrations.html" class="active">Integrations</a></li>
+                    <li><a href="api-reference.html">API Reference</a></li>
+                    <li><a href="troubleshooting.html">Troubleshooting</a></li>
+                </ul>
+            </div>
+        </aside>
+
+        <main class="docs-content">
+            <div class="docs-header">
+                <h1>GitHub Integrations</h1>
+                <p class="lead">Examples and code snippets for integrating GitForge with GitHub</p>
+            </div>
+
+            <section class="doc-section">
+                <h2 id="github-actions">GitHub Actions Workflows</h2>
+
+                <h3>Bounty Payout Automation</h3>
+                <p>Automatically process bounty payments when PRs are merged:</p>
+
+                <div class="code-block">
+                    <div class="code-header">
+                        <span>.github/workflows/bounty-payout.yml</span>
+                        <button class="copy-btn" data-copy="bounty-payout">
+                            <i class="fas fa-copy"></i>
+                        </button>
+                    </div>
+                    <pre id="bounty-payout"><code>name: Bounty Payout
+
+on:
+  pull_request:
+    types: [closed]
+
+jobs:
+  process-bounty:
+    if: github.event.pull_request.merged == true
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+      
+      - name: Check for bounty label
+        id: check-bounty
+        uses: actions/github-script@v6
+        with:
+          script: |
+            const issue = await github.rest.issues.get({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.payload.pull_request.number
+            });
+            
+            const hasBounty = issue.data.labels.some(
+              label => label.name === 'bounty'
+            );
+            
+            return hasBounty;
+      
+      - name: Extract bounty info
+        if: steps.check-bounty.outputs.result == 'true'
+        id: bounty-info
+        uses: actions/github-script@v6
+        with:
+          script: |
+            const issue = context.payload.pull_request;
+            const body = issue.body;
+            
+            // Extract bounty amount and contributor wallet
+            const amountMatch = body.match(/Bounty[:\s]+\$?(\d+)/i);
+            const walletMatch = body.match(/Wallet[:\s]+(\w+)/i);
+            
+            return {
+              amount: amountMatch ? amountMatch[1] : '0',
+              wallet: walletMatch ? walletMatch[1] : '',
+              contributor: issue.user.login
+            };
+      
+      - name: Send payment notification
+        if: steps.check-bounty.outputs.result == 'true'
+        uses: actions/github-script@v6
+        with:
+          script: |
+            const bountyInfo = ${{ steps.bounty-info.outputs.result }};
+            
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.payload.pull_request.number,
+              body: `🎉 Bounty approved! Payment of $${bountyInfo.amount} is being processed for @${bountyInfo.contributor}.`
+            });
+      
+      # Add your actual payment processing here
+      # Example: Call payment API, send crypto, etc.</code></pre>
+                </div>
+
+                <h3>Leaderboard Update</h3>
+                <p>Automatically update contributor leaderboard:</p>
+
+                <div class="code-block">
+                    <div class="code-header">
+                        <span>.github/workflows/leaderboard.yml</span>
+                        <button class="copy-btn" data-copy="leaderboard">
+                            <i class="fas fa-copy"></i>
+                        </button>
+                    </div>
+                    <pre id="leaderboard"><code>name: Update Leaderboard
+
+on:
+  pull_request:
+    types: [closed]
+  schedule:
+    - cron: '0 0 * * 0'  # Weekly on Sunday
+
+jobs:
+  update-leaderboard:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+      
+      - name: Fetch contributor stats
+        id: stats
+        uses: actions/github-script@v6
+        with:
+          script: |
+            // Get all merged PRs
+            const prs = await github.paginate(
+              github.rest.pulls.list,
+              {
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                state: 'closed',
+                per_page: 100
+              }
+            );
+            
+            // Calculate stats
+            const stats = {};
+            for (const pr of prs) {
+              if (!pr.merged_at) continue;
+              
+              const user = pr.user.login;
+              if (!stats[user]) {
+                stats[user] = { prs: 0, bounties: 0, total: 0 };
+              }
+              
+              stats[user].prs++;
+              
+              // Check if bounty
+              if (pr.labels.some(l => l.name === 'bounty')) {
+                stats[user].bounties++;
+                // Extract amount from PR body
+                const match = pr.body?.match(/\$(\d+)/);
+                if (match) {
+                  stats[user].total += parseInt(match[1]);
+                }
+              }
+            }
+            
+            return stats;
+      
+      - name: Update CONTRIBUTORS.md
+        run: |
+          cat > CONTRIBUTORS.md << 'EOF'
+          # 🏆 Contributor Leaderboard
+          
+          ## Top Contributors This Month
+          
+          | Contributor | Merged PRs | Bounties | Total Earned |
+          |-------------|------------|----------|--------------|
+          EOF
+          
+          # Add contributor data (simplified)
+          echo "| @octocat | 5 | 3 | \$1,500 |" >> CONTRIBUTORS.md
+          
+          git config user.name "GitHub Actions"
+          git config user.email "actions@github.com"
+          git add CONTRIBUTORS.md
+          git commit -m "Update contributor leaderboard" || exit 0
+          git push</code></pre>
+                </div>
+            </section>
+
+            <section class="doc-section">
+                <h2 id="issue-templates">Issue Template Examples</h2>
+
+                <h3>Bounty Issue Template</h3>
+                <div class="code-block">
+                    <div class="code-header">
+                        <span>.github/ISSUE_TEMPLATE/bounty.yml</span>
+                        <button class="copy-btn" data-copy="bounty-template">
+                            <i class="fas fa-copy"></i>
+                        </button>
+                    </div>
+                    <pre id="bounty-template"><code>name: 💰 Bounty
+description: Create a bounty for contributors
+title: "[BOUNTY] "
+labels: ["bounty"]
+body:
+  - type: dropdown
+    id: level
+    attributes:
+      label: Bounty Level
+      description: Select the difficulty level
+      options:
+        - 🟢 Beginner ($50-$200)
+        - 🟡 Intermediate ($200-$500)
+        - 🔴 Advanced ($500-$2000)
+    validations:
+      required: true
+  
+  - type: input
+    id: amount
+    attributes:
+      label: Bounty Amount
+      description: Specific amount in USD or USDC
+      placeholder: "$150"
+    validations:
+      required: true
+  
+  - type: textarea
+    id: description
+    attributes:
+      label: Description
+      description: What needs to be done?
+      placeholder: Detailed description of the task
+    validations:
+      required: true
+  
+  - type: textarea
+    id: acceptance
+    attributes:
+      label: Acceptance Criteria
+      description: What must be completed to earn the bounty?
+      value: |
+        - [ ] Criterion 1
+        - [ ] Criterion 2
+        - [ ] Tests added
+        - [ ] Documentation updated
+    validations:
+      required: true
+  
+  - type: input
+    id: skills
+    attributes:
+      label: Skills Required
+      placeholder: "JavaScript, React, CSS"
+    validations:
+      required: true
+  
+  - type: input
+    id: time
+    attributes:
+      label: Estimated Time
+      placeholder: "2-3 days"
+    validations:
+      required: false
+  
+  - type: textarea
+    id: resources
+    attributes:
+      label: Resources
+      description: Links, documentation, or references
+      placeholder: |
+        - Design: [link]
+        - Documentation: [link]
+    validations:
+      required: false</code></pre>
+                </div>
+
+                <h3>Proposal Template</h3>
+                <div class="code-block">
+                    <div class="code-header">
+                        <span>.github/ISSUE_TEMPLATE/proposal.yml</span>
+                        <button class="copy-btn" data-copy="proposal-yml">
+                            <i class="fas fa-copy"></i>
+                        </button>
+                    </div>
+                    <pre id="proposal-yml"><code>name: 🗳️ Governance Proposal
+description: Submit a proposal for community voting
+title: "[PROPOSAL] "
+labels: ["proposal", "governance"]
+body:
+  - type: dropdown
+    id: type
+    attributes:
+      label: Proposal Type
+      options:
+        - Protocol Change
+        - Treasury Management
+        - Role Assignment
+        - Feature Request
+    validations:
+      required: true
+  
+  - type: input
+    id: discussion
+    attributes:
+      label: Discussion Link
+      description: Link to prior discussion thread
+      placeholder: "https://github.com/org/repo/discussions/123"
+  
+  - type: textarea
+    id: summary
+    attributes:
+      label: Summary
+      description: One paragraph summary
+    validations:
+      required: true
+  
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem
+      description: What problem does this solve?
+    validations:
+      required: true
+  
+  - type: textarea
+    id: solution
+    attributes:
+      label: Proposed Solution
+      description: Detailed explanation
+    validations:
+      required: true
+  
+  - type: textarea
+    id: benefits
+    attributes:
+      label: Benefits
+      value: |
+        - Benefit 1
+        - Benefit 2
+    validations:
+      required: true
+  
+  - type: textarea
+    id: implementation
+    attributes:
+      label: Implementation Plan
+      value: |
+        1. Step 1
+        2. Step 2
+        3. Step 3
+    validations:
+      required: true
+  
+  - type: input
+    id: budget
+    attributes:
+      label: Budget (if applicable)
+      placeholder: "$5,000"
+  
+  - type: markdown
+    attributes:
+      value: |
+        ---
+        ## Voting Instructions
+        - 👍 = Yes, approve this proposal
+        - 👎 = No, reject this proposal
+        - 🎉 = Abstain
+        
+        Voting period: 7 days from submission</code></pre>
+                </div>
+            </section>
+
+            <section class="doc-section">
+                <h2 id="api-examples">GitHub API Examples</h2>
+
+                <h3>Fetching Bounty Issues</h3>
+                <div class="code-block">
+                    <div class="code-header">
+                        <span>JavaScript/Node.js</span>
+                        <button class="copy-btn" data-copy="fetch-bounties">
+                            <i class="fas fa-copy"></i>
+                        </button>
+                    </div>
+                    <pre id="fetch-bounties"><code>const { Octokit } = require('@octokit/rest');
+
+const octokit = new Octokit({
+  auth: process.env.GITHUB_TOKEN
+});
+
+async function fetchBounties(owner, repo) {
+  try {
+    // Get all open bounty issues
+    const { data: issues } = await octokit.rest.issues.listForRepo({
+      owner,
+      repo,
+      state: 'open',
+      labels: 'bounty',
+      per_page: 100
+    });
+    
+    // Parse bounty information
+    const bounties = issues.map(issue => {
+      const amountMatch = issue.body?.match(/\$(\d+)/);
+      const levelLabel = issue.labels.find(l => 
+        l.name.includes('beginner') || 
+        l.name.includes('intermediate') || 
+        l.name.includes('advanced')
+      );
+      
+      return {
+        number: issue.number,
+        title: issue.title,
+        amount: amountMatch ? parseInt(amountMatch[1]) : 0,
+        level: levelLabel?.name || 'unknown',
+        url: issue.html_url,
+        created: issue.created_at,
+        assignee: issue.assignee?.login || null
+      };
+    });
+    
+    return bounties;
+  } catch (error) {
+    console.error('Error fetching bounties:', error);
+    throw error;
+  }
+}
+
+// Usage
+fetchBounties('asymcrypto', 'gitforge-template')
+  .then(bounties => {
+    console.log(`Found ${bounties.length} open bounties`);
+    bounties.forEach(b => {
+      console.log(`- ${b.title}: $${b.amount}`);
+    });
+  });</code></pre>
+                </div>
+
+                <h3>Tracking Contributor Stats</h3>
+                <div class="code-block">
+                    <div class="code-header">
+                        <span>JavaScript/Node.js</span>
+                        <button class="copy-btn" data-copy="contributor-stats">
+                            <i class="fas fa-copy"></i>
+                        </button>
+                    </div>
+                    <pre id="contributor-stats"><code>async function getContributorStats(owner, repo, username) {
+  try {
+    // Get all PRs by user
+    const { data: prs } = await octokit.rest.pulls.list({
+      owner,
+      repo,
+      state: 'all',
+      creator: username,
+      per_page: 100
+    });
+    
+    // Calculate statistics
+    const stats = {
+      username,
+      totalPRs: prs.length,
+      mergedPRs: 0,
+      bountiesClaimed: 0,
+      totalEarned: 0,
+      reputation: 0
+    };
+    
+    for (const pr of prs) {
+      if (pr.merged_at) {
+        stats.mergedPRs++;
+        stats.reputation += 10; // 10 points per merged PR
+        
+        // Check if it was a bounty
+        const isBounty = pr.labels.some(l => l.name === 'bounty');
+        if (isBounty) {
+          stats.bountiesClaimed++;
+          stats.reputation += 50; // 50 points per bounty
+          
+          // Extract amount
+          const match = pr.body?.match(/\$(\d+)/);
+          if (match) {
+            stats.totalEarned += parseInt(match[1]);
+          }
+        }
+      }
+    }
+    
+    // Determine tier
+    if (stats.reputation >= 1000) {
+      stats.tier = '👑 Core';
+    } else if (stats.reputation >= 500) {
+      stats.tier = '🏆 Expert';
+    } else if (stats.reputation >= 100) {
+      stats.tier = '🥈 Contributor';
+    } else {
+      stats.tier = '🌱 Newcomer';
+    }
+    
+    return stats;
+  } catch (error) {
+    console.error('Error fetching contributor stats:', error);
+    throw error;
+  }
+}
+
+// Usage
+getContributorStats('asymcrypto', 'gitforge-template', 'octocat')
+  .then(stats => {
+    console.log(`Stats for @${stats.username}:`);
+    console.log(`Tier: ${stats.tier}`);
+    console.log(`Merged PRs: ${stats.mergedPRs}`);
+    console.log(`Bounties: ${stats.bountiesClaimed}`);
+    console.log(`Total Earned: $${stats.totalEarned}`);
+    console.log(`Reputation: ${stats.reputation}`);
+  });</code></pre>
+                </div>
+            </section>
+
+            <section class="doc-section">
+                <h2 id="webhooks">Webhook Integration</h2>
+
+                <h3>Setting Up Webhooks</h3>
+                <p>Configure webhooks to receive real-time notifications:</p>
+
+                <ol class="numbered-list">
+                    <li>Go to repository Settings → Webhooks</li>
+                    <li>Click "Add webhook"</li>
+                    <li>Enter your payload URL</li>
+                    <li>Select events: Issues, Pull Requests, Discussions</li>
+                    <li>Save webhook</li>
+                </ol>
+
+                <h3>Webhook Handler Example</h3>
+                <div class="code-block">
+                    <div class="code-header">
+                        <span>Node.js/Express</span>
+                        <button class="copy-btn" data-copy="webhook-handler">
+                            <i class="fas fa-copy"></i>
+                        </button>
+                    </div>
+                    <pre id="webhook-handler"><code>const express = require('express');
+const crypto = require('crypto');
+
+const app = express();
+app.use(express.json());
+
+// Verify webhook signature
+function verifySignature(req) {
+  const signature = req.headers['x-hub-signature-256'];
+  const payload = JSON.stringify(req.body);
+  const secret = process.env.WEBHOOK_SECRET;
+  
+  const hmac = crypto.createHmac('sha256', secret);
+  const digest = 'sha256=' + hmac.update(payload).digest('hex');
+  
+  return crypto.timingSafeEqual(
+    Buffer.from(signature),
+    Buffer.from(digest)
+  );
+}
+
+// Webhook endpoint
+app.post('/webhook', async (req, res) => {
+  // Verify signature
+  if (!verifySignature(req)) {
+    return res.status(401).send('Invalid signature');
+  }
+  
+  const event = req.headers['x-github-event'];
+  const payload = req.body;
+  
+  try {
+    switch (event) {
+      case 'issues':
+        await handleIssueEvent(payload);
+        break;
+      
+      case 'pull_request':
+        await handlePullRequestEvent(payload);
+        break;
+      
+      case 'discussion':
+        await handleDiscussionEvent(payload);
+        break;
+    }
+    
+    res.status(200).send('OK');
+  } catch (error) {
+    console.error('Webhook error:', error);
+    res.status(500).send('Error processing webhook');
+  }
+});
+
+async function handleIssueEvent(payload) {
+  const { action, issue } = payload;
+  
+  // Check if it's a bounty
+  const isBounty = issue.labels.some(l => l.name === 'bounty');
+  
+  if (action === 'opened' && isBounty) {
+    console.log(`New bounty created: ${issue.title}`);
+    // Send notification to Discord, Slack, etc.
+    await notifyNewBounty(issue);
+  }
+}
+
+async function handlePullRequestEvent(payload) {
+  const { action, pull_request } = payload;
+  
+  if (action === 'closed' && pull_request.merged) {
+    // Check if it closes a bounty
+    const closesMatch = pull_request.body?.match(/Closes #(\d+)/i);
+    if (closesMatch) {
+      console.log(`Bounty PR merged: ${pull_request.title}`);
+      await processBountyPayout(pull_request, closesMatch[1]);
+    }
+  }
+}
+
+async function notifyNewBounty(issue) {
+  // Send to Discord
+  const webhookUrl = process.env.DISCORD_WEBHOOK;
+  await fetch(webhookUrl, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      embeds: [{
+        title: `💰 New Bounty: ${issue.title}`,
+        description: issue.body.substring(0, 200),
+        url: issue.html_url,
+        color: 0x6366f1
+      }]
+    })
+  });
+}
+
+app.listen(3000, () => {
+  console.log('Webhook server running on port 3000');
+});</code></pre>
+                </div>
+            </section>
+
+            <section class="doc-section">
+                <h2 id="notifications">Notification Integrations</h2>
+
+                <h3>Discord Integration</h3>
+                <div class="code-block">
+                    <div class="code-header">
+                        <span>Discord Webhook</span>
+                        <button class="copy-btn" data-copy="discord">
+                            <i class="fas fa-copy"></i>
+                        </button>
+                    </div>
+                    <pre id="discord"><code>async function sendDiscordNotification(type, data) {
+  const webhookUrl = process.env.DISCORD_WEBHOOK;
+  
+  const embeds = {
+    bounty: {
+      title: `💰 New Bounty: ${data.title}`,
+      description: data.description,
+      color: 0x10b981,
+      fields: [
+        { name: 'Amount', value: `$${data.amount}`, inline: true },
+        { name: 'Level', value: data.level, inline: true },
+        { name: 'Link', value: `[View Bounty](${data.url})` }
+      ]
+    },
+    merged: {
+      title: `✅ Bounty Completed: ${data.title}`,
+      description: `Congratulations @${data.contributor}!`,
+      color: 0x6366f1,
+      fields: [
+        { name: 'Bounty', value: `$${data.amount}`, inline: true },
+        { name: 'Contributor', value: data.contributor, inline: true }
+      ]
+    },
+    proposal: {
+      title: `🗳️ New Proposal: ${data.title}`,
+      description: data.summary,
+      color: 0xf59e0b,
+      fields: [
+        { name: 'Type', value: data.type, inline: true },
+        { name: 'Voting Ends', value: data.deadline, inline: true },
+        { name: 'Vote', value: `[Cast Your Vote](${data.url})` }
+      ]
+    }
+  };
+  
+  await fetch(webhookUrl, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ embeds: [embeds[type]] })
+  });
+}</code></pre>
+                </div>
+
+                <h3>Slack Integration</h3>
+                <div class="code-block">
+                    <div class="code-header">
+                        <span>Slack Webhook</span>
+                        <button class="copy-btn" data-copy="slack">
+                            <i class="fas fa-copy"></i>
+                        </button>
+                    </div>
+                    <pre id="slack"><code>async function sendSlackNotification(type, data) {
+  const webhookUrl = process.env.SLACK_WEBHOOK;
+  
+  const messages = {
+    bounty: {
+      text: `💰 New Bounty Available!`,
+      blocks: [
+        {
+          type: 'header',
+          text: { type: 'plain_text', text: data.title }
+        },
+        {
+          type: 'section',
+          fields: [
+            { type: 'mrkdwn', text: `*Amount:*\n$${data.amount}` },
+            { type: 'mrkdwn', text: `*Level:*\n${data.level}` }
+          ]
+        },
+        {
+          type: 'actions',
+          elements: [{
+            type: 'button',
+            text: { type: 'plain_text', text: 'View Bounty' },
+            url: data.url,
+            style: 'primary'
+          }]
+        }
+      ]
+    }
+  };
+  
+  await fetch(webhookUrl, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(messages[type])
+  });
+}</code></pre>
+                </div>
+            </section>
+
+            <section class="doc-section">
+                <h2 id="advanced">Advanced Integrations</h2>
+
+                <h3>Crypto Payment Integration</h3>
+                <p>Example using ethers.js for USDC payments:</p>
+
+                <div class="code-block">
+                    <div class="code-header">
+                        <span>USDC Payment</span>
+                        <button class="copy-btn" data-copy="crypto-payment">
+                            <i class="fas fa-copy"></i>
+                        </button>
+                    </div>
+                    <pre id="crypto-payment"><code>const { ethers } = require('ethers');
+
+async function sendUSDCPayment(recipientAddress, amount) {
+  // Connect to Ethereum provider
+  const provider = new ethers.providers.JsonRpcProvider(
+    process.env.RPC_URL
+  );
+  
+  // Load wallet
+  const wallet = new ethers.Wallet(
+    process.env.PRIVATE_KEY,
+    provider
+  );
+  
+  // USDC contract address (Ethereum mainnet)
+  const usdcAddress = '0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48';
+  
+  // USDC ABI (simplified)
+  const usdcABI = [
+    'function transfer(address to, uint256 amount) returns (bool)'
+  ];
+  
+  // Create contract instance
+  const usdc = new ethers.Contract(usdcAddress, usdcABI, wallet);
+  
+  // USDC has 6 decimals
+  const amountInUnits = ethers.utils.parseUnits(amount.toString(), 6);
+  
+  // Send transaction
+  const tx = await usdc.transfer(recipientAddress, amountInUnits);
+  console.log(`Transaction sent: ${tx.hash}`);
+  
+  // Wait for confirmation
+  const receipt = await tx.wait();
+  console.log(`Payment confirmed in block ${receipt.blockNumber}`);
+  
+  return {
+    txHash: tx.hash,
+    blockNumber: receipt.blockNumber
+  };
+}
+
+// Usage
+sendUSDCPayment('0x...', 150)
+  .then(result => console.log('Payment successful:', result))
+  .catch(err => console.error('Payment failed:', err));</code></pre>
+                </div>
+
+                <div class="warning-box">
+                    <i class="fas fa-exclamation-triangle"></i>
+                    <div>
+                        <strong>Security Warning</strong>
+                        <p>Never hardcode private keys. Always use environment variables and secure secret management.</p>
+                    </div>
+                </div>
+            </section>
+
+            <div class="doc-navigation">
+                <a href="governance.html" class="nav-prev">
+                    <i class="fas fa-arrow-left"></i>
+                    <span>Previous: Governance</span>
+                </a>
+                <a href="index.html" class="nav-next">
+                    <span>Back to Documentation</span>
+                    <i class="fas fa-arrow-right"></i>
+                </a>
+            </div>
+        </main>
+    </div>
+
+    <script src="../assets/js/main.js"></script>
+    <script src="../assets/js/docs.js"></script>
+</body>
+</html>
+

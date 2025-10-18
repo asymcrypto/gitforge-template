@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Learn how to create effective bounties in GitForge">
+    <title>Creating Bounties - GitForge Documentation</title>
+    <link rel="stylesheet" href="../assets/css/style.css">
+    <link rel="stylesheet" href="../assets/css/docs.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container">
+            <div class="nav-wrapper">
+                <a href="../index.html" class="logo">
+                    <i class="fas fa-hammer"></i>
+                    <span>GitForge</span>
+                </a>
+                <button class="mobile-menu-toggle" aria-label="Toggle menu">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+                <ul class="nav-menu">
+                    <li><a href="../index.html#features">Features</a></li>
+                    <li><a href="../index.html#how-it-works">How It Works</a></li>
+                    <li><a href="../index.html#bounties">Bounties</a></li>
+                    <li><a href="index.html" style="color: var(--primary-color);">Documentation</a></li>
+                    <li><a href="https://github.com/asymcrypto/gitforge-template" target="_blank" class="btn-secondary">GitHub</a></li>
+                    <li><a href="https://github.com/asymcrypto/gitforge-template/generate" target="_blank" class="btn-primary">Get Started</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="docs-layout">
+        <aside class="docs-sidebar">
+            <div class="sidebar-content">
+                <h3>Getting Started</h3>
+                <ul>
+                    <li><a href="index.html">Introduction</a></li>
+                    <li><a href="setup-guide.html">Setup Guide</a></li>
+                    <li><a href="quick-start.html">Quick Start</a></li>
+                </ul>
+                
+                <h3>Core Features</h3>
+                <ul>
+                    <li><a href="bounty-creation.html" class="active">Creating Bounties</a></li>
+                    <li><a href="contributing.html">Contributing Guide</a></li>
+                    <li><a href="governance.html">Governance</a></li>
+                    <li><a href="reputation.html">Reputation System</a></li>
+                </ul>
+                
+                <h3>Configuration</h3>
+                <ul>
+                    <li><a href="config-reference.html">Configuration Reference</a></li>
+                    <li><a href="issue-templates.html">Issue Templates</a></li>
+                    <li><a href="github-actions.html">GitHub Actions</a></li>
+                </ul>
+                
+                <h3>Advanced</h3>
+                <ul>
+                    <li><a href="integrations.html">Integrations</a></li>
+                    <li><a href="api-reference.html">API Reference</a></li>
+                    <li><a href="troubleshooting.html">Troubleshooting</a></li>
+                </ul>
+            </div>
+        </aside>
+
+        <main class="docs-content">
+            <div class="docs-header">
+                <h1>Creating Bounties</h1>
+                <p class="lead">Learn how to create effective bounties that attract quality contributors</p>
+            </div>
+
+            <section class="doc-section">
+                <h2 id="bounty-anatomy">Anatomy of a Good Bounty</h2>
+                <p>A well-crafted bounty should include:</p>
+
+                <div class="feature-list">
+                    <div class="feature-item">
+                        <i class="fas fa-heading"></i>
+                        <div>
+                            <h3>Clear Title</h3>
+                            <p>Make it descriptive and searchable. Example: "Add dark mode toggle to settings page"</p>
+                        </div>
+                    </div>
+                    <div class="feature-item">
+                        <i class="fas fa-file-alt"></i>
+                        <div>
+                            <h3>Detailed Description</h3>
+                            <p>Explain what needs to be done, why it's important, and any context needed</p>
+                        </div>
+                    </div>
+                    <div class="feature-item">
+                        <i class="fas fa-check-square"></i>
+                        <div>
+                            <h3>Acceptance Criteria</h3>
+                            <p>List specific, measurable requirements that define "done"</p>
+                        </div>
+                    </div>
+                    <div class="feature-item">
+                        <i class="fas fa-dollar-sign"></i>
+                        <div>
+                            <h3>Fair Compensation</h3>
+                            <p>Set an appropriate bounty amount based on complexity and time required</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="doc-section">
+                <h2 id="bounty-levels">Choosing the Right Bounty Level</h2>
+                
+                <h3>🟢 Beginner ($50-$200)</h3>
+                <p>Perfect for first-time contributors and simple tasks:</p>
+                <ul>
+                    <li>Documentation improvements</li>
+                    <li>Minor bug fixes</li>
+                    <li>Code formatting and style improvements</li>
+                    <li>Adding comments and explanations</li>
+                    <li>Simple UI/UX tweaks</li>
+                    <li>Test coverage improvements</li>
+                </ul>
+
+                <h3>🟡 Intermediate ($200-$500)</h3>
+                <p>For developers with domain knowledge:</p>
+                <ul>
+                    <li>New feature implementation</li>
+                    <li>API integrations</li>
+                    <li>Complex bug fixes</li>
+                    <li>Performance optimizations</li>
+                    <li>Database schema changes</li>
+                    <li>Testing infrastructure</li>
+                </ul>
+
+                <h3>🔴 Advanced ($500-$2,000+)</h3>
+                <p>Expert-level work requiring deep expertise:</p>
+                <ul>
+                    <li>Architecture and design work</li>
+                    <li>Security audits and fixes</li>
+                    <li>Protocol development</li>
+                    <li>Smart contract development</li>
+                    <li>System-wide refactoring</li>
+                    <li>Research and prototyping</li>
+                </ul>
+
+                <div class="info-box">
+                    <i class="fas fa-lightbulb"></i>
+                    <div>
+                        <strong>Pricing Tips</strong>
+                        <p>Research similar bounties in your space. When in doubt, ask the community or start with a lower amount and adjust based on feedback.</p>
+                    </div>
+                </div>
+            </section>
+
+            <section class="doc-section">
+                <h2 id="creating-bounty">Creating a Bounty</h2>
+                
+                <h3>Step 1: Create an Issue</h3>
+                <ol class="numbered-list">
+                    <li>Go to your repository's "Issues" tab</li>
+                    <li>Click "New issue"</li>
+                    <li>Select the "Bounty" template</li>
+                </ol>
+
+                <h3>Step 2: Fill Out the Template</h3>
+                <div class="code-block">
+                    <div class="code-header">
+                        <span>Example Bounty Issue</span>
+                        <button class="copy-btn" data-copy="bounty-example">
+                            <i class="fas fa-copy"></i>
+                        </button>
+                    </div>
+                    <pre id="bounty-example"><code>---
+name: Bounty
+about: Create a bounty for contributors
+title: '[BOUNTY] Add Dark Mode Toggle'
+labels: 'bounty, beginner, frontend'
+---
+
+## 💰 Bounty Amount
+$150 USDC
+
+## 🎯 Description
+We need to add a dark mode toggle to the settings page. Users should be able to switch between light and dark themes, and their preference should be saved.
+
+## ✅ Acceptance Criteria
+- [ ] Add toggle switch in settings page
+- [ ] Implement dark mode color scheme
+- [ ] Save preference to localStorage
+- [ ] Apply theme on page load
+- [ ] All components render correctly in both modes
+- [ ] Smooth transition between modes
+
+## 📋 Technical Requirements
+- Use CSS variables for theming
+- Follow existing design system
+- Write tests for theme switching
+- Update documentation
+
+## 🔗 Resources
+- Design mockups: [link]
+- Color palette: [link]
+- Related issues: #123
+
+## ⏱️ Estimated Time
+2-3 days
+
+## 📝 Notes
+This is a beginner-friendly bounty. Feel free to ask questions in comments!
+</code></pre>
+                </div>
+
+                <h3>Step 3: Add Labels</h3>
+                <p>Use labels to help contributors find appropriate bounties:</p>
+                <ul>
+                    <li><code>bounty</code> - Required for all bounties</li>
+                    <li><code>beginner</code>, <code>intermediate</code>, or <code>advanced</code> - Difficulty level</li>
+                    <li><code>frontend</code>, <code>backend</code>, <code>design</code>, etc. - Category</li>
+                    <li><code>good-first-issue</code> - For newcomers</li>
+                </ul>
+
+                <h3>Step 4: Publish and Promote</h3>
+                <p>After creating the bounty:</p>
+                <ol class="numbered-list">
+                    <li>Share on social media (Twitter, Discord, Reddit)</li>
+                    <li>Post in relevant developer communities</li>
+                    <li>Add to bounty aggregator platforms</li>
+                    <li>Announce in your project's communication channels</li>
+                </ol>
+            </section>
+
+            <section class="doc-section">
+                <h2 id="best-practices">Best Practices</h2>
+
+                <h3>Be Specific</h3>
+                <p>Vague requirements lead to confusion and poor results. Instead of:</p>
+                <div class="warning-box">
+                    <i class="fas fa-times-circle"></i>
+                    <div>
+                        <strong>Bad Example</strong>
+                        <p>"Make the UI better"</p>
+                    </div>
+                </div>
+
+                <p>Write something like:</p>
+                <div class="success-box">
+                    <i class="fas fa-check-circle"></i>
+                    <div>
+                        <strong>Good Example</strong>
+                        <p>"Update the navigation bar to use our new design system: change colors to match brand guidelines, add hover effects, and ensure mobile responsiveness below 768px"</p>
+                    </div>
+                </div>
+
+                <h3>Set Realistic Deadlines</h3>
+                <p>Give contributors enough time to do quality work. Consider:</p>
+                <ul>
+                    <li>Complexity of the task</li>
+                    <li>Need for research or learning</li>
+                    <li>Review and iteration time</li>
+                    <li>Contributors may work part-time</li>
+                </ul>
+
+                <h3>Provide Context</h3>
+                <p>Help contributors understand the bigger picture:</p>
+                <ul>
+                    <li>Why this work matters</li>
+                    <li>How it fits into the project roadmap</li>
+                    <li>Who will benefit from this work</li>
+                    <li>Related issues or PRs</li>
+                </ul>
+
+                <h3>Be Available for Questions</h3>
+                <p>Commit to being responsive:</p>
+                <ul>
+                    <li>Respond to questions within 24 hours</li>
+                    <li>Provide clarification when needed</li>
+                    <li>Give feedback on work-in-progress</li>
+                    <li>Be supportive and encouraging</li>
+                </ul>
+            </section>
+
+            <section class="doc-section">
+                <h2 id="managing-bounties">Managing Bounties</h2>
+
+                <h3>When Someone Claims a Bounty</h3>
+                <p>When a contributor comments "I'll take this bounty":</p>
+                <ol class="numbered-list">
+                    <li>Check their GitHub profile and past contributions</li>
+                    <li>Assign them to the issue if they seem qualified</li>
+                    <li>Set expectations for communication and timeline</li>
+                    <li>Offer to answer questions and provide guidance</li>
+                </ol>
+
+                <h3>During Development</h3>
+                <ul>
+                    <li>Check in periodically to see progress</li>
+                    <li>Provide feedback on draft PRs</li>
+                    <li>Be flexible if challenges arise</li>
+                    <li>Extend deadlines if reasonable</li>
+                </ul>
+
+                <h3>Reviewing Submissions</h3>
+                <p>When a PR is submitted:</p>
+                <ol class="numbered-list">
+                    <li>Review within 2-3 business days</li>
+                    <li>Check against acceptance criteria</li>
+                    <li>Test the implementation</li>
+                    <li>Provide constructive feedback</li>
+                    <li>Approve and merge if criteria are met</li>
+                </ol>
+
+                <h3>Handling Issues</h3>
+                <p>If work isn't meeting standards:</p>
+                <ul>
+                    <li>Communicate clearly and kindly</li>
+                    <li>Offer specific suggestions for improvement</li>
+                    <li>Give reasonable time to address feedback</li>
+                    <li>Be willing to reassign if necessary</li>
+                </ul>
+
+                <div class="info-box">
+                    <i class="fas fa-handshake"></i>
+                    <div>
+                        <strong>Build Relationships</strong>
+                        <p>Great contributors often return for more bounties. Treat every interaction as an opportunity to build a long-term relationship.</p>
+                    </div>
+                </div>
+            </section>
+
+            <section class="doc-section">
+                <h2 id="bounty-templates">Ready-to-Use Bounty Templates</h2>
+
+                <h3>Bug Fix Bounty</h3>
+                <div class="code-block">
+                    <div class="code-header">
+                        <span>Bug Fix Template</span>
+                        <button class="copy-btn" data-copy="bug-template">
+                            <i class="fas fa-copy"></i>
+                        </button>
+                    </div>
+                    <pre id="bug-template"><code>## 💰 Bounty: $100 USDC
+
+## 🐛 Bug Description
+[Describe the bug clearly]
+
+## 🔄 Steps to Reproduce
+1. Step one
+2. Step two
+3. Bug occurs
+
+## ✅ Expected Behavior
+[What should happen]
+
+## ❌ Actual Behavior
+[What actually happens]
+
+## ✅ Acceptance Criteria
+- [ ] Bug is fixed
+- [ ] Tests added to prevent regression
+- [ ] No new bugs introduced
+- [ ] Code follows style guidelines
+
+## 📱 Environment
+- Browser: [e.g., Chrome 96]
+- OS: [e.g., macOS 12]
+- Version: [e.g., 1.2.3]
+</code></pre>
+                </div>
+
+                <h3>Feature Implementation Bounty</h3>
+                <div class="code-block">
+                    <div class="code-header">
+                        <span>Feature Template</span>
+                        <button class="copy-btn" data-copy="feature-template">
+                            <i class="fas fa-copy"></i>
+                        </button>
+                    </div>
+                    <pre id="feature-template"><code>## 💰 Bounty: $300 USDC
+
+## 🎯 Feature Request
+[Describe the feature]
+
+## 💡 Why This Matters
+[Business value and user impact]
+
+## ✅ Acceptance Criteria
+- [ ] Feature works as described
+- [ ] Error handling implemented
+- [ ] User-friendly error messages
+- [ ] Documentation updated
+- [ ] Tests cover main scenarios
+
+## 🎨 Design
+[Link to designs or mockups]
+
+## 💻 Technical Notes
+[API endpoints, database changes, etc.]
+
+## 📚 Resources
+- Related issues: #123
+- Documentation: [link]
+</code></pre>
+                </div>
+            </section>
+
+            <section class="doc-section">
+                <h2 id="tips">Pro Tips</h2>
+
+                <div class="feature-list">
+                    <div class="feature-item">
+                        <i class="fas fa-chart-line"></i>
+                        <div>
+                            <h3>Start Small</h3>
+                            <p>Begin with smaller bounties to test the system and build your contributor pool before tackling major features.</p>
+                        </div>
+                    </div>
+                    <div class="feature-item">
+                        <i class="fas fa-users"></i>
+                        <div>
+                            <h3>Build a Community</h3>
+                            <p>Create a Discord or Slack channel where contributors can ask questions and collaborate.</p>
+                        </div>
+                    </div>
+                    <div class="feature-item">
+                        <i class="fas fa-sync-alt"></i>
+                        <div>
+                            <h3>Iterate on Process</h3>
+                            <p>Regularly review your bounty process and adjust based on what works and what doesn't.</p>
+                        </div>
+                    </div>
+                    <div class="feature-item">
+                        <i class="fas fa-star"></i>
+                        <div>
+                            <h3>Recognize Contributors</h3>
+                            <p>Publicly thank contributors, feature them on your website, and build a strong reputation system.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <div class="doc-navigation">
+                <a href="setup-guide.html" class="nav-prev">
+                    <i class="fas fa-arrow-left"></i>
+                    <span>Previous: Setup Guide</span>
+                </a>
+                <a href="contributing.html" class="nav-next">
+                    <span>Next: Contributing Guide</span>
+                    <i class="fas fa-arrow-right"></i>
+                </a>
+            </div>
+        </main>
+    </div>
+
+    <script src="../assets/js/main.js"></script>
+    <script src="../assets/js/docs.js"></script>
+</body>
+</html>
+

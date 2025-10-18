@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Complete setup guide for GitForge - Learn how to set up your DAO in minutes">
+    <title>Setup Guide - GitForge Documentation</title>
+    <link rel="stylesheet" href="../assets/css/style.css">
+    <link rel="stylesheet" href="../assets/css/docs.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container">
+            <div class="nav-wrapper">
+                <a href="../index.html" class="logo">
+                    <i class="fas fa-hammer"></i>
+                    <span>GitForge</span>
+                </a>
+                <button class="mobile-menu-toggle" aria-label="Toggle menu">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+                <ul class="nav-menu">
+                    <li><a href="../index.html#features">Features</a></li>
+                    <li><a href="../index.html#how-it-works">How It Works</a></li>
+                    <li><a href="../index.html#bounties">Bounties</a></li>
+                    <li><a href="index.html" style="color: var(--primary-color);">Documentation</a></li>
+                    <li><a href="https://github.com/asymcrypto/gitforge-template" target="_blank" class="btn-secondary">GitHub</a></li>
+                    <li><a href="https://github.com/asymcrypto/gitforge-template/generate" target="_blank" class="btn-primary">Get Started</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="docs-layout">
+        <aside class="docs-sidebar">
+            <div class="sidebar-content">
+                <h3>Getting Started</h3>
+                <ul>
+                    <li><a href="index.html">Introduction</a></li>
+                    <li><a href="setup-guide.html" class="active">Setup Guide</a></li>
+                    <li><a href="quick-start.html">Quick Start</a></li>
+                </ul>
+                
+                <h3>Core Features</h3>
+                <ul>
+                    <li><a href="bounty-creation.html">Creating Bounties</a></li>
+                    <li><a href="contributing.html">Contributing Guide</a></li>
+                    <li><a href="governance.html">Governance</a></li>
+                    <li><a href="reputation.html">Reputation System</a></li>
+                </ul>
+                
+                <h3>Configuration</h3>
+                <ul>
+                    <li><a href="config-reference.html">Configuration Reference</a></li>
+                    <li><a href="issue-templates.html">Issue Templates</a></li>
+                    <li><a href="github-actions.html">GitHub Actions</a></li>
+                </ul>
+                
+                <h3>Advanced</h3>
+                <ul>
+                    <li><a href="integrations.html">Integrations</a></li>
+                    <li><a href="api-reference.html">API Reference</a></li>
+                    <li><a href="troubleshooting.html">Troubleshooting</a></li>
+                </ul>
+            </div>
+        </aside>
+
+        <main class="docs-content">
+            <div class="docs-header">
+                <h1>Setup Guide</h1>
+                <p class="lead">Complete guide to setting up GitForge for your organization</p>
+            </div>
+
+            <section class="doc-section">
+                <h2 id="prerequisites">Prerequisites</h2>
+                <p>Before you begin, make sure you have:</p>
+                <ul>
+                    <li>A GitHub account</li>
+                    <li>Admin access to a GitHub organization (or create a new one)</li>
+                    <li>Basic understanding of GitHub Issues and Pull Requests</li>
+                    <li>Optional: Payment infrastructure for bounties (USDC wallet, Stripe, etc.)</li>
+                </ul>
+
+                <div class="info-box">
+                    <i class="fas fa-lightbulb"></i>
+                    <div>
+                        <strong>Tip</strong>
+                        <p>You can set up GitForge in a personal repository first to test it out before deploying to your organization.</p>
+                    </div>
+                </div>
+            </section>
+
+            <section class="doc-section">
+                <h2 id="step-1">Step 1: Create Repository from Template</h2>
+                <p>The easiest way to get started is to use the GitForge template:</p>
+                
+                <ol class="numbered-list">
+                    <li>Visit the <a href="https://github.com/asymcrypto/gitforge-template" target="_blank">GitForge template repository</a></li>
+                    <li>Click the green <strong>"Use this template"</strong> button</li>
+                    <li>Choose your organization or personal account</li>
+                    <li>Name your repository (e.g., "my-project-dao")</li>
+                    <li>Choose public or private visibility</li>
+                    <li>Click <strong>"Create repository from template"</strong></li>
+                </ol>
+
+                <div class="command-block">
+                    <code>https://github.com/asymcrypto/gitforge-template/generate</code>
+                    <button class="command-copy">Copy</button>
+                </div>
+
+                <div class="success-box">
+                    <i class="fas fa-check-circle"></i>
+                    <div>
+                        <strong>Success!</strong>
+                        <p>You now have a copy of GitForge in your repository. All the necessary files and configurations are already set up.</p>
+                    </div>
+                </div>
+            </section>
+
+            <section class="doc-section">
+                <h2 id="step-2">Step 2: Enable GitHub Actions</h2>
+                <p>GitForge uses GitHub Actions for automation. Enable them in your repository:</p>
+                
+                <ol class="numbered-list">
+                    <li>Go to your repository settings</li>
+                    <li>Click on <strong>"Actions"</strong> in the left sidebar</li>
+                    <li>Under "Actions permissions", select <strong>"Allow all actions and reusable workflows"</strong></li>
+                    <li>Click <strong>"Save"</strong></li>
+                </ol>
+
+                <div class="info-box">
+                    <i class="fas fa-info-circle"></i>
+                    <div>
+                        <strong>About GitHub Actions</strong>
+                        <p>GitHub Actions are free for public repositories and have generous limits for private repositories. Check GitHub's pricing for your organization's needs.</p>
+                    </div>
+                </div>
+            </section>
+
+            <section class="doc-section">
+                <h2 id="step-3">Step 3: Configure Bounty Settings</h2>
+                <p>Customize the bounty configuration to match your project's needs. Edit the <code>.github/BOUNTY_CONFIG.json</code> file:</p>
+
+                <div class="code-block">
+                    <div class="code-header">
+                        <span>.github/BOUNTY_CONFIG.json</span>
+                        <button class="copy-btn" data-copy="bounty-config-full">
+                            <i class="fas fa-copy"></i>
+                        </button>
+                    </div>
+                    <pre id="bounty-config-full"><code>{
+  "bounty_levels": {
+    "beginner": {
+      "emoji": "🟢",
+      "amount": "$50-$200",
+      "description": "Basic coding, documentation"
+    },
+    "intermediate": {
+      "emoji": "🟡",
+      "amount": "$200-$500",
+      "description": "Features, integrations"
+    },
+    "advanced": {
+      "emoji": "🔴",
+      "amount": "$500-$2000",
+      "description": "Protocol work, security"
+    }
+  },
+  "payment_method": "USDC",
+  "payment_address": "0x...",
+  "auto_payout": true,
+  "governance": {
+    "voting_duration_days": 7,
+    "approval_threshold": 0.6,
+    "quorum": 0.1
+  },
+  "reputation": {
+    "enabled": true,
+    "points_per_pr": 10,
+    "points_per_bounty": 50
+  },
+  "notifications": {
+    "discord_webhook": "",
+    "slack_webhook": ""
+  }
+}</code></pre>
+                </div>
+
+                <h3>Configuration Options</h3>
+                <ul>
+                    <li><strong>bounty_levels:</strong> Define your bounty tiers with emojis, amounts, and descriptions</li>
+                    <li><strong>payment_method:</strong> USDC, ETH, equity, or custom</li>
+                    <li><strong>payment_address:</strong> Your wallet address for payments (if using crypto)</li>
+                    <li><strong>auto_payout:</strong> Automatically trigger payments on PR merge</li>
+                    <li><strong>governance:</strong> Set voting duration, approval threshold, and quorum</li>
+                    <li><strong>reputation:</strong> Configure reputation tracking and point values</li>
+                    <li><strong>notifications:</strong> Integrate Discord, Slack, or other webhooks</li>
+                </ul>
+            </section>
+
+            <section class="doc-section">
+                <h2 id="step-4">Step 4: Set Up Payment Integration (Optional)</h2>
+                <p>If you want to automate payments, you'll need to set up a payment integration:</p>
+
+                <h3>Option 1: Manual Payments</h3>
+                <p>The simplest approach - manually send payments when bounties are completed. No setup required!</p>
+
+                <h3>Option 2: Crypto Payments (USDC/ETH)</h3>
+                <ol class="numbered-list">
+                    <li>Create a wallet for your DAO (e.g., MetaMask, Gnosis Safe)</li>
+                    <li>Add the wallet address to <code>BOUNTY_CONFIG.json</code></li>
+                    <li>Set up GitHub Secrets for private keys (for automated transfers)</li>
+                    <li>Fund the wallet with USDC or ETH</li>
+                </ol>
+
+                <div class="warning-box">
+                    <i class="fas fa-exclamation-triangle"></i>
+                    <div>
+                        <strong>Security Warning</strong>
+                        <p>Never commit private keys to your repository. Always use GitHub Secrets for sensitive information.</p>
+                    </div>
+                </div>
+
+                <h3>Option 3: Stripe/PayPal Integration</h3>
+                <p>For traditional payments, integrate with Stripe or PayPal:</p>
+                <ol class="numbered-list">
+                    <li>Create a Stripe or PayPal business account</li>
+                    <li>Add your API keys to GitHub Secrets</li>
+                    <li>Configure the payment workflow in <code>.github/workflows/bounty-payout.yml</code></li>
+                </ol>
+            </section>
+
+            <section class="doc-section">
+                <h2 id="step-5">Step 5: Customize Issue Templates</h2>
+                <p>GitForge comes with pre-configured issue templates. Customize them for your project:</p>
+
+                <div class="command-block">
+                    <code>.github/ISSUE_TEMPLATE/bounty.yml</code>
+                    <button class="command-copy">Copy</button>
+                </div>
+
+                <p>Edit the bounty template to match your workflow. You can:</p>
+                <ul>
+                    <li>Add or remove fields</li>
+                    <li>Change validation rules</li>
+                    <li>Customize labels</li>
+                    <li>Add project-specific requirements</li>
+                </ul>
+
+                <p>See <a href="issue-templates.html">Issue Templates Documentation</a> for detailed customization options.</p>
+            </section>
+
+            <section class="doc-section">
+                <h2 id="step-6">Step 6: Enable Discussions (Optional)</h2>
+                <p>For governance features, enable GitHub Discussions:</p>
+
+                <ol class="numbered-list">
+                    <li>Go to repository Settings</li>
+                    <li>Scroll to "Features"</li>
+                    <li>Check <strong>"Discussions"</strong></li>
+                    <li>Configure discussion categories for governance, proposals, and general chat</li>
+                </ol>
+
+                <div class="info-box">
+                    <i class="fas fa-info-circle"></i>
+                    <div>
+                        <strong>Why Discussions?</strong>
+                        <p>GitHub Discussions provide a structured way for your community to propose ideas, vote on changes, and have transparent conversations.</p>
+                    </div>
+                </div>
+            </section>
+
+            <section class="doc-section">
+                <h2 id="step-7">Step 7: Configure GitHub Pages (For Landing Page)</h2>
+                <p>Deploy your GitForge landing page and documentation using GitHub Pages:</p>
+
+                <ol class="numbered-list">
+                    <li>Go to repository Settings</li>
+                    <li>Scroll to "Pages" section</li>
+                    <li>Under "Source", select your main branch</li>
+                    <li>Choose <strong>"/ (root)"</strong> as the folder</li>
+                    <li>Click <strong>"Save"</strong></li>
+                </ol>
+
+                <p>Your landing page will be available at:</p>
+                <div class="command-block">
+                    <code>https://your-username.github.io/your-repo-name/</code>
+                    <button class="command-copy">Copy</button>
+                </div>
+            </section>
+
+            <section class="doc-section">
+                <h2 id="step-8">Step 8: Create Your First Bounty</h2>
+                <p>Test your setup by creating your first bounty:</p>
+
+                <ol class="numbered-list">
+                    <li>Go to the "Issues" tab in your repository</li>
+                    <li>Click <strong>"New issue"</strong></li>
+                    <li>Select the <strong>"Bounty"</strong> template</li>
+                    <li>Fill in the details (title, description, amount, difficulty)</li>
+                    <li>Submit the issue</li>
+                </ol>
+
+                <div class="success-box">
+                    <i class="fas fa-check-circle"></i>
+                    <div>
+                        <strong>Congratulations!</strong>
+                        <p>You've successfully set up GitForge! Your first bounty is now live and contributors can start claiming it.</p>
+                    </div>
+                </div>
+            </section>
+
+            <section class="doc-section">
+                <h2 id="next-steps">Next Steps</h2>
+                <p>Now that your GitForge is set up, here's what to do next:</p>
+
+                <div class="step-cards">
+                    <a href="bounty-creation.html" class="step-card">
+                        <div class="step-number">1</div>
+                        <h3>Learn Bounty Best Practices</h3>
+                        <p>Discover how to create effective bounties that attract quality contributors</p>
+                        <span class="step-link">Read Guide <i class="fas fa-arrow-right"></i></span>
+                    </a>
+                    
+                    <a href="contributing.html" class="step-card">
+                        <div class="step-number">2</div>
+                        <h3>Share with Contributors</h3>
+                        <p>Learn how to promote your bounties and attract talented developers</p>
+                        <span class="step-link">Contributing Guide <i class="fas fa-arrow-right"></i></span>
+                    </a>
+                    
+                    <a href="governance.html" class="step-card">
+                        <div class="step-number">3</div>
+                        <h3>Set Up Governance</h3>
+                        <p>Create transparent decision-making processes for your DAO</p>
+                        <span class="step-link">Governance Guide <i class="fas fa-arrow-right"></i></span>
+                    </a>
+                </div>
+            </section>
+
+            <section class="doc-section">
+                <h2 id="troubleshooting">Troubleshooting</h2>
+                
+                <h3>GitHub Actions not running?</h3>
+                <ul>
+                    <li>Check that Actions are enabled in repository settings</li>
+                    <li>Verify workflow files are in <code>.github/workflows/</code></li>
+                    <li>Check the Actions tab for error messages</li>
+                </ul>
+
+                <h3>Issue templates not showing up?</h3>
+                <ul>
+                    <li>Ensure templates are in <code>.github/ISSUE_TEMPLATE/</code></li>
+                    <li>Verify YAML syntax is correct</li>
+                    <li>Try refreshing the page or clearing cache</li>
+                </ul>
+
+                <h3>Need more help?</h3>
+                <p>Join our <a href="https://discord.gg/taU76cWxW" target="_blank">Discord community</a> or check the <a href="troubleshooting.html">detailed troubleshooting guide</a>.</p>
+            </section>
+
+            <div class="doc-navigation">
+                <a href="index.html" class="nav-prev">
+                    <i class="fas fa-arrow-left"></i>
+                    <span>Previous: Introduction</span>
+                </a>
+                <a href="quick-start.html" class="nav-next">
+                    <span>Next: Quick Start</span>
+                    <i class="fas fa-arrow-right"></i>
+                </a>
+            </div>
+        </main>
+    </div>
+
+    <script src="../assets/js/main.js"></script>
+    <script src="../assets/js/docs.js"></script>
+</body>
+</html>
+

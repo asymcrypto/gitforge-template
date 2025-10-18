@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Learn about GitForge governance and decentralized decision-making">
+    <title>Governance - GitForge Documentation</title>
+    <link rel="stylesheet" href="../assets/css/style.css">
+    <link rel="stylesheet" href="../assets/css/docs.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container">
+            <div class="nav-wrapper">
+                <a href="../index.html" class="logo">
+                    <i class="fas fa-hammer"></i>
+                    <span>GitForge</span>
+                </a>
+                <button class="mobile-menu-toggle" aria-label="Toggle menu">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+                <ul class="nav-menu">
+                    <li><a href="../index.html#features">Features</a></li>
+                    <li><a href="../index.html#how-it-works">How It Works</a></li>
+                    <li><a href="../index.html#bounties">Bounties</a></li>
+                    <li><a href="index.html" style="color: var(--primary-color);">Documentation</a></li>
+                    <li><a href="https://github.com/asymcrypto/gitforge-template" target="_blank" class="btn-secondary">GitHub</a></li>
+                    <li><a href="https://github.com/asymcrypto/gitforge-template/generate" target="_blank" class="btn-primary">Get Started</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="docs-layout">
+        <aside class="docs-sidebar">
+            <div class="sidebar-content">
+                <h3>Getting Started</h3>
+                <ul>
+                    <li><a href="index.html">Introduction</a></li>
+                    <li><a href="setup-guide.html">Setup Guide</a></li>
+                    <li><a href="quick-start.html">Quick Start</a></li>
+                </ul>
+                
+                <h3>Core Features</h3>
+                <ul>
+                    <li><a href="bounty-creation.html">Creating Bounties</a></li>
+                    <li><a href="contributing.html">Contributing Guide</a></li>
+                    <li><a href="governance.html" class="active">Governance</a></li>
+                    <li><a href="reputation.html">Reputation System</a></li>
+                </ul>
+                
+                <h3>Configuration</h3>
+                <ul>
+                    <li><a href="config-reference.html">Configuration Reference</a></li>
+                    <li><a href="issue-templates.html">Issue Templates</a></li>
+                    <li><a href="github-actions.html">GitHub Actions</a></li>
+                </ul>
+                
+                <h3>Advanced</h3>
+                <ul>
+                    <li><a href="integrations.html">Integrations</a></li>
+                    <li><a href="api-reference.html">API Reference</a></li>
+                    <li><a href="troubleshooting.html">Troubleshooting</a></li>
+                </ul>
+            </div>
+        </aside>
+
+        <main class="docs-content">
+            <div class="docs-header">
+                <h1>Governance</h1>
+                <p class="lead">Transparent, decentralized decision-making for your DAO</p>
+            </div>
+
+            <section class="doc-section">
+                <h2 id="overview">Governance Overview</h2>
+                <p>GitForge uses GitHub Discussions as the foundation for transparent, community-driven governance. Every decision is documented, voted on, and executed openly.</p>
+
+                <div class="info-box">
+                    <i class="fas fa-balance-scale"></i>
+                    <div>
+                        <strong>Why GitHub Discussions?</strong>
+                        <p>GitHub Discussions provides threaded conversations, reactions for voting, and perfect integration with your existing workflow. No additional platforms needed.</p>
+                    </div>
+                </div>
+            </section>
+
+            <section class="doc-section">
+                <h2 id="governance-process">The Governance Process</h2>
+
+                <h3>Phase 1: Discussion (3-7 days)</h3>
+                <p>Anyone can start a discussion to propose an idea:</p>
+                <ol class="numbered-list">
+                    <li>Create a new discussion in the "Proposals" category</li>
+                    <li>Clearly describe the proposal and rationale</li>
+                    <li>Community members comment with feedback</li>
+                    <li>Proposer refines the idea based on input</li>
+                </ol>
+
+                <h3>Phase 2: Formal Proposal (1-2 days)</h3>
+                <p>Once discussion reaches consensus, create a formal proposal:</p>
+                <ol class="numbered-list">
+                    <li>Use the "Proposal" issue template</li>
+                    <li>Include refined details and implementation plan</li>
+                    <li>Link to the original discussion</li>
+                    <li>Set the voting period (usually 7 days)</li>
+                </ol>
+
+                <h3>Phase 3: Voting (7 days)</h3>
+                <p>Community votes using GitHub reactions:</p>
+                <ul>
+                    <li>👍 = Yes, I support this proposal</li>
+                    <li>👎 = No, I oppose this proposal</li>
+                    <li>🎉 = Abstain (counted for quorum only)</li>
+                </ul>
+
+                <div class="code-block">
+                    <div class="code-header">
+                        <span>Voting Example</span>
+                    </div>
+                    <pre><code>Proposal: Increase beginner bounty minimum to $100
+
+👍 25 votes (62.5%)
+👎 8 votes (20%)
+🎉 7 abstentions (17.5%)
+
+Total participation: 40 votes
+Quorum met: Yes (40 > 10% of 200 members)
+Approval threshold: 62.5% > 60% ✓
+Result: APPROVED</code></pre>
+                </div>
+
+                <h3>Phase 4: Execution (14 days)</h3>
+                <p>After approval:</p>
+                <ol class="numbered-list">
+                    <li>Core team has 14 days to implement</li>
+                    <li>Progress updates posted to the proposal</li>
+                    <li>Community can track implementation</li>
+                    <li>Proposal marked as "Completed" when done</li>
+                </ol>
+            </section>
+
+            <section class="doc-section">
+                <h2 id="proposal-types">Types of Proposals</h2>
+
+                <div class="feature-list">
+                    <div class="feature-item">
+                        <i class="fas fa-code"></i>
+                        <div>
+                            <h3>Protocol Changes</h3>
+                            <p>Changes to how GitForge operates: bounty rules, payment methods, reputation system, etc.</p>
+                            <strong>Requirements:</strong> 60% approval, 10% quorum
+                        </div>
+                    </div>
+                    <div class="feature-item">
+                        <i class="fas fa-wallet"></i>
+                        <div>
+                            <h3>Treasury Management</h3>
+                            <p>How to allocate and spend community funds: bounty budgets, infrastructure costs, etc.</p>
+                            <strong>Requirements:</strong> 70% approval, 15% quorum
+                        </div>
+                    </div>
+                    <div class="feature-item">
+                        <i class="fas fa-users-cog"></i>
+                        <div>
+                            <h3>Role Assignments</h3>
+                            <p>Adding or removing core team members, reviewers, or special roles.</p>
+                            <strong>Requirements:</strong> 75% approval, 20% quorum
+                        </div>
+                    </div>
+                    <div class="feature-item">
+                        <i class="fas fa-lightbulb"></i>
+                        <div>
+                            <h3>Feature Requests</h3>
+                            <p>New features or improvements to the project.</p>
+                            <strong>Requirements:</strong> 50% approval, 5% quorum
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="doc-section">
+                <h2 id="creating-proposal">Creating a Proposal</h2>
+
+                <h3>Step 1: Start with Discussion</h3>
+                <p>Before creating a formal proposal, start a discussion:</p>
+                <ol class="numbered-list">
+                    <li>Go to Discussions tab in your repository</li>
+                    <li>Click "New discussion"</li>
+                    <li>Choose "Proposals" category</li>
+                    <li>Title: "[DRAFT] Your proposal title"</li>
+                    <li>Include: Problem, Solution, Benefits, Tradeoffs</li>
+                </ol>
+
+                <h3>Step 2: Gather Feedback</h3>
+                <p>Give the community time to respond:</p>
+                <ul>
+                    <li>Answer questions in comments</li>
+                    <li>Address concerns raised</li>
+                    <li>Refine the proposal based on feedback</li>
+                    <li>Look for signs of consensus</li>
+                </ul>
+
+                <h3>Step 3: Create Formal Proposal</h3>
+                <div class="code-block">
+                    <div class="code-header">
+                        <span>Proposal Template</span>
+                        <button class="copy-btn" data-copy="proposal-template">
+                            <i class="fas fa-copy"></i>
+                        </button>
+                    </div>
+                    <pre id="proposal-template"><code>## 🗳️ Proposal: [Title]
+
+**Type:** Protocol Change / Treasury / Role Assignment / Feature
+**Discussion:** [Link to discussion]
+**Voting Period:** 7 days (ends YYYY-MM-DD)
+
+### Summary
+One paragraph summary of the proposal.
+
+### Problem
+What problem does this solve? Why is it important?
+
+### Proposed Solution
+Detailed explanation of what you want to do.
+
+### Benefits
+- Benefit 1
+- Benefit 2
+- Benefit 3
+
+### Tradeoffs
+- Tradeoff 1
+- Tradeoff 2
+
+### Implementation Plan
+1. Step 1
+2. Step 2
+3. Step 3
+
+### Success Metrics
+How will we know if this is successful?
+
+### Budget (if applicable)
+Cost breakdown and funding source.
+
+---
+
+## Voting
+👍 = Yes, approve this proposal
+👎 = No, reject this proposal
+🎉 = Abstain
+
+**Approval Threshold:** 60%
+**Quorum:** 10%</code></pre>
+                </div>
+
+                <h3>Step 4: Announce the Voting</h3>
+                <p>Share the proposal widely:</p>
+                <ul>
+                    <li>Post in Discord/Slack channels</li>
+                    <li>Announce on social media</li>
+                    <li>Tag relevant stakeholders</li>
+                    <li>Set a clear voting deadline</li>
+                </ul>
+            </section>
+
+            <section class="doc-section">
+                <h2 id="voting-rules">Voting Rules</h2>
+
+                <h3>Who Can Vote?</h3>
+                <p>Voting rights typically depend on your project's configuration:</p>
+                <ul>
+                    <li><strong>Token-based:</strong> 1 token = 1 vote</li>
+                    <li><strong>Reputation-based:</strong> Votes weighted by reputation score</li>
+                    <li><strong>Equal-vote:</strong> Every contributor gets 1 vote</li>
+                    <li><strong>Hybrid:</strong> Combination of the above</li>
+                </ul>
+
+                <h3>Calculating Results</h3>
+                <div class="code-block">
+                    <div class="code-header">
+                        <span>Voting Calculation</span>
+                    </div>
+                    <pre><code>Total Votes = 👍 Yes + 👎 No
+Quorum = (Total Votes + 🎉 Abstain) / Total Eligible Voters
+Approval = 👍 Yes / Total Votes
+
+Proposal passes if:
+- Quorum >= Required Quorum (e.g., 10%)
+- Approval >= Required Approval (e.g., 60%)</code></pre>
+                </div>
+
+                <h3>Vote Weight</h3>
+                <p>Configure vote weight in <code>.github/BOUNTY_CONFIG.json</code>:</p>
+                <div class="code-block">
+                    <div class="code-header">
+                        <span>Vote Weight Configuration</span>
+                        <button class="copy-btn" data-copy="vote-config">
+                            <i class="fas fa-copy"></i>
+                        </button>
+                    </div>
+                    <pre id="vote-config"><code>{
+  "governance": {
+    "vote_weight": "equal",  // or "reputation", "token"
+    "min_reputation_to_vote": 50,
+    "core_team_veto": false,
+    "voting_duration_days": 7,
+    "proposal_types": {
+      "protocol": {
+        "approval_threshold": 0.60,
+        "quorum": 0.10
+      },
+      "treasury": {
+        "approval_threshold": 0.70,
+        "quorum": 0.15
+      },
+      "roles": {
+        "approval_threshold": 0.75,
+        "quorum": 0.20
+      }
+    }
+  }
+}</code></pre>
+                </div>
+            </section>
+
+            <section class="doc-section">
+                <h2 id="best-practices">Governance Best Practices</h2>
+
+                <h3>For Proposal Authors</h3>
+                <ul>
+                    <li>✅ Start with informal discussion first</li>
+                    <li>✅ Be clear and specific about what you're proposing</li>
+                    <li>✅ Provide implementation details</li>
+                    <li>✅ Address potential concerns upfront</li>
+                    <li>✅ Be open to feedback and iteration</li>
+                    <li>✅ Give adequate voting time</li>
+                </ul>
+
+                <h3>For Voters</h3>
+                <ul>
+                    <li>✅ Read the full proposal before voting</li>
+                    <li>✅ Ask questions if anything is unclear</li>
+                    <li>✅ Consider long-term implications</li>
+                    <li>✅ Vote based on merit, not popularity</li>
+                    <li>✅ Explain your vote if you strongly oppose</li>
+                </ul>
+
+                <h3>For Executors</h3>
+                <ul>
+                    <li>✅ Implement exactly what was approved</li>
+                    <li>✅ Provide regular progress updates</li>
+                    <li>✅ Ask for clarification if needed</li>
+                    <li>✅ Complete within the agreed timeline</li>
+                    <li>✅ Document the implementation</li>
+                </ul>
+            </section>
+
+            <section class="doc-section">
+                <h2 id="special-cases">Special Cases</h2>
+
+                <h3>Emergency Proposals</h3>
+                <p>For critical issues (security, legal, etc.):</p>
+                <ul>
+                    <li>Shorter voting period (24-48 hours)</li>
+                    <li>Higher quorum requirement (25%)</li>
+                    <li>Immediate implementation upon approval</li>
+                    <li>Core team can execute before vote completes if necessary</li>
+                </ul>
+
+                <h3>Amendment Proposals</h3>
+                <p>To modify an existing proposal:</p>
+                <ul>
+                    <li>Link to original proposal</li>
+                    <li>Clearly state what changes</li>
+                    <li>Explain why the amendment is needed</li>
+                    <li>Same voting requirements as original</li>
+                </ul>
+
+                <h3>Veto Power</h3>
+                <p>Depending on your configuration, core team may have veto power:</p>
+                <ul>
+                    <li>Must be exercised within 48 hours of vote ending</li>
+                    <li>Requires written justification</li>
+                    <li>Can be overridden by 80% super-majority revote</li>
+                </ul>
+
+                <div class="warning-box">
+                    <i class="fas fa-exclamation-triangle"></i>
+                    <div>
+                        <strong>Use Veto Sparingly</strong>
+                        <p>Veto power should only be used for proposals that could harm the project or community. Overuse erodes trust.</p>
+                    </div>
+                </div>
+            </section>
+
+            <section class="doc-section">
+                <h2 id="examples">Example Proposals</h2>
+
+                <h3>Example 1: Increasing Bounty Minimums</h3>
+                <div class="code-block">
+                    <div class="code-header">
+                        <span>Proposal Example</span>
+                    </div>
+                    <pre><code>## 🗳️ Proposal: Increase Beginner Bounty Minimum
+
+**Type:** Protocol Change
+**Voting Period:** 7 days
+
+### Summary
+Increase minimum beginner bounty from $50 to $100 to attract 
+higher quality contributions.
+
+### Problem
+Current $50 minimum is below market rates, resulting in:
+- Fewer qualified applicants
+- Lower quality submissions
+- More time spent on reviews
+
+### Proposed Solution
+Update BOUNTY_CONFIG.json:
+- Beginner: $100-$300 (currently $50-$200)
+- Keep other levels unchanged
+
+### Benefits
+- Attract more qualified contributors
+- Higher quality work
+- Competitive with other projects
+
+### Budget Impact
+Requires additional $5,000/month in bounty budget
+
+### Voting
+👍 = Yes  |  👎 = No  |  🎉 = Abstain
+Approval: 60% | Quorum: 10%</code></pre>
+                </div>
+
+                <h3>Example 2: Adding Core Team Member</h3>
+                <div class="code-block">
+                    <div class="code-header">
+                        <span>Role Assignment Example</span>
+                    </div>
+                    <pre><code>## 🗳️ Proposal: Add @alice as Core Team Member
+
+**Type:** Role Assignment
+**Voting Period:** 7 days
+
+### Summary
+Promote @alice to core team for her exceptional 
+contributions and leadership.
+
+### Rationale
+@alice has:
+- Completed 25 bounties ($15,000 earned)
+- Reviewed 50+ PRs
+- Mentored 10+ new contributors
+- Created documentation improvements
+- Active in governance discussions
+
+### Responsibilities
+As core team member, @alice will:
+- Review and merge PRs
+- Manage bounties
+- Mentor contributors
+- Participate in governance
+
+### Compensation
+Monthly stipend: $2,000 USDC
+
+### Voting
+👍 = Yes  |  👎 = No  |  🎉 = Abstain
+Approval: 75% | Quorum: 20%</code></pre>
+                </div>
+            </section>
+
+            <section class="doc-section">
+                <h2 id="tools">Governance Tools</h2>
+
+                <h3>GitHub Discussions</h3>
+                <p>Primary platform for proposals and voting</p>
+                <ul>
+                    <li>Built into GitHub</li>
+                    <li>Threaded conversations</li>
+                    <li>Reaction-based voting</li>
+                    <li>Email notifications</li>
+                </ul>
+
+                <h3>GitHub Actions</h3>
+                <p>Automate governance workflows:</p>
+                <ul>
+                    <li>Tally votes automatically</li>
+                    <li>Close voting after deadline</li>
+                    <li>Update proposal status</li>
+                    <li>Notify relevant parties</li>
+                </ul>
+
+                <h3>External Tools (Optional)</h3>
+                <p>For more advanced governance:</p>
+                <ul>
+                    <li><strong>Snapshot:</strong> Off-chain voting with proof</li>
+                    <li><strong>Tally:</strong> On-chain governance</li>
+                    <li><strong>Discord/Telegram:</strong> Discussion channels</li>
+                    <li><strong>Notion:</strong> Proposal tracking</li>
+                </ul>
+            </section>
+
+            <section class="doc-section">
+                <h2 id="faq">Governance FAQ</h2>
+
+                <h3>Can proposals be rejected?</h3>
+                <p>Yes, if they don't meet quorum or approval thresholds. Authors can revise and resubmit.</p>
+
+                <h3>What if a proposal is controversial?</h3>
+                <p>Extended discussion period, town hall meetings, or splitting into smaller proposals can help.</p>
+
+                <h3>How do we handle low voter turnout?</h3>
+                <p>Strategies:</p>
+                <ul>
+                    <li>Better communication and reminders</li>
+                    <li>Incentivize voting (small rewards)</li>
+                    <li>Lower quorum requirements</li>
+                    <li>Delegate voting rights</li>
+                </ul>
+
+                <h3>Can core team override votes?</h3>
+                <p>Only if configured with veto power, and only for critical issues. Should be rare.</p>
+            </section>
+
+            <div class="doc-navigation">
+                <a href="contributing.html" class="nav-prev">
+                    <i class="fas fa-arrow-left"></i>
+                    <span>Previous: Contributing Guide</span>
+                </a>
+                <a href="index.html" class="nav-next">
+                    <span>Back to Documentation</span>
+                    <i class="fas fa-arrow-right"></i>
+                </a>
+            </div>
+        </main>
+    </div>
+
+    <script src="../assets/js/main.js"></script>
+    <script src="../assets/js/docs.js"></script>
+</body>
+</html>
+
