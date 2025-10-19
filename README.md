@@ -1,4 +1,4 @@
-## 🎯 Live Demo
+Quicktsmentsve Demo
 **Professional landing page:** https://aliraza556.github.io/gitforge-template/docs/index.html
 
 # GitForge 🛠️
@@ -15,6 +15,16 @@ Join our GitHub Discussions for:
 - 📢 Official announcements
 
 [Join the Discussion →](https://github.com/asymcrypto/gitforge-template/discussions)
+## 🎯 Live Example: GitForge Showcase
+
+**See GitForge in action!** We're building an [OSS Funding Dashboard](https://github.com/asymcrypto/gitforge-showcase) using our own bounty system:
+
+- ✅ **Real bounty completions** with equity distribution
+- 📊 **Live progress tracking** of GitForge metrics  
+- 🔥 **Active development** with community contributions
+- 🚀 **Watch us dogfood** our own product
+
+[**View the Showcase →**](https://github.com/asymcrypto/gitforge-showcase)
 
 ## 🚀 Quick Start
 
