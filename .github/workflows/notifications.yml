@@ -10,7 +10,6 @@ on:
 jobs:
   discord-notifications:
     runs-on: ubuntu-latest
-    if: secrets.DISCORD_WEBHOOK_URL != ''
     
     steps:
       - name: 📥 Checkout
@@ -71,7 +70,6 @@ jobs:
 
   twitter-notifications:
     runs-on: ubuntu-latest
-    if: secrets.TWITTER_API_KEY != ''
     
     steps:
       - name: 📥 Checkout
@@ -180,18 +178,7 @@ jobs:
                 `### ${b.emoji} ${b.name}\n${b.description}`
               ).join('\n\n');
               
-              const message = `## 🎉 Achievement Unlocked!
-              
-Congratulations @${contributor}! You've earned new badges:
-
-${badgeList}
-
-**Your Stats:**
-- 💎 Total Equity: ${equity}%
-- 🏆 Bounties Completed: ${bounties}
-- 🎯 Tier: ${contributorData.contributor_tier}
-
-Keep up the amazing work! 🚀`;
+              const message = `## 🎉 Achievement Unlocked!\n\nCongratulations @${contributor}! You've earned new badges:\n\n${badgeList}\n\n**Your Stats:**\n- 💎 Total Equity: ${equity}%\n- 🏆 Bounties Completed: ${bounties}\n- 🎯 Tier: ${contributorData.contributor_tier}\n\nKeep up the amazing work! 🚀`;
               
               await github.rest.issues.createComment({
                 owner: context.repo.owner,

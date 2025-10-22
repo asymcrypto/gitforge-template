@@ -33,7 +33,7 @@ jobs:
       - name: 📦 Install Dependencies
         run: |
           npm install @octokit/rest
-          npm install chart.js chartjs-node-canvas
+          npm install chart.js@3.9.1 chartjs-node-canvas@4.1.6
           npm install date-fns
 
       - name: 🔍 Process Equity Updates
@@ -166,7 +166,7 @@ jobs:
             });
 
       - name: 📢 Discord Notification
-        if: steps.equity_update.outputs.updated == 'true' && secrets.DISCORD_WEBHOOK_URL != ''
+        if: steps.equity_update.outputs.updated == 'true'
         env:
           DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK_URL }}
         run: |

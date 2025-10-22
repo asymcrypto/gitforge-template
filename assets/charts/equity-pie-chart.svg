@@ -1,0 +1,17 @@
+<svg width="800" height="600" xmlns="http://www.w3.org/2000/svg">
+    <text x="400" y="40" text-anchor="middle" font-family="Arial, sans-serif" font-size="24" font-weight="bold" fill="#1e293b">
+      Equity Distribution
+    </text>
+  <path d="M 400 300 L 400 150 A 150 150 0 0 1 418.79998503464566 151.1827948028283 Z" 
+            fill="#6366f1" stroke="white" stroke-width="2">
+            <animate attributeName="opacity" from="0" to="1" dur="0.5s" begin="0s" fill="freeze" />
+          </path><path d="M 400 300 L 418.79998503464566 151.1827948028283 A 150 150 0 1 1 353.64745084375784 157.34152255572698 Z" 
+          fill="#e2e8f0" stroke="white" stroke-width="2" /><circle cx="400" cy="300" r="80" fill="white" /><text x="400" y="290" text-anchor="middle" font-family="Arial, sans-serif" font-size="32" font-weight="bold" fill="#6366f1">
+          7%
+        </text><text x="400" y="320" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" fill="#64748b">
+          Allocated
+        </text><rect x="650" y="100" width="20" height="20" fill="#6366f1" rx="4" /><text x="680" y="115" font-family="Arial, sans-serif" font-size="12" fill="#1e293b">
+            AliRaza (2%)
+          </text><rect x="650" y="130" width="20" height="20" fill="#e2e8f0" rx="4" /><text x="680" y="145" font-family="Arial, sans-serif" font-size="12" fill="#1e293b">
+          Available (93%)
+        </text></svg>
