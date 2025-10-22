@@ -1,0 +1,35 @@
+name: 📊 Analytics Update
+
+on:
+  pull_request:
+    types: [closed]
+  schedule:
+    - cron: '0 */12 * * *' # Every 12 hours
+  workflow_dispatch:
+
+jobs:
+  update-analytics:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      
+    steps:
+      - name: 📥 Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: 🔧 Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: 📊 Generate Analytics
+        run: |
+          node .github/scripts/generate-analytics.js
+
+      - name: 💾 Commit Analytics
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "GitForge Analytics Bot"
+          git add .github/analytics/
+          git commit -m "📊 Auto-update: Analytics data [skip ci]" || exit 0
+          git push

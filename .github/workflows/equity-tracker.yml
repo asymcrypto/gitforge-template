@@ -1,0 +1,242 @@
+name: 🏆 Equity Tracker & Automation
+
+on:
+  pull_request:
+    types: [closed]
+  issues:
+    types: [closed, labeled]
+  schedule:
+    - cron: '0 */6 * * *' # Every 6 hours
+  workflow_dispatch:
+
+jobs:
+  track-equity:
+    if: github.event_name == 'pull_request' && github.event.pull_request.merged == true || github.event_name == 'issues' || github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      issues: write
+      pull-requests: write
+      
+    steps:
+      - name: 📥 Checkout Repository
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          fetch-depth: 0
+
+      - name: 🔧 Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: 📦 Install Dependencies
+        run: |
+          npm install @octokit/rest
+          npm install chart.js@3.9.1 chartjs-node-canvas@4.1.6
+          npm install date-fns
+
+      - name: 🔍 Process Equity Updates
+        uses: actions/github-script@v7
+        id: equity_update
+        with:
+          script: |
+            const fs = require('fs');
+            const path = require('path');
+            
+            // Load current equity data
+            const equityPath = 'github/EQUITY_TRACKING.json';
+            let equityData = JSON.parse(fs.readFileSync(equityPath, 'utf8'));
+            
+            let updated = false;
+            let newContributor = null;
+            
+            // Check if this is a bounty completion
+            if (context.eventName === 'pull_request' && context.payload.pull_request.merged) {
+              const pr = context.payload.pull_request;
+              const hasBountyLabel = pr.labels.some(label => 
+                label.name.toLowerCase().includes('bounty')
+              );
+              
+              if (hasBountyLabel) {
+                // Extract bounty info from PR body or linked issue
+                const body = pr.body || '';
+                const equityMatch = body.match(/equity[:\s]+(\d+)%/i);
+                const bountyMatch = body.match(/bounty[:\s]+#(\d+)/i);
+                
+                if (equityMatch) {
+                  const equityAmount = parseInt(equityMatch[1]);
+                  const contributor = pr.user.login;
+                  
+                  // Check if contributor exists
+                  let contributorData = equityData.contributors.find(c => c.github_username === contributor);
+                  
+                  if (contributorData) {
+                    contributorData.equity_earned += equityAmount;
+                    contributorData.bounties_completed = (contributorData.bounties_completed || 1) + 1;
+                  } else {
+                    contributorData = {
+                      github_username: contributor,
+                      bounty_completed: pr.title,
+                      equity_earned: equityAmount,
+                      bounties_completed: 1,
+                      completion_date: new Date().toISOString().split('T')[0],
+                      pr_link: pr.html_url,
+                      status: 'completed',
+                      contributor_tier: equityAmount >= 5 ? 'Founding Contributor' : 'Active Contributor'
+                    };
+                    equityData.contributors.push(contributorData);
+                    newContributor = contributorData;
+                  }
+                  
+                  equityData.total_equity_allocated += equityAmount;
+                  equityData.total_equity_available -= equityAmount;
+                  equityData.bounties_completed += 1;
+                  updated = true;
+                  
+                  core.setOutput('contributor', contributor);
+                  core.setOutput('equity', equityAmount);
+                  core.setOutput('pr_number', pr.number);
+                }
+              }
+            }
+            
+            // Update timestamp
+            equityData.last_updated = new Date().toISOString();
+            
+            // Save updated data
+            fs.writeFileSync(equityPath, JSON.stringify(equityData, null, 2));
+            
+            core.setOutput('updated', updated);
+            core.setOutput('new_contributor', newContributor ? JSON.stringify(newContributor) : '');
+            
+            return { updated, equityData };
+
+      - name: 📊 Generate Dashboard
+        run: |
+          node .github/scripts/generate-dashboard.js
+
+      - name: 📈 Generate Visualizations
+        run: |
+          node .github/scripts/generate-charts.js
+
+      - name: 💾 Commit Changes
+        if: steps.equity_update.outputs.updated == 'true'
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "GitForge Bot"
+          git add github/EQUITY_TRACKING.json
+          git add dashboard.html
+          git add assets/charts/
+          git commit -m "🤖 Auto-update: Equity tracking and dashboard [skip ci]" || exit 0
+          git push
+
+      - name: 🎉 Notify Contributor
+        if: steps.equity_update.outputs.updated == 'true'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const contributor = '${{ steps.equity_update.outputs.contributor }}';
+            const equity = '${{ steps.equity_update.outputs.equity }}';
+            const prNumber = '${{ steps.equity_update.outputs.pr_number }}';
+            
+            const message = `## 🎉 Congratulations @${contributor}!
+            
+            Your contribution has been merged and equity has been allocated!
+            
+            ### 💎 Equity Earned: ${equity}%
+            
+            **Your Impact:**
+            - You're now a valued GitForge contributor
+            - Your equity is tracked in our [Live Dashboard](https://github.com/${context.repo.owner}/${context.repo.repo}/blob/main/dashboard.html)
+            - Check your position on the [Leaderboard](https://github.com/${context.repo.owner}/${context.repo.repo}/blob/main/CONTRIBUTORS.md)
+            
+            **Next Steps:**
+            - Browse more [bounties](https://github.com/${context.repo.owner}/${context.repo.repo}/issues?q=is:open+label:bounty)
+            - Join our [Discord community](https://discord.gg/gitforge)
+            - Share your achievement on Twitter! 🐦
+            
+            Thank you for building the future of GitForge! 🚀`;
+            
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: prNumber,
+              body: message
+            });
+
+      - name: 📢 Discord Notification
+        if: steps.equity_update.outputs.updated == 'true'
+        env:
+          DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK_URL }}
+        run: |
+          CONTRIBUTOR="${{ steps.equity_update.outputs.contributor }}"
+          EQUITY="${{ steps.equity_update.outputs.equity }}"
+          PR_NUMBER="${{ steps.equity_update.outputs.pr_number }}"
+          
+          curl -H "Content-Type: application/json" \
+            -d "{\"embeds\": [{
+              \"title\": \"🎉 New Bounty Completed!\",
+              \"description\": \"**@${CONTRIBUTOR}** just earned **${EQUITY}% equity**!\",
+              \"color\": 5814783,
+              \"fields\": [
+                {\"name\": \"Contributor\", \"value\": \"${CONTRIBUTOR}\", \"inline\": true},
+                {\"name\": \"Equity Earned\", \"value\": \"${EQUITY}%\", \"inline\": true},
+                {\"name\": \"PR\", \"value\": \"[#${PR_NUMBER}](https://github.com/${{ github.repository }}/pull/${PR_NUMBER})\", \"inline\": true}
+              ],
+              \"footer\": {\"text\": \"GitForge Equity Tracker\"},
+              \"timestamp\": \"$(date -u +%Y-%m-%dT%H:%M:%S.000Z)\"
+            }]}" \
+            $DISCORD_WEBHOOK
+
+  weekly-report:
+    if: github.event.schedule || github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      issues: write
+      
+    steps:
+      - name: 📥 Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: 🔧 Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: 📊 Generate Weekly Report
+        run: |
+          node .github/scripts/weekly-report.js
+
+      - name: 📢 Post Report
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            const report = fs.readFileSync('.github/reports/weekly-report.md', 'utf8');
+            
+            // Create or update weekly report issue
+            const issues = await github.rest.issues.listForRepo({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              labels: 'weekly-report',
+              state: 'open'
+            });
+            
+            if (issues.data.length > 0) {
+              await github.rest.issues.update({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: issues.data[0].number,
+                body: report
+              });
+            } else {
+              await github.rest.issues.create({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                title: `📊 Weekly Report - ${new Date().toISOString().split('T')[0]}`,
+                body: report,
+                labels: ['weekly-report']
+              });
+            }

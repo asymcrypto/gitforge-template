@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GitForge - Live Equity Dashboard</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #6366f1;
+            --primary-dark: #4f46e5;
+            --secondary: #8b5cf6;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --dark: #1e293b;
+            --dark-light: #334155;
+            --light: #f8fafc;
+            --border: #e2e8f0;
+            --text: #0f172a;
+            --text-light: #64748b;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: var(--text);
+            line-height: 1.6;
+            min-height: 100vh;
+            padding: 2rem 1rem;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            color: white;
+            margin-bottom: 3rem;
+            animation: fadeInDown 0.6s ease;
+        }
+
+        .header h1 {
+            font-size: 3rem;
+            font-weight: 800;
+            margin-bottom: 0.5rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        }
+
+        .header .subtitle {
+            font-size: 1.25rem;
+            opacity: 0.95;
+        }
+
+        .header .last-updated {
+            margin-top: 1rem;
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background: white;
+            border-radius: 16px;
+            padding: 2rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            animation: fadeInUp 0.6s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.15);
+        }
+
+        .stat-card .icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .stat-card.primary .icon {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: white;
+        }
+
+        .stat-card.success .icon {
+            background: linear-gradient(135deg, #10b981, #059669);
+            color: white;
+        }
+
+        .stat-card.warning .icon {
+            background: linear-gradient(135deg, #f59e0b, #d97706);
+            color: white;
+        }
+
+        .stat-card.secondary .icon {
+            background: linear-gradient(135deg, var(--secondary), #7c3aed);
+            color: white;
+        }
+
+        .stat-card .value {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: var(--text);
+            margin-bottom: 0.25rem;
+        }
+
+        .stat-card .label {
+            color: var(--text-light);
+            font-size: 0.95rem;
+            font-weight: 500;
+        }
+
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .card {
+            background: white;
+            border-radius: 16px;
+            padding: 2rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            animation: fadeInUp 0.6s ease;
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid var(--border);
+        }
+
+        .card-header h2 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--text);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .leaderboard-item {
+            display: flex;
+            align-items: center;
+            padding: 1.25rem;
+            border-radius: 12px;
+            margin-bottom: 1rem;
+            background: var(--light);
+            transition: all 0.3s ease;
+        }
+
+        .leaderboard-item:hover {
+            background: #e0e7ff;
+            transform: translateX(5px);
+        }
+
+        .rank {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            font-size: 1.25rem;
+            margin-right: 1rem;
+        }
+
+        .rank.gold {
+            background: linear-gradient(135deg, #fbbf24, #f59e0b);
+            color: white;
+        }
+
+        .rank.silver {
+            background: linear-gradient(135deg, #e5e7eb, #9ca3af);
+            color: white;
+        }
+
+        .rank.bronze {
+            background: linear-gradient(135deg, #f97316, #ea580c);
+            color: white;
+        }
+
+        .rank.default {
+            background: var(--border);
+            color: var(--text-light);
+        }
+
+        .contributor-info {
+            flex: 1;
+        }
+
+        .contributor-name {
+            font-weight: 700;
+            font-size: 1.1rem;
+            color: var(--text);
+            margin-bottom: 0.25rem;
+        }
+
+        .contributor-tier {
+            font-size: 0.85rem;
+            color: var(--text-light);
+        }
+
+        .equity-badge {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-weight: 700;
+            font-size: 1.1rem;
+        }
+
+        .chart-container {
+            position: relative;
+            height: 400px;
+            margin-top: 1rem;
+        }
+
+        .bounty-list {
+            list-style: none;
+        }
+
+        .bounty-item {
+            padding: 1rem;
+            border-left: 4px solid var(--primary);
+            background: var(--light);
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .bounty-item:hover {
+            background: #e0e7ff;
+            border-left-color: var(--primary-dark);
+        }
+
+        .bounty-title {
+            font-weight: 600;
+            color: var(--text);
+            margin-bottom: 0.5rem;
+        }
+
+        .bounty-meta {
+            display: flex;
+            gap: 1rem;
+            font-size: 0.9rem;
+            color: var(--text-light);
+        }
+
+        .status-badge {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 12px;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        .status-badge.available {
+            background: #dcfce7;
+            color: #166534;
+        }
+
+        .status-badge.in-progress {
+            background: #fef3c7;
+            color: #92400e;
+        }
+
+        .full-width {
+            grid-column: 1 / -1;
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @media (max-width: 1024px) {
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2rem;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .stat-card .value {
+                font-size: 2rem;
+            }
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: var(--border);
+            border-radius: 4px;
+            overflow: hidden;
+            margin-top: 1rem;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            transition: width 1s ease;
+        }
+
+        .footer {
+            text-align: center;
+            color: white;
+            margin-top: 3rem;
+            padding: 2rem;
+            opacity: 0.9;
+        }
+
+        .footer a {
+            color: white;
+            text-decoration: none;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1><i class="fas fa-chart-line"></i> GitForge Equity Dashboard</h1>
+            <p class="subtitle">Real-time equity tracking and contributor analytics</p>
+            <p class="last-updated">
+                <i class="fas fa-clock"></i> Last Updated: 10/18/2024, 4:00:00 AM
+            </p>
+        </div>
+
+        <div class="stats-grid">
+            <div class="stat-card primary">
+                <div class="icon">
+                    <i class="fas fa-percentage"></i>
+                </div>
+                <div class="value">7%</div>
+                <div class="label">Total Equity Allocated</div>
+            </div>
+
+            <div class="stat-card success">
+                <div class="icon">
+                    <i class="fas fa-users"></i>
+                </div>
+                <div class="value">1</div>
+                <div class="label">Active Contributors</div>
+            </div>
+
+            <div class="stat-card warning">
+                <div class="icon">
+                    <i class="fas fa-trophy"></i>
+                </div>
+                <div class="value">1</div>
+                <div class="label">Bounties Completed</div>
+            </div>
+
+            <div class="stat-card secondary">
+                <div class="icon">
+                    <i class="fas fa-chart-pie"></i>
+                </div>
+                <div class="value">93%</div>
+                <div class="label">Equity Available</div>
+            </div>
+        </div>
+
+        <div class="dashboard-grid">
+            <div class="card">
+                <div class="card-header">
+                    <h2><i class="fas fa-crown"></i> Top Contributors</h2>
+                </div>
+                <div class="leaderboard">
+                    
+                        <div class="leaderboard-item">
+                            <div class="rank gold">1</div>
+                            <div class="contributor-info">
+                                <div class="contributor-name">
+                                    <i class="fab fa-github"></i> AliRaza
+                                </div>
+                                <div class="contributor-tier">Founding Contributor</div>
+                            </div>
+                            <div class="equity-badge">2%</div>
+                        </div>
+                        
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <h2><i class="fas fa-chart-pie"></i> Distribution</h2>
+                </div>
+                <div class="chart-container">
+                    <canvas id="equityChart"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <div class="dashboard-grid">
+            <div class="card">
+                <div class="card-header">
+                    <h2><i class="fas fa-tasks"></i> Active Bounties</h2>
+                </div>
+                <ul class="bounty-list">
+                    
+                        <li class="bounty-item">
+                            <div class="bounty-title">Build enhanced bounty payout system with real payments</div>
+                            <div class="bounty-meta">
+                                <span><i class="fas fa-percentage"></i> 3% Equity</span>
+                                <span class="status-badge available">available</span>
+                            </div>
+                        </li>
+                    
+                        <li class="bounty-item">
+                            <div class="bounty-title">Add Discord community integration for bounty notifications</div>
+                            <div class="bounty-meta">
+                                <span><i class="fas fa-percentage"></i> 2% Equity</span>
+                                <span class="status-badge available">available</span>
+                            </div>
+                        </li>
+                    
+                </ul>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <h2><i class="fas fa-chart-bar"></i> Progress</h2>
+                </div>
+                <div style="padding: 1rem 0;">
+                    <h3 style="margin-bottom: 1rem;">Equity Allocation Progress</h3>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 7%"></div>
+                    </div>
+                    <p style="margin-top: 0.5rem; color: var(--text-light);">
+                        7% of 100% allocated
+                    </p>
+                </div>
+                <div style="padding: 1rem 0; margin-top: 2rem;">
+                    <h3 style="margin-bottom: 1rem;">Key Metrics</h3>
+                    <div style="display: flex; flex-direction: column; gap: 1rem;">
+                        <div>
+                            <div style="color: var(--text-light); font-size: 0.9rem;">Average Equity per Contributor</div>
+                            <div style="font-size: 1.5rem; font-weight: 700;">7.00%</div>
+                        </div>
+                        <div>
+                            <div style="color: var(--text-light); font-size: 0.9rem;">Pending Bounties</div>
+                            <div style="font-size: 1.5rem; font-weight: 700;">2</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer">
+            <p>
+                <i class="fas fa-hammer"></i> Built with GitForge | 
+                <a href="https://github.com/asymcrypto/gitforge-template" target="_blank">
+                    <i class="fab fa-github"></i> View on GitHub
+                </a>
+            </p>
+        </div>
+    </div>
+
+    <script>
+        // Equity Distribution Chart
+        const ctx = document.getElementById('equityChart').getContext('2d');
+        
+        const contributors = [{"github_username":"AliRaza","bounty_completed":"Create GitForge landing page and documentation site","equity_earned":2,"completion_date":"2024-10-17","bounty_link":"https://github.com/asymcrypto/gitforge-template/issues/3","pr_link":"https://github.com/asymcrypto/gitforge-template/pulls?q=is:pr+is:closed","status":"completed","contributor_tier":"Founding Contributor"}];
+        const labels = contributors.map(c => c.github_username);
+        const data = contributors.map(c => c.equity_earned);
+        
+        // Add "Available" to the chart
+        labels.push('Available');
+        data.push(93);
+        
+        new Chart(ctx, {
+            type: 'doughnut',
+            data: {
+                labels: labels,
+                datasets: [{
+                    data: data,
+                    backgroundColor: [
+                        '#6366f1',
+                        '#8b5cf6',
+                        '#ec4899',
+                        '#f59e0b',
+                        '#10b981',
+                        '#e2e8f0'
+                    ],
+                    borderWidth: 0
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'bottom',
+                        labels: {
+                            padding: 15,
+                            font: {
+                                size: 12,
+                                weight: '600'
+                            }
+                        }
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                return context.label + ': ' + context.parsed + '%';
+                            }
+                        }
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>

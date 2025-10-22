@@ -1,0 +1,79 @@
+{
+  "overview": {
+    "total_contributors": 1,
+    "total_equity_allocated": 7,
+    "total_equity_available": 93,
+    "bounties_completed": 1,
+    "bounties_pending": 2,
+    "active_bounties": 2
+  },
+  "velocity": {
+    "last_7_days": {
+      "contributors": 0,
+      "equity_allocated": 0
+    },
+    "last_30_days": {
+      "contributors": 0,
+      "equity_allocated": 0
+    },
+    "daily_average": {
+      "contributors": "0.00",
+      "equity": "0.02"
+    }
+  },
+  "distribution": {
+    "by_tier": {
+      "founding": 0,
+      "core": 0,
+      "active": 1,
+      "emerging": 0
+    },
+    "statistics": {
+      "average": "2.00",
+      "median": "2.00",
+      "max": 2,
+      "min": 2
+    }
+  },
+  "top_performers": {
+    "by_equity": [
+      {
+        "username": "AliRaza",
+        "equity": 2,
+        "tier": "Founding Contributor"
+      }
+    ],
+    "by_bounties": [
+      {
+        "username": "AliRaza",
+        "bounties": 1,
+        "equity": 2
+      }
+    ]
+  },
+  "timeline": {
+    "by_month": {
+      "2024-10": {
+        "count": 1,
+        "equity": 2,
+        "contributors": [
+          "AliRaza"
+        ]
+      }
+    },
+    "by_week": {
+      "2024-W42": {
+        "count": 1,
+        "equity": 2,
+        "contributors": [
+          "AliRaza"
+        ]
+      }
+    }
+  },
+  "projections": {
+    "days_to_full_allocation": 930,
+    "estimated_contributors_at_100": 50
+  },
+  "generated_at": "2025-10-22T06:23:31.991Z"
+}

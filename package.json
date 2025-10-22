@@ -1,0 +1,44 @@
+{
+  "name": "gitforge-equity-system",
+  "version": "1.0.0",
+  "description": "Professional equity tracking and automation system for GitForge",
+  "main": "index.js",
+  "scripts": {
+    "generate-dashboard": "node .github/scripts/generate-dashboard.js",
+    "generate-charts": "node .github/scripts/generate-charts.js",
+    "generate-analytics": "node .github/scripts/generate-analytics.js",
+    "generate-report": "node .github/scripts/weekly-report.js",
+    "build": "npm run generate-dashboard && npm run generate-charts && npm run generate-analytics",
+    "test": "echo \"No tests yet\" && exit 0"
+  },
+  "keywords": [
+    "gitforge",
+    "equity",
+    "tracking",
+    "automation",
+    "bounty",
+    "dao",
+    "github-actions"
+  ],
+  "author": "GitForge Community",
+  "license": "MIT",
+  "dependencies": {
+    "@octokit/rest": "^20.0.2",
+    "chart.js": "^3.9.1",
+    "chartjs-node-canvas": "^4.1.6",
+    "date-fns": "^2.30.0",
+    "twitter-api-v2": "^1.15.2"
+  },
+  "devDependencies": {},
+  "engines": {
+    "node": ">=20.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/asymcrypto/gitforge-template.git"
+  },
+  "bugs": {
+    "url": "https://github.com/asymcrypto/gitforge-template/issues"
+  },
+  "homepage": "https://github.com/asymcrypto/gitforge-template#readme"
+}
