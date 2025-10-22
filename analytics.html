@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GitForge - Advanced Analytics</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #6366f1;
+            --primary-dark: #4f46e5;
+            --secondary: #8b5cf6;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --dark: #1e293b;
+            --light: #f8fafc;
+            --border: #e2e8f0;
+            --text: #0f172a;
+            --text-light: #64748b;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: var(--text);
+            line-height: 1.6;
+            min-height: 100vh;
+            padding: 2rem 1rem;
+        }
+
+        .container {
+            max-width: 1600px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            color: white;
+            margin-bottom: 3rem;
+        }
+
+        .header h1 {
+            font-size: 3rem;
+            font-weight: 800;
+            margin-bottom: 0.5rem;
+        }
+
+        .nav-tabs {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .tab-btn {
+            background: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .tab-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+        }
+
+        .tab-btn.active {
+            background: var(--primary);
+            color: white;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .metric-card {
+            background: white;
+            border-radius: 16px;
+            padding: 2rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        .metric-card .icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: white;
+        }
+
+        .metric-card .value {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 0.25rem;
+        }
+
+        .metric-card .label {
+            color: var(--text-light);
+            font-size: 0.95rem;
+        }
+
+        .metric-card .trend {
+            margin-top: 0.5rem;
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+
+        .trend.up {
+            color: var(--success);
+        }
+
+        .trend.down {
+            color: var(--danger);
+        }
+
+        .chart-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .chart-card {
+            background: white;
+            border-radius: 16px;
+            padding: 2rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        .chart-card h3 {
+            margin-bottom: 1.5rem;
+            color: var(--text);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .chart-container {
+            position: relative;
+            height: 350px;
+        }
+
+        .table-card {
+            background: white;
+            border-radius: 16px;
+            padding: 2rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th {
+            background: var(--light);
+            padding: 1rem;
+            text-align: left;
+            font-weight: 700;
+            color: var(--text);
+        }
+
+        td {
+            padding: 1rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        tr:hover {
+            background: var(--light);
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 12px;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        .badge.founding {
+            background: #fef3c7;
+            color: #92400e;
+        }
+
+        .badge.core {
+            background: #dbeafe;
+            color: #1e40af;
+        }
+
+        .badge.active {
+            background: #dcfce7;
+            color: #166534;
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2rem;
+            }
+
+            .chart-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .metrics-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1><i class="fas fa-chart-line"></i> GitForge Advanced Analytics</h1>
+            <p>Comprehensive insights into equity distribution and contributor performance</p>
+        </div>
+
+        <div class="nav-tabs">
+            <button class="tab-btn active" onclick="switchTab('overview')">
+                <i class="fas fa-home"></i> Overview
+            </button>
+            <button class="tab-btn" onclick="switchTab('contributors')">
+                <i class="fas fa-users"></i> Contributors
+            </button>
+            <button class="tab-btn" onclick="switchTab('velocity')">
+                <i class="fas fa-rocket"></i> Velocity
+            </button>
+            <button class="tab-btn" onclick="switchTab('distribution')">
+                <i class="fas fa-chart-pie"></i> Distribution
+            </button>
+            <button class="tab-btn" onclick="switchTab('projections')">
+                <i class="fas fa-crystal-ball"></i> Projections
+            </button>
+        </div>
+
+        <!-- Overview Tab -->
+        <div id="overview" class="tab-content active">
+            <div class="metrics-grid">
+                <div class="metric-card">
+                    <div class="icon"><i class="fas fa-users"></i></div>
+                    <div class="value" id="total-contributors">0</div>
+                    <div class="label">Total Contributors</div>
+                    <div class="trend up" id="contributors-trend"></div>
+                </div>
+                <div class="metric-card">
+                    <div class="icon"><i class="fas fa-percentage"></i></div>
+                    <div class="value" id="equity-allocated">0%</div>
+                    <div class="label">Equity Allocated</div>
+                    <div class="trend up" id="equity-trend"></div>
+                </div>
+                <div class="metric-card">
+                    <div class="icon"><i class="fas fa-trophy"></i></div>
+                    <div class="value" id="bounties-completed">0</div>
+                    <div class="label">Bounties Completed</div>
+                    <div class="trend up" id="bounties-trend"></div>
+                </div>
+                <div class="metric-card">
+                    <div class="icon"><i class="fas fa-chart-line"></i></div>
+                    <div class="value" id="avg-equity">0%</div>
+                    <div class="label">Avg Equity per Contributor</div>
+                </div>
+            </div>
+
+            <div class="chart-grid">
+                <div class="chart-card">
+                    <h3><i class="fas fa-chart-bar"></i> Equity Allocation Over Time</h3>
+                    <div class="chart-container">
+                        <canvas id="timelineChart"></canvas>
+                    </div>
+                </div>
+                <div class="chart-card">
+                    <h3><i class="fas fa-chart-pie"></i> Equity Distribution</h3>
+                    <div class="chart-container">
+                        <canvas id="distributionChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Contributors Tab -->
+        <div id="contributors" class="tab-content">
+            <div class="table-card">
+                <h3><i class="fas fa-crown"></i> All Contributors</h3>
+                <table id="contributors-table">
+                    <thead>
+                        <tr>
+                            <th>Rank</th>
+                            <th>Contributor</th>
+                            <th>Equity</th>
+                            <th>Bounties</th>
+                            <th>Tier</th>
+                            <th>Last Activity</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Velocity Tab -->
+        <div id="velocity" class="tab-content">
+            <div class="metrics-grid">
+                <div class="metric-card">
+                    <div class="icon"><i class="fas fa-calendar-week"></i></div>
+                    <div class="value" id="velocity-7d-contributors">0</div>
+                    <div class="label">Contributors (Last 7 Days)</div>
+                </div>
+                <div class="metric-card">
+                    <div class="icon"><i class="fas fa-percentage"></i></div>
+                    <div class="value" id="velocity-7d-equity">0%</div>
+                    <div class="label">Equity (Last 7 Days)</div>
+                </div>
+                <div class="metric-card">
+                    <div class="icon"><i class="fas fa-calendar-alt"></i></div>
+                    <div class="value" id="velocity-30d-contributors">0</div>
+                    <div class="label">Contributors (Last 30 Days)</div>
+                </div>
+                <div class="metric-card">
+                    <div class="icon"><i class="fas fa-percentage"></i></div>
+                    <div class="value" id="velocity-30d-equity">0%</div>
+                    <div class="label">Equity (Last 30 Days)</div>
+                </div>
+            </div>
+
+            <div class="chart-grid">
+                <div class="chart-card">
+                    <h3><i class="fas fa-chart-line"></i> Weekly Activity</h3>
+                    <div class="chart-container">
+                        <canvas id="weeklyChart"></canvas>
+                    </div>
+                </div>
+                <div class="chart-card">
+                    <h3><i class="fas fa-chart-area"></i> Monthly Trends</h3>
+                    <div class="chart-container">
+                        <canvas id="monthlyChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Distribution Tab -->
+        <div id="distribution" class="tab-content">
+            <div class="chart-grid">
+                <div class="chart-card">
+                    <h3><i class="fas fa-layer-group"></i> Contributors by Tier</h3>
+                    <div class="chart-container">
+                        <canvas id="tierChart"></canvas>
+                    </div>
+                </div>
+                <div class="chart-card">
+                    <h3><i class="fas fa-chart-bar"></i> Equity Distribution Stats</h3>
+                    <div class="chart-container">
+                        <canvas id="statsChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Projections Tab -->
+        <div id="projections" class="tab-content">
+            <div class="metrics-grid">
+                <div class="metric-card">
+                    <div class="icon"><i class="fas fa-calendar"></i></div>
+                    <div class="value" id="days-to-full">0</div>
+                    <div class="label">Days to Full Allocation</div>
+                </div>
+                <div class="metric-card">
+                    <div class="icon"><i class="fas fa-users"></i></div>
+                    <div class="value" id="estimated-contributors">0</div>
+                    <div class="label">Estimated Contributors at 100%</div>
+                </div>
+                <div class="metric-card">
+                    <div class="icon"><i class="fas fa-chart-line"></i></div>
+                    <div class="value" id="daily-rate">0%</div>
+                    <div class="label">Daily Allocation Rate</div>
+                </div>
+                <div class="metric-card">
+                    <div class="icon"><i class="fas fa-fire"></i></div>
+                    <div class="value" id="momentum">0</div>
+                    <div class="label">Momentum Score</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let analyticsData = null;
+
+        // Load analytics data
+        async function loadAnalytics() {
+            try {
+                const response = await fetch('.github/analytics/analytics.json');
+                analyticsData = await response.json();
+                updateDashboard();
+            } catch (error) {
+                console.error('Error loading analytics:', error);
+            }
+        }
+
+        function switchTab(tabName) {
+            document.querySelectorAll('.tab-content').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            document.getElementById(tabName).classList.add('active');
+            event.target.classList.add('active');
+        }
+
+        function updateDashboard() {
+            if (!analyticsData) return;
+
+            // Update overview metrics
+            document.getElementById('total-contributors').textContent = analyticsData.overview.total_contributors;
+            document.getElementById('equity-allocated').textContent = analyticsData.overview.total_equity_allocated + '%';
+            document.getElementById('bounties-completed').textContent = analyticsData.overview.bounties_completed;
+            document.getElementById('avg-equity').textContent = analyticsData.distribution.statistics.average + '%';
+
+            // Update velocity metrics
+            document.getElementById('velocity-7d-contributors').textContent = analyticsData.velocity.last_7_days.contributors;
+            document.getElementById('velocity-7d-equity').textContent = analyticsData.velocity.last_7_days.equity_allocated + '%';
+            document.getElementById('velocity-30d-contributors').textContent = analyticsData.velocity.last_30_days.contributors;
+            document.getElementById('velocity-30d-equity').textContent = analyticsData.velocity.last_30_days.equity_allocated + '%';
+
+            // Update projections
+            document.getElementById('days-to-full').textContent = analyticsData.projections.days_to_full_allocation;
+            document.getElementById('estimated-contributors').textContent = analyticsData.projections.estimated_contributors_at_100;
+            document.getElementById('daily-rate').textContent = analyticsData.velocity.daily_average.equity + '%';
+
+            // Create charts
+            createCharts();
+        }
+
+        function createCharts() {
+            // Distribution Chart
+            const distCtx = document.getElementById('distributionChart').getContext('2d');
+            new Chart(distCtx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Allocated', 'Available'],
+                    datasets: [{
+                        data: [
+                            analyticsData.overview.total_equity_allocated,
+                            analyticsData.overview.total_equity_available
+                        ],
+                        backgroundColor: ['#6366f1', '#e2e8f0']
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false
+                }
+            });
+
+            // Tier Chart
+            const tierCtx = document.getElementById('tierChart').getContext('2d');
+            new Chart(tierCtx, {
+                type: 'bar',
+                data: {
+                    labels: ['Founding', 'Core', 'Active', 'Emerging'],
+                    datasets: [{
+                        label: 'Contributors',
+                        data: [
+                            analyticsData.distribution.by_tier.founding,
+                            analyticsData.distribution.by_tier.core,
+                            analyticsData.distribution.by_tier.active,
+                            analyticsData.distribution.by_tier.emerging
+                        ],
+                        backgroundColor: ['#f59e0b', '#6366f1', '#10b981', '#8b5cf6']
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false
+                }
+            });
+        }
+
+        // Load data on page load
+        loadAnalytics();
+    </script>
+</body>
+</html>

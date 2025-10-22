@@ -1,0 +1,226 @@
+name: 📢 Notification System
+
+on:
+  pull_request:
+    types: [opened, closed]
+  issues:
+    types: [opened, closed, labeled]
+  workflow_dispatch:
+
+jobs:
+  discord-notifications:
+    runs-on: ubuntu-latest
+    if: secrets.DISCORD_WEBHOOK_URL != ''
+    
+    steps:
+      - name: 📥 Checkout
+        uses: actions/checkout@v4
+
+      - name: 🎉 New Bounty Notification
+        if: github.event.action == 'opened' && github.event.issue && contains(github.event.issue.labels.*.name, 'bounty')
+        env:
+          DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK_URL }}
+        run: |
+          TITLE="${{ github.event.issue.title }}"
+          NUMBER="${{ github.event.issue.number }}"
+          URL="${{ github.event.issue.html_url }}"
+          AUTHOR="${{ github.event.issue.user.login }}"
+          
+          # Extract equity from issue body
+          BODY="${{ github.event.issue.body }}"
+          EQUITY=$(echo "$BODY" | grep -oP 'equity[:\s]+\K\d+' || echo "TBD")
+          
+          curl -H "Content-Type: application/json" \
+            -d "{\"embeds\": [{
+              \"title\": \"🎯 New Bounty Available!\",
+              \"description\": \"**${TITLE}**\",
+              \"color\": 3447003,
+              \"fields\": [
+                {\"name\": \"💎 Equity Offer\", \"value\": \"${EQUITY}%\", \"inline\": true},
+                {\"name\": \"📝 Issue\", \"value\": \"[#${NUMBER}](${URL})\", \"inline\": true},
+                {\"name\": \"👤 Created by\", \"value\": \"@${AUTHOR}\", \"inline\": true}
+              ],
+              \"footer\": {\"text\": \"Click the link to claim this bounty!\"},
+              \"timestamp\": \"$(date -u +%Y-%m-%dT%H:%M:%S.000Z)\"
+            }]}" \
+            $DISCORD_WEBHOOK
+
+      - name: 🎊 Bounty Completed Notification
+        if: github.event.action == 'closed' && github.event.pull_request.merged && contains(github.event.pull_request.labels.*.name, 'bounty')
+        env:
+          DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK_URL }}
+        run: |
+          CONTRIBUTOR="${{ github.event.pull_request.user.login }}"
+          PR_NUMBER="${{ github.event.pull_request.number }}"
+          PR_URL="${{ github.event.pull_request.html_url }}"
+          TITLE="${{ github.event.pull_request.title }}"
+          
+          curl -H "Content-Type: application/json" \
+            -d "{\"embeds\": [{
+              \"title\": \"🎉 Bounty Completed!\",
+              \"description\": \"**${TITLE}**\",
+              \"color\": 5814783,
+              \"fields\": [
+                {\"name\": \"🏆 Contributor\", \"value\": \"@${CONTRIBUTOR}\", \"inline\": true},
+                {\"name\": \"🔗 Pull Request\", \"value\": \"[#${PR_NUMBER}](${PR_URL})\", \"inline\": true}
+              ],
+              \"footer\": {\"text\": \"Congratulations on completing this bounty!\"},
+              \"timestamp\": \"$(date -u +%Y-%m-%dT%H:%M:%S.000Z)\"
+            }]}" \
+            $DISCORD_WEBHOOK
+
+  twitter-notifications:
+    runs-on: ubuntu-latest
+    if: secrets.TWITTER_API_KEY != ''
+    
+    steps:
+      - name: 📥 Checkout
+        uses: actions/checkout@v4
+
+      - name: 🔧 Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: 📦 Install Twitter Client
+        run: npm install twitter-api-v2
+
+      - name: 🐦 Post to Twitter
+        if: github.event.action == 'closed' && github.event.pull_request.merged && contains(github.event.pull_request.labels.*.name, 'bounty')
+        env:
+          TWITTER_API_KEY: ${{ secrets.TWITTER_API_KEY }}
+          TWITTER_API_SECRET: ${{ secrets.TWITTER_API_SECRET }}
+          TWITTER_ACCESS_TOKEN: ${{ secrets.TWITTER_ACCESS_TOKEN }}
+          TWITTER_ACCESS_SECRET: ${{ secrets.TWITTER_ACCESS_SECRET }}
+        run: |
+          node .github/scripts/post-to-twitter.js \
+            "${{ github.event.pull_request.user.login }}" \
+            "${{ github.event.pull_request.title }}" \
+            "${{ github.event.pull_request.html_url }}"
+
+  achievement-badges:
+    runs-on: ubuntu-latest
+    if: github.event.action == 'closed' && github.event.pull_request.merged
+    
+    steps:
+      - name: 📥 Checkout
+        uses: actions/checkout@v4
+
+      - name: 🔧 Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: 🏅 Check and Award Badges
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            const contributor = context.payload.pull_request.user.login;
+            
+            // Load equity data
+            const equityData = JSON.parse(
+              fs.readFileSync('github/EQUITY_TRACKING.json', 'utf8')
+            );
+            
+            const contributorData = equityData.contributors.find(
+              c => c.github_username === contributor
+            );
+            
+            if (!contributorData) return;
+            
+            const badges = [];
+            const equity = contributorData.equity_earned;
+            const bounties = contributorData.bounties_completed || 1;
+            
+            // Award badges based on achievements
+            if (bounties === 1) {
+              badges.push({
+                name: 'First Contribution',
+                emoji: '🌟',
+                description: 'Completed your first bounty!'
+              });
+            }
+            
+            if (bounties === 5) {
+              badges.push({
+                name: 'Rising Star',
+                emoji: '⭐',
+                description: 'Completed 5 bounties!'
+              });
+            }
+            
+            if (bounties === 10) {
+              badges.push({
+                name: 'Veteran Contributor',
+                emoji: '🎖️',
+                description: 'Completed 10 bounties!'
+              });
+            }
+            
+            if (equity >= 5) {
+              badges.push({
+                name: 'Founding Contributor',
+                emoji: '👑',
+                description: 'Earned 5% or more equity!'
+              });
+            }
+            
+            if (equity >= 10) {
+              badges.push({
+                name: 'Core Team Member',
+                emoji: '💎',
+                description: 'Earned 10% or more equity!'
+              });
+            }
+            
+            // Post achievement comment if new badges earned
+            if (badges.length > 0) {
+              const badgeList = badges.map(b => 
+                `### ${b.emoji} ${b.name}\n${b.description}`
+              ).join('\n\n');
+              
+              const message = `## 🎉 Achievement Unlocked!
+              
+Congratulations @${contributor}! You've earned new badges:
+
+${badgeList}
+
+**Your Stats:**
+- 💎 Total Equity: ${equity}%
+- 🏆 Bounties Completed: ${bounties}
+- 🎯 Tier: ${contributorData.contributor_tier}
+
+Keep up the amazing work! 🚀`;
+              
+              await github.rest.issues.createComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: context.payload.pull_request.number,
+                body: message
+              });
+            }
+
+  email-notifications:
+    runs-on: ubuntu-latest
+    if: github.event.action == 'closed' && github.event.pull_request.merged && contains(github.event.pull_request.labels.*.name, 'bounty')
+    
+    steps:
+      - name: 📧 Send Email Notification
+        uses: dawidd6/action-send-mail@v3
+        with:
+          server_address: ${{ secrets.MAIL_SERVER }}
+          server_port: ${{ secrets.MAIL_PORT }}
+          username: ${{ secrets.MAIL_USERNAME }}
+          password: ${{ secrets.MAIL_PASSWORD }}
+          subject: "🎉 Bounty Completed - GitForge"
+          to: ${{ secrets.NOTIFICATION_EMAIL }}
+          from: GitForge Bot
+          html_body: |
+            <h2>🎉 Bounty Completed!</h2>
+            <p><strong>Contributor:</strong> ${{ github.event.pull_request.user.login }}</p>
+            <p><strong>PR:</strong> <a href="${{ github.event.pull_request.html_url }}">#${{ github.event.pull_request.number }}</a></p>
+            <p><strong>Title:</strong> ${{ github.event.pull_request.title }}</p>
+            <hr>
+            <p>View the <a href="https://github.com/${{ github.repository }}/blob/main/dashboard.html">Live Dashboard</a></p>
+        continue-on-error: true
