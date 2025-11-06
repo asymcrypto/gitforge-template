@@ -1,9 +1,9 @@
 {
-  "total_equity_allocated": 7,
+  "total_equity_allocated": 757,
   "total_equity_available": 93,
-  "bounties_completed": 1,
+  "bounties_completed": 3,
   "bounties_pending": 2,
-  "last_updated": "2024-10-17T22:30:00Z",
+  "last_updated": "2025-11-06T17:56:34.239Z",
   "contributors": [
     {
       "github_username": "AliRaza",
@@ -14,6 +14,38 @@
       "pr_link": "https://github.com/asymcrypto/gitforge-template/pulls?q=is:pr+is:closed",
       "status": "completed",
       "contributor_tier": "Founding Contributor"
+    },
+    {
+      "username": "john-developer",
+      "total_earned": 250,
+      "bounties_completed": 1,
+      "payout_history": [
+        {
+          "date": "2025-11-06T17:56:26.612Z",
+          "amount": 250,
+          "pr_number": 42,
+          "status": "completed"
+        }
+      ],
+      "reputation_score": 7,
+      "skills": [],
+      "joined_date": "2025-11-06T17:56:26.611Z"
+    },
+    {
+      "username": "jane-designer",
+      "total_earned": 500,
+      "bounties_completed": 1,
+      "payout_history": [
+        {
+          "date": "2025-11-06T17:56:34.239Z",
+          "amount": 500,
+          "pr_number": 45,
+          "status": "completed"
+        }
+      ],
+      "reputation_score": 10,
+      "skills": [],
+      "joined_date": "2025-11-06T17:56:34.238Z"
     }
   ],
   "active_bounties": [
@@ -26,7 +58,7 @@
       "issue_link": "https://github.com/asymcrypto/gitforge-template/issues/1"
     },
     {
-      "bounty_id": 2, 
+      "bounty_id": 2,
       "title": "Add Discord community integration for bounty notifications",
       "equity_offer": 2,
       "assigned_to": "",

@@ -1,56 +1,217 @@
-name: Bounty Payout
+name: Bounty Payout with Audit Trail
 on:
   pull_request:
     types: [closed]
+  workflow_dispatch:
+    inputs:
+      pr_number:
+        description: 'PR number to process'
+        required: true
+        type: number
 
 jobs:
   payout:
-    if: github.event.pull_request.merged == true
+    if: github.event.pull_request.merged == true || github.event_name == 'workflow_dispatch'
     runs-on: ubuntu-latest
     
     steps:
-      - name: Check for bounty label
+      - name: Checkout repository
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm install --legacy-peer-deps
+
+      - name: Check for bounty label and extract amount
         id: check_bounty
         uses: actions/github-script@v6
         with:
           script: |
+            const prNumber = context.payload.pull_request?.number || ${{ github.event.inputs.pr_number }};
+            
             const issue = await github.rest.issues.get({
               owner: context.repo.owner,
               repo: context.repo.repo,
-              issue_number: context.payload.pull_request.number
+              issue_number: prNumber
             });
             
             const isBounty = issue.data.labels.some(label => 
-              label.name.includes('bounty')
+              label.name.toLowerCase().includes('bounty')
             );
             
             core.setOutput('is_bounty', isBounty);
+            core.setOutput('pr_number', prNumber);
+            core.setOutput('contributor', context.payload.pull_request?.user?.login || 'unknown');
             
             if (isBounty) {
               // Get bounty amount from issue body
-              const body = issue.data.body;
-              const amountMatch = body.match(/Bounty Amount[\\s\\S]*?\\$(\\d+)/);
-              return amountMatch ? amountMatch[1] : null;
+              const body = issue.data.body || '';
+              
+              // Try to match "Bounty Amount: $XXX"
+              const bountyMatch = body.match(/Bounty\s+Amount[:\s]*\$?(\d+(?:\.\d{2})?)/i);
+              if (bountyMatch) {
+                core.setOutput('amount', bountyMatch[1]);
+                core.setOutput('currency', 'USD');
+                return;
+              }
+              
+              // Try to match "Equity: X%"
+              const equityMatch = body.match(/Equity[:\s]*(\d+(?:\.\d{2})?)\s*%?/i);
+              if (equityMatch) {
+                core.setOutput('amount', equityMatch[1]);
+                core.setOutput('currency', 'EQUITY');
+                return;
+              }
+              
+              core.setOutput('amount', '0');
+              core.setOutput('currency', 'USD');
             }
-            
-      - name: Process Payout
+
+      - name: Process Payout with Audit Trail
         if: steps.check_bounty.outputs.is_bounty == 'true'
+        id: process_payout
         run: |
-          echo "Processing bounty payout for PR #${{ github.event.pull_request.number }}"
-          echo "Amount: ${{ steps.check_bounty.outputs.amount }} USDC"
-          echo "Contributor: ${{ github.event.pull_request.user.login }}"
-          
-          # Here you would integrate with your payment processor
-          # For now, we'll just create a comment
-          
-      - name: Comment on PR
-        if: steps.check_bounty.outputs.is_bounty == 'true'
+          node .github/scripts/process-payout.js \
+            --pr-number "${{ steps.check_bounty.outputs.pr_number }}" \
+            --contributor "${{ steps.check_bounty.outputs.contributor }}" \
+            --amount "${{ steps.check_bounty.outputs.amount }}" \
+            --currency "${{ steps.check_bounty.outputs.currency }}"
+
+      - name: Comment on PR with Payout Details
+        if: steps.check_bounty.outputs.is_bounty == 'true' && steps.process_payout.outcome == 'success'
         uses: actions/github-script@v6
         with:
           script: |
+            const fs = require('fs');
+            const payoutResult = JSON.parse(fs.readFileSync('.github/payout-result.json', 'utf-8'));
+            
+            const comment = `
+## 🎉 Bounty Payout Processed
+
+**Contributor:** @${{ steps.check_bounty.outputs.contributor }}
+**Amount:** $${payoutResult.amount} ${{ steps.check_bounty.outputs.currency }}
+**Net Amount:** $${payoutResult.net_amount} (after ${payoutResult.fee_percentage}% fee)
+**Transaction ID:** \`${payoutResult.transaction_id}\`
+**Audit ID:** \`${payoutResult.audit_id}\`
+**Status:** ✅ **SUCCESS**
+
+Your bounty has been processed and will be transferred to your registered payment method.
+
+---
+*This payout is recorded in our immutable audit trail for compliance and tax reporting.*
+            `;
+            
             github.rest.issues.createComment({
               owner: context.repo.owner,
               repo: context.repo.repo,
-              issue_number: context.payload.pull_request.number,
-              body: `🎉 **Bounty Paid!** \n\n ${{ steps.check_bounty.outputs.amount }} USDC has been processed for @${{ github.event.pull_request.user.login }}. Thanks for your contribution!`
+              issue_number: ${{ steps.check_bounty.outputs.pr_number }},
+              body: comment
+            });
+
+      - name: Comment on PR with Payout Error
+        if: steps.check_bounty.outputs.is_bounty == 'true' && steps.process_payout.outcome == 'failure'
+        uses: actions/github-script@v6
+        with:
+          script: |
+            const fs = require('fs');
+            let errorMessage = 'Unknown error occurred';
+            
+            try {
+              const payoutResult = JSON.parse(fs.readFileSync('.github/payout-result.json', 'utf-8'));
+              errorMessage = payoutResult.error || errorMessage;
+            } catch (e) {
+              // Use default error message
+            }
+            
+            const comment = `
+## ❌ Bounty Payout Failed
+
+**Contributor:** @${{ steps.check_bounty.outputs.contributor }}
+**Error:** ${errorMessage}
+
+The bounty payout could not be processed. Please contact the maintainers for assistance.
+
+---
+*This failure has been logged in our audit trail.*
+            `;
+            
+            github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: ${{ steps.check_bounty.outputs.pr_number }},
+              body: comment
+            });
+
+      - name: Update Equity Tracking
+        if: steps.check_bounty.outputs.is_bounty == 'true' && steps.process_payout.outcome == 'success'
+        run: |
+          node .github/scripts/update-equity-on-payout.js \
+            --contributor "${{ steps.check_bounty.outputs.contributor }}" \
+            --amount "${{ steps.check_bounty.outputs.amount }}" \
+            --pr-number "${{ steps.check_bounty.outputs.pr_number }}"
+
+      - name: Commit Audit Trail Changes
+        if: steps.check_bounty.outputs.is_bounty == 'true'
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitForge Bot"
+          git add github/PAYOUT_AUDIT.json github/EQUITY_TRACKING.json || true
+          git commit -m "🤖 Auto-update payout audit trail and equity tracking for PR #${{ steps.check_bounty.outputs.pr_number }}" || echo "No changes to commit"
+          git push
+
+      - name: Send Discord Notification
+        if: steps.check_bounty.outputs.is_bounty == 'true' && steps.process_payout.outcome == 'success'
+        uses: actions/github-script@v6
+        env:
+          DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
+        with:
+          script: |
+            if (!process.env.DISCORD_WEBHOOK_URL) {
+              console.log('Discord webhook not configured, skipping notification');
+              return;
+            }
+            
+            const fetch = require('node-fetch');
+            const fs = require('fs');
+            const payoutResult = JSON.parse(fs.readFileSync('.github/payout-result.json', 'utf-8'));
+            
+            const embed = {
+              title: '💰 Bounty Payout Processed',
+              color: 0x10b981,
+              fields: [
+                {
+                  name: 'Contributor',
+                  value: '@${{ steps.check_bounty.outputs.contributor }}',
+                  inline: true
+                },
+                {
+                  name: 'Amount',
+                  value: `$${payoutResult.amount}`,
+                  inline: true
+                },
+                {
+                  name: 'PR',
+                  value: '#${{ steps.check_bounty.outputs.pr_number }}',
+                  inline: true
+                },
+                {
+                  name: 'Transaction ID',
+                  value: `\`${payoutResult.transaction_id}\``,
+                  inline: false
+                }
+              ],
+              timestamp: new Date().toISOString()
+            };
+            
+            await fetch(process.env.DISCORD_WEBHOOK_URL, {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ embeds: [embed] })
             });

@@ -1,0 +1,166 @@
+name: Weighted Voting Check
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+  pull_request_review:
+    types: [submitted]
+  workflow_dispatch:
+    inputs:
+      pr_number:
+        description: 'PR number to check'
+        required: true
+        type: number
+
+jobs:
+  check_weighted_voting:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm install --legacy-peer-deps
+
+      - name: Get PR details
+        id: pr_details
+        uses: actions/github-script@v6
+        with:
+          script: |
+            const prNumber = context.payload.pull_request?.number || ${{ github.event.inputs.pr_number }};
+            
+            const pr = await github.rest.pulls.get({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              pull_number: prNumber
+            });
+            
+            const reviews = await github.rest.pulls.listReviews({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              pull_number: prNumber
+            });
+            
+            core.setOutput('pr_number', prNumber);
+            core.setOutput('pr_title', pr.data.title);
+            core.setOutput('pr_body', pr.data.body || '');
+            core.setOutput('pr_labels', JSON.stringify(pr.data.labels.map(l => l.name)));
+            core.setOutput('pr_author', pr.data.user.login);
+            core.setOutput('pr_state', pr.data.state);
+            
+            // Check if CI passed
+            const commits = await github.rest.pulls.listCommits({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              pull_number: prNumber
+            });
+            
+            const lastCommit = commits.data[commits.data.length - 1];
+            const statuses = await github.rest.repos.getCombinedStatusForRef({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              ref: lastCommit.commit.sha
+            });
+            
+            core.setOutput('ci_pass', statuses.data.state === 'success');
+
+      - name: Check Weighted Voting Eligibility
+        id: check_voting
+        run: |
+          node .github/scripts/check-weighted-voting.js \
+            --pr-number "${{ steps.pr_details.outputs.pr_number }}" \
+            --pr-title "${{ steps.pr_details.outputs.pr_title }}" \
+            --pr-body "${{ steps.pr_details.outputs.pr_body }}" \
+            --pr-labels "${{ steps.pr_details.outputs.pr_labels }}" \
+            --pr-author "${{ steps.pr_details.outputs.pr_author }}" \
+            --ci-pass "${{ steps.pr_details.outputs.ci_pass }}"
+
+      - name: Comment on PR with Voting Status
+        if: always()
+        uses: actions/github-script@v6
+        with:
+          script: |
+            const fs = require('fs');
+            let votingResult = { can_merge: false, reason: 'Unknown error' };
+            
+            try {
+              votingResult = JSON.parse(fs.readFileSync('.github/voting-result.json', 'utf-8'));
+            } catch (e) {
+              console.log('No voting result file found');
+            }
+            
+            const statusEmoji = votingResult.can_merge ? '✅' : '⚠️';
+            const comment = `
+## ${statusEmoji} Weighted Voting Status
+
+**PR Number:** #${{ steps.pr_details.outputs.pr_number }}
+**PR Type:** ${votingResult.pr_type || 'normal'}
+**Merge Eligible:** ${votingResult.can_merge ? 'Yes' : 'No'}
+**Reason:** ${votingResult.reason}
+
+${votingResult.vote_score ? `
+### Vote Summary
+- **Total Votes:** ${votingResult.vote_score.total_votes}
+- **Approve Weight:** ${votingResult.vote_score.approve_weight}
+- **Reject Weight:** ${votingResult.vote_score.reject_weight}
+- **Vote Score:** ${votingResult.vote_score.approve_percentage}%
+- **Threshold:** ${votingResult.threshold || '50'}%
+` : ''}
+
+${votingResult.checks ? `
+### Checks
+- CI/CD: ${votingResult.checks.ci_pass ? '✅' : '❌'}
+- Weighted Vote: ${votingResult.checks.weighted_vote ? '✅' : '❌'}
+${votingResult.checks.founder_approval !== undefined ? `- Founder Approval: ${votingResult.checks.founder_approval ? '✅' : '❌'}` : ''}
+` : ''}
+
+---
+*This check is automated by GitForge Governance System. Maintainers can vote to approve or request changes.*
+            `;
+            
+            github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: ${{ steps.pr_details.outputs.pr_number }},
+              body: comment
+            });
+
+      - name: Set PR Status Check
+        if: always()
+        uses: actions/github-script@v6
+        with:
+          script: |
+            const fs = require('fs');
+            let votingResult = { can_merge: false };
+            
+            try {
+              votingResult = JSON.parse(fs.readFileSync('.github/voting-result.json', 'utf-8'));
+            } catch (e) {
+              console.log('No voting result file found');
+            }
+            
+            const state = votingResult.can_merge ? 'success' : 'pending';
+            const description = votingResult.reason || 'Waiting for votes';
+            
+            github.rest.repos.createCommitStatus({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              sha: context.payload.pull_request?.head?.sha || context.payload.pull_request?.head?.sha,
+              state: state,
+              context: 'gitforge/weighted-voting',
+              description: description
+            });
+
+      - name: Enforce Merge Protection
+        if: failure()
+        run: |
+          echo "❌ Weighted voting check failed. PR cannot be merged until requirements are met."
+          exit 1

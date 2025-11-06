@@ -1,0 +1,262 @@
+{
+  "version": "1.0.0",
+  "description": "GitForge Governance Configuration - Defines weighted voting rules, maintainer roles, and merge policies for enterprise-grade governance.",
+  "created_at": "2025-11-06T00:00:00Z",
+  "last_updated": "2025-11-06T00:00:00Z",
+  "governance_model": "weighted_voting",
+  "voting_rules": {
+    "merge_approval_threshold": 50,
+    "description": "Percentage of weighted votes required to approve a PR merge (0-100)",
+    "voting_method": "weighted_majority",
+    "description_voting_method": "Each maintainer's vote is weighted by their role. Total weighted votes must meet the threshold."
+  },
+  "maintainer_roles": {
+    "founder": {
+      "vote_weight": 100,
+      "description": "Project founder with absolute authority",
+      "can_merge": true,
+      "can_override": true,
+      "can_veto": true
+    },
+    "lead_maintainer": {
+      "vote_weight": 75,
+      "description": "Senior maintainer with significant decision-making power",
+      "can_merge": true,
+      "can_override": false,
+      "can_veto": true
+    },
+    "maintainer": {
+      "vote_weight": 50,
+      "description": "Core maintainer with standard decision-making power",
+      "can_merge": true,
+      "can_override": false,
+      "can_veto": false
+    },
+    "reviewer": {
+      "vote_weight": 25,
+      "description": "Code reviewer with limited decision-making power",
+      "can_merge": false,
+      "can_override": false,
+      "can_veto": false
+    },
+    "contributor": {
+      "vote_weight": 10,
+      "description": "Regular contributor with minimal voting power",
+      "can_merge": false,
+      "can_override": false,
+      "can_veto": false
+    }
+  },
+  "maintainers": [
+    {
+      "github_username": "asymcrypto",
+      "role": "founder",
+      "vote_weight": 100,
+      "active": true,
+      "joined_date": "2024-01-01",
+      "permissions": {
+        "can_merge": true,
+        "can_override": true,
+        "can_veto": true,
+        "can_modify_governance": true
+      }
+    },
+    {
+      "github_username": "alice-maintainer",
+      "role": "lead_maintainer",
+      "vote_weight": 75,
+      "active": true,
+      "joined_date": "2024-06-01",
+      "permissions": {
+        "can_merge": true,
+        "can_override": false,
+        "can_veto": true,
+        "can_modify_governance": false
+      }
+    },
+    {
+      "github_username": "bob-reviewer",
+      "role": "reviewer",
+      "vote_weight": 25,
+      "active": true,
+      "joined_date": "2024-09-01",
+      "permissions": {
+        "can_merge": false,
+        "can_override": false,
+        "can_veto": false,
+        "can_modify_governance": false
+      }
+    }
+  ],
+  "merge_policies": {
+    "require_code_review": true,
+    "require_weighted_vote": true,
+    "require_ci_pass": true,
+    "require_audit_trail": true,
+    "auto_merge_enabled": false,
+    "merge_conflict_resolution": "manual",
+    "description": "Merge policies define the requirements for PR merges"
+  },
+  "special_rules": {
+    "bounty_prs": {
+      "description": "Special rules for bounty-related PRs",
+      "require_additional_review": true,
+      "additional_reviewers_needed": 1,
+      "weighted_vote_threshold": 60,
+      "auto_merge_if_approved": false
+    },
+    "security_prs": {
+      "description": "Special rules for security-related PRs",
+      "require_additional_review": true,
+      "additional_reviewers_needed": 2,
+      "weighted_vote_threshold": 75,
+      "auto_merge_if_approved": false,
+      "require_founder_approval": true
+    },
+    "governance_prs": {
+      "description": "Special rules for governance-related PRs",
+      "require_additional_review": true,
+      "additional_reviewers_needed": 2,
+      "weighted_vote_threshold": 80,
+      "auto_merge_if_approved": false,
+      "require_founder_approval": true
+    }
+  },
+  "audit_logging": {
+    "enabled": true,
+    "log_all_votes": true,
+    "log_all_merges": true,
+    "log_all_overrides": true,
+    "log_all_vetoes": true,
+    "retention_days": 2555,
+    "description": "7 years retention for compliance"
+  },
+  "voting_history": [
+    {
+      "id": "VOTE_1762455623719_1hzozd",
+      "timestamp": "2025-11-06T19:00:23.719Z",
+      "pr_number": 100,
+      "voter": "asymcrypto",
+      "voter_role": "founder",
+      "vote_weight": 100,
+      "vote": "approve",
+      "comment": "Looks good to me",
+      "metadata": {
+        "repository": "unknown",
+        "workflow_run_id": "unknown"
+      }
+    },
+    {
+      "id": "VOTE_1762455623720_hcpkq9",
+      "timestamp": "2025-11-06T19:00:23.720Z",
+      "pr_number": 100,
+      "voter": "alice-maintainer",
+      "voter_role": "lead_maintainer",
+      "vote_weight": 75,
+      "vote": "approve",
+      "comment": "Approved",
+      "metadata": {
+        "repository": "unknown",
+        "workflow_run_id": "unknown"
+      }
+    },
+    {
+      "id": "VOTE_1762455623722_ojnj3p",
+      "timestamp": "2025-11-06T19:00:23.722Z",
+      "pr_number": 101,
+      "voter": "asymcrypto",
+      "voter_role": "founder",
+      "vote_weight": 100,
+      "vote": "approve",
+      "comment": "Bounty approved",
+      "metadata": {
+        "repository": "unknown",
+        "workflow_run_id": "unknown"
+      }
+    },
+    {
+      "id": "VOTE_1762455623722_d8j8ky",
+      "timestamp": "2025-11-06T19:00:23.722Z",
+      "pr_number": 101,
+      "voter": "alice-maintainer",
+      "voter_role": "lead_maintainer",
+      "vote_weight": 75,
+      "vote": "approve",
+      "comment": "Verified fix",
+      "metadata": {
+        "repository": "unknown",
+        "workflow_run_id": "unknown"
+      }
+    },
+    {
+      "id": "VOTE_1762455623723_n4b5b",
+      "timestamp": "2025-11-06T19:00:23.723Z",
+      "pr_number": 102,
+      "voter": "alice-maintainer",
+      "voter_role": "lead_maintainer",
+      "vote_weight": 75,
+      "vote": "approve",
+      "comment": "Security fix verified",
+      "metadata": {
+        "repository": "unknown",
+        "workflow_run_id": "unknown"
+      }
+    },
+    {
+      "id": "VOTE_1762455623723_5kb5o",
+      "timestamp": "2025-11-06T19:00:23.723Z",
+      "pr_number": 102,
+      "voter": "asymcrypto",
+      "voter_role": "founder",
+      "vote_weight": 100,
+      "vote": "approve",
+      "comment": "Founder approved",
+      "metadata": {
+        "repository": "unknown",
+        "workflow_run_id": "unknown"
+      }
+    },
+    {
+      "id": "VOTE_1762455623723_3xtpbv",
+      "timestamp": "2025-11-06T19:00:23.723Z",
+      "pr_number": 103,
+      "voter": "asymcrypto",
+      "voter_role": "founder",
+      "vote_weight": 100,
+      "vote": "approve",
+      "comment": "I approve",
+      "metadata": {
+        "repository": "unknown",
+        "workflow_run_id": "unknown"
+      }
+    },
+    {
+      "id": "VOTE_1762455623723_v9tffg",
+      "timestamp": "2025-11-06T19:00:23.723Z",
+      "pr_number": 103,
+      "voter": "alice-maintainer",
+      "voter_role": "lead_maintainer",
+      "vote_weight": 75,
+      "vote": "veto",
+      "comment": "This breaks our architecture",
+      "metadata": {
+        "repository": "unknown",
+        "workflow_run_id": "unknown"
+      }
+    },
+    {
+      "id": "VOTE_1762455623724_gzcut",
+      "timestamp": "2025-11-06T19:00:23.724Z",
+      "pr_number": 104,
+      "voter": "bob-reviewer",
+      "voter_role": "reviewer",
+      "vote_weight": 25,
+      "vote": "approve",
+      "comment": "Looks good",
+      "metadata": {
+        "repository": "unknown",
+        "workflow_run_id": "unknown"
+      }
+    }
+  ]
+}
