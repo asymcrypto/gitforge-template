@@ -1,0 +1,15 @@
+# Node.js
+node_modules/
+npm-debug.log
+yarn-error.log
+
+# Test results
+.github/payout-result.json
+.github/voting-result.json
+
+# Tax reports
+.github/tax-reports/
+
+# OS-specific
+.DS_Store
+Thumbs.db
