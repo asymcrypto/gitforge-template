@@ -1,0 +1,163 @@
+{
+  "version": "1.0.0",
+  "description": "Immutable audit log for all governance actions. This file is append-only and serves as the single source of truth for governance compliance.",
+  "created_at": "2025-11-06T23:27:04.906Z",
+  "last_updated": "2025-11-06T23:27:04.921Z",
+  "entries": [
+    {
+      "id": "GOVERNANCE_AUDIT_INIT_001",
+      "timestamp": "2025-11-06T23:27:04.917Z",
+      "event_type": "SYSTEM_INITIALIZED",
+      "actor": "system",
+      "action": "Governance Audit System initialized",
+      "details": {
+        "version": "1.0.0",
+        "system": "GitForge Enterprise Governance"
+      },
+      "hash": null
+    },
+    {
+      "id": "GOVERNANCE_VOTE_1762471624918_enhhmm",
+      "timestamp": "2025-11-06T23:27:04.918Z",
+      "event_type": "VOTE_CAST",
+      "actor": "asymcrypto",
+      "actor_role": "founder",
+      "action": "Voted approve on PR #100",
+      "details": {
+        "pr_number": 100,
+        "vote": "approve",
+        "vote_weight": 100,
+        "comment": "Looks good to me",
+        "pr_type": "normal"
+      },
+      "metadata": {
+        "repository": "unknown",
+        "workflow_run_id": "unknown"
+      },
+      "hash": "e49fb39de5da655f999ea5404248d639018a74ee1f1d5e4d2a4f85adbcc4b6af"
+    },
+    {
+      "id": "GOVERNANCE_VOTE_1762471624918_r5gsea",
+      "timestamp": "2025-11-06T23:27:04.918Z",
+      "event_type": "VOTE_CAST",
+      "actor": "alice-maintainer",
+      "actor_role": "lead_maintainer",
+      "action": "Voted approve on PR #100",
+      "details": {
+        "pr_number": 100,
+        "vote": "approve",
+        "vote_weight": 75,
+        "comment": "Approved",
+        "pr_type": "normal"
+      },
+      "metadata": {
+        "repository": "unknown",
+        "workflow_run_id": "unknown"
+      },
+      "hash": "93affdf03e37fb54ed463e479a30576dc20d11db60d4c3e1fd7b5099d141f81e"
+    },
+    {
+      "id": "GOVERNANCE_VOTE_1762471624919_xn2bo",
+      "timestamp": "2025-11-06T23:27:04.919Z",
+      "event_type": "VOTE_CAST",
+      "actor": "bob-reviewer",
+      "actor_role": "reviewer",
+      "action": "Voted request_changes on PR #100",
+      "details": {
+        "pr_number": 100,
+        "vote": "request_changes",
+        "vote_weight": 25,
+        "comment": "Need some changes",
+        "pr_type": "normal"
+      },
+      "metadata": {
+        "repository": "unknown",
+        "workflow_run_id": "unknown"
+      },
+      "hash": "f2a5e791fbeef500ba4da4f57f7e8acebe1abde1d345954b50e245b2d150b9c2"
+    },
+    {
+      "id": "GOVERNANCE_MERGE_1762471624919_tpcs4i",
+      "timestamp": "2025-11-06T23:27:04.919Z",
+      "event_type": "PR_MERGED",
+      "actor": "asymcrypto",
+      "actor_role": "founder",
+      "action": "Merged PR #100: Add new feature to dashboard",
+      "details": {
+        "pr_number": 100,
+        "pr_title": "Add new feature to dashboard",
+        "pr_author": "john-developer",
+        "pr_type": "normal",
+        "merge_commit": "abc123def456",
+        "weighted_vote_score": 85
+      },
+      "metadata": {
+        "repository": "unknown",
+        "workflow_run_id": "unknown"
+      },
+      "hash": "67d8b3d3f828cce7f32d8e459936c7df976d67f327b14686e966357828ee6219"
+    },
+    {
+      "id": "GOVERNANCE_VETO_1762471624920_ef2w95",
+      "timestamp": "2025-11-06T23:27:04.920Z",
+      "event_type": "VETO_CAST",
+      "actor": "alice-maintainer",
+      "actor_role": "lead_maintainer",
+      "action": "Vetoed PR #101",
+      "details": {
+        "pr_number": 101,
+        "pr_title": "Controversial change",
+        "reason": "This breaks our architecture",
+        "veto_weight": 75
+      },
+      "metadata": {
+        "repository": "unknown"
+      },
+      "hash": "f1aecce2f4df12977c374bd20264127613ce9cfd4fc7db64d2544a1abb802486"
+    },
+    {
+      "id": "GOVERNANCE_OVERRIDE_1762471624920_545qgk",
+      "timestamp": "2025-11-06T23:27:04.920Z",
+      "event_type": "OVERRIDE_ACTION",
+      "actor": "asymcrypto",
+      "actor_role": "founder",
+      "action": "Override action on PR #101",
+      "details": {
+        "pr_number": 101,
+        "override_type": "FORCE_MERGE",
+        "reason": "Critical hotfix needed",
+        "original_decision": "BLOCKED_BY_VETO"
+      },
+      "metadata": {
+        "repository": "unknown"
+      },
+      "hash": "b7d9676fed4020a7037833a09fbdc54e5209b537e7e2ad2166145245f42b7fd3"
+    },
+    {
+      "id": "GOVERNANCE_POLICY_1762471624920_c8ckki",
+      "timestamp": "2025-11-06T23:27:04.921Z",
+      "event_type": "POLICY_CHANGED",
+      "actor": "asymcrypto",
+      "actor_role": "founder",
+      "action": "Policy changed: merge_approval_threshold",
+      "details": {
+        "policy_name": "merge_approval_threshold",
+        "old_value": "50%",
+        "new_value": "60%",
+        "reason": "Increasing security requirements"
+      },
+      "metadata": {
+        "repository": "unknown"
+      },
+      "hash": "bddcf68cba116bf8f85e3350f57726d6b6d4c173bc03c6c65738e111967191b3"
+    }
+  ],
+  "summary": {
+    "total_entries": 1,
+    "total_votes": 3,
+    "total_merges": 1,
+    "total_vetoes": 1,
+    "total_overrides": 1,
+    "total_policy_changes": 1
+  }
+}

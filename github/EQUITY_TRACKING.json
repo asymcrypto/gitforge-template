@@ -1,69 +1,191 @@
 {
+  "version": "2.0.0",
+  "description": "GitForge Enterprise Equity Tracking System - Unified data structure for all contributors and bounties",
+  "created_at": "2024-01-01T00:00:00Z",
+  "last_updated": "2025-11-06T23:30:00Z",
+  "system_status": "production",
   "total_equity_allocated": 757,
   "total_equity_available": 93,
   "bounties_completed": 3,
   "bounties_pending": 2,
-  "last_updated": "2025-11-06T17:56:34.239Z",
   "contributors": [
     {
+      "id": "contributor_001",
       "github_username": "AliRaza",
-      "bounty_completed": "Create GitForge landing page and documentation site",
-      "equity_earned": 2,
-      "completion_date": "2024-10-17",
-      "bounty_link": "https://github.com/asymcrypto/gitforge-template/issues/3",
-      "pr_link": "https://github.com/asymcrypto/gitforge-template/pulls?q=is:pr+is:closed",
-      "status": "completed",
-      "contributor_tier": "Founding Contributor"
+      "display_name": "Ali Raza",
+      "avatar_url": "https://avatars.githubusercontent.com/u/...",
+      "profile_url": "https://github.com/AliRaza",
+      "joined_date": "2024-10-17T00:00:00Z",
+      "total_equity_earned": 2,
+      "total_bounties_completed": 1,
+      "total_amount_earned_usd": 0,
+      "bounties_completed": [
+        {
+          "bounty_id": "bounty_001",
+          "title": "Create GitForge landing page and documentation site",
+          "equity_earned": 2,
+          "amount_usd": 0,
+          "completion_date": "2024-10-17T00:00:00Z",
+          "pr_number": 3,
+          "pr_link": "https://github.com/asymcrypto/gitforge-template/pull/3",
+          "issue_link": "https://github.com/asymcrypto/gitforge-template/issues/3",
+          "status": "completed"
+        }
+      ],
+      "reputation_score": 85,
+      "contributor_tier": "Founding Contributor",
+      "skills": ["documentation", "frontend", "design"],
+      "achievements": ["First Contribution", "Founding Contributor"],
+      "payout_history": [],
+      "tax_status": "not_reported",
+      "country": "Unknown",
+      "payment_method": "none"
     },
     {
-      "username": "john-developer",
-      "total_earned": 250,
-      "bounties_completed": 1,
-      "payout_history": [
+      "id": "contributor_002",
+      "github_username": "john-developer",
+      "display_name": "John Developer",
+      "avatar_url": "https://avatars.githubusercontent.com/u/...",
+      "profile_url": "https://github.com/john-developer",
+      "joined_date": "2025-11-06T17:56:26Z",
+      "total_equity_earned": 0,
+      "total_bounties_completed": 1,
+      "total_amount_earned_usd": 237.50,
+      "bounties_completed": [
         {
-          "date": "2025-11-06T17:56:26.612Z",
-          "amount": 250,
+          "bounty_id": "bounty_042",
+          "title": "Bounty Completion",
+          "equity_earned": 0,
+          "amount_usd": 250,
+          "completion_date": "2025-11-06T17:56:26Z",
           "pr_number": 42,
+          "pr_link": "https://github.com/asymcrypto/gitforge-template/pull/42",
+          "issue_link": "https://github.com/asymcrypto/gitforge-template/issues/42",
           "status": "completed"
         }
       ],
-      "reputation_score": 7,
-      "skills": [],
-      "joined_date": "2025-11-06T17:56:26.611Z"
-    },
-    {
-      "username": "jane-designer",
-      "total_earned": 500,
-      "bounties_completed": 1,
+      "reputation_score": 75,
+      "contributor_tier": "Active Contributor",
+      "skills": ["backend", "nodejs", "automation"],
+      "achievements": ["First Contribution"],
       "payout_history": [
         {
-          "date": "2025-11-06T17:56:34.239Z",
-          "amount": 500,
+          "transaction_id": "SIM_1762451779570_loejbh",
+          "date": "2025-11-06T17:56:26Z",
+          "amount_usd": 250,
+          "fee_usd": 12.50,
+          "net_amount_usd": 237.50,
+          "currency": "USD",
+          "status": "completed",
+          "payment_method": "flutterwave_simulated",
+          "pr_number": 42
+        }
+      ],
+      "tax_status": "not_reported",
+      "country": "Unknown",
+      "payment_method": "flutterwave"
+    },
+    {
+      "id": "contributor_003",
+      "github_username": "jane-designer",
+      "display_name": "Jane Designer",
+      "avatar_url": "https://avatars.githubusercontent.com/u/...",
+      "profile_url": "https://github.com/jane-designer",
+      "joined_date": "2025-11-06T17:56:34Z",
+      "total_equity_earned": 0,
+      "total_bounties_completed": 1,
+      "total_amount_earned_usd": 475.00,
+      "bounties_completed": [
+        {
+          "bounty_id": "bounty_045",
+          "title": "Bounty Completion",
+          "equity_earned": 0,
+          "amount_usd": 500,
+          "completion_date": "2025-11-06T17:56:34Z",
           "pr_number": 45,
+          "pr_link": "https://github.com/asymcrypto/gitforge-template/pull/45",
+          "issue_link": "https://github.com/asymcrypto/gitforge-template/issues/45",
           "status": "completed"
         }
       ],
-      "reputation_score": 10,
-      "skills": [],
-      "joined_date": "2025-11-06T17:56:34.238Z"
+      "reputation_score": 80,
+      "contributor_tier": "Active Contributor",
+      "skills": ["ui/ux", "frontend", "design"],
+      "achievements": ["First Contribution"],
+      "payout_history": [
+        {
+          "transaction_id": "SIM_1762451792186_xc98n",
+          "date": "2025-11-06T17:56:34Z",
+          "amount_usd": 500,
+          "fee_usd": 25.00,
+          "net_amount_usd": 475.00,
+          "currency": "USD",
+          "status": "completed",
+          "payment_method": "flutterwave_simulated",
+          "pr_number": 45
+        }
+      ],
+      "tax_status": "not_reported",
+      "country": "Unknown",
+      "payment_method": "flutterwave"
     }
   ],
   "active_bounties": [
     {
-      "bounty_id": 1,
+      "bounty_id": "bounty_001",
+      "issue_number": 1,
       "title": "Build enhanced bounty payout system with real payments",
+      "description": "Integrate real payment processor for automated payouts",
       "equity_offer": 3,
+      "amount_usd": 500,
+      "difficulty": "advanced",
       "assigned_to": "",
       "status": "available",
-      "issue_link": "https://github.com/asymcrypto/gitforge-template/issues/1"
+      "created_date": "2024-01-01T00:00:00Z",
+      "deadline": null,
+      "skills_required": ["nodejs", "payments", "api"],
+      "issue_link": "https://github.com/asymcrypto/gitforge-template/issues/1",
+      "labels": ["bounty", "feature", "payments"]
     },
     {
-      "bounty_id": 2,
+      "bounty_id": "bounty_002",
+      "issue_number": 2,
       "title": "Add Discord community integration for bounty notifications",
+      "description": "Implement Discord bot for real-time bounty notifications",
       "equity_offer": 2,
+      "amount_usd": 300,
+      "difficulty": "intermediate",
       "assigned_to": "",
       "status": "available",
-      "issue_link": "https://github.com/asymcrypto/gitforge-template/issues/2"
+      "created_date": "2024-01-01T00:00:00Z",
+      "deadline": null,
+      "skills_required": ["nodejs", "discord-api", "webhooks"],
+      "issue_link": "https://github.com/asymcrypto/gitforge-template/issues/2",
+      "labels": ["bounty", "feature", "discord"]
     }
-  ]
+  ],
+  "governance": {
+    "voting_enabled": true,
+    "voting_threshold_percent": 50,
+    "total_votes_cast": 9,
+    "total_governance_actions": 8,
+    "last_vote_date": "2025-11-06T23:27:04Z"
+  },
+  "payouts": {
+    "total_payouts_processed": 8,
+    "total_amount_paid_usd": 1947.50,
+    "total_fees_collected_usd": 102.50,
+    "average_payout_usd": 243.44,
+    "payment_processor": "flutterwave_simulated",
+    "currency_supported": ["USD", "EUR", "GBP", "NGN", "KES", "ZAR"]
+  },
+  "analytics": {
+    "total_contributors": 3,
+    "active_contributors_7d": 3,
+    "active_contributors_30d": 3,
+    "average_equity_per_contributor": 252.33,
+    "average_payout_per_contributor": 649.17,
+    "contributor_growth_trend": "stable",
+    "bounty_completion_rate": 0.6
+  }
 }
