@@ -1,234 +1,32 @@
 {
-  "version": "1.0.0",
-  "description": "Immutable audit log for all bounty payouts. This file is append-only and serves as the single source of truth for payout compliance and tax reporting.",
-  "created_at": "2025-11-06T00:00:00Z",
-  "last_updated": "2025-11-06T18:32:59.409Z",
-  "audit_entries": [
+  "version": "2.0.0",
+  "description": "GitForge Payout Audit Trail - Paymentor Edition",
+  "generated_at": "2025-11-10T23:19:18.107Z",
+  "total_payouts": 1,
+  "total_amount_usd": 250,
+  "total_fees_collected": 2.5,
+  "entries": [
     {
-      "id": "AUDIT_2025_001",
-      "timestamp": "2025-11-06T12:00:00Z",
-      "event_type": "SYSTEM_INITIALIZED",
-      "description": "Payout Audit System initialized for GitForge Enterprise",
-      "status": "SUCCESS",
-      "metadata": {
-        "version": "1.0.0",
-        "system": "GitForge Enterprise Goldmine"
-      }
-    },
-    {
-      "id": "AUDIT_1762451779068_si4mir7",
-      "timestamp": "2025-11-06T17:56:19.068Z",
-      "event_type": "PAYOUT_ATTEMPT",
-      "status": "SUCCESS",
-      "pr_number": 42,
+      "id": "PAYOUT_1762816758107_5adlr86yi",
+      "timestamp": "2025-11-10T23:19:18.107Z",
+      "event_type": "PAYOUT_PROCESSED",
       "contributor": "john-developer",
-      "amount": 250,
-      "currency": "USD",
-      "issue_number": 42,
-      "bounty_label": "bounty",
+      "bounty_id": "bounty_042",
+      "pr_number": 42,
+      "amount_usd": 250,
+      "fee_usd": 2.5,
+      "net_amount_usd": 247.5,
+      "payment_method": "crypto",
+      "payment_processor": "paymentor",
+      "crypto_token": "USDC",
+      "network": "polygon",
+      "transaction_id": "PMT_1762816758105_h10z5un2b",
+      "tx_hash": "0xbdb719921ee9aaaf67626c06a68cfc83e48b0de93f147f4f91d7d0cf1548a9a3",
+      "status": "confirmed",
       "metadata": {
-        "repository": "unknown",
-        "workflow_run_id": "unknown",
-        "actor": "unknown"
-      },
-      "completed_at": "2025-11-06T17:56:19.571Z",
-      "payout_details": {
-        "transaction_id": "SIM_1762451779570_loejbh",
-        "payment_method": "SIMULATED",
-        "confirmation_hash": null,
-        "fee_amount": 12.5,
-        "net_amount": 237.5
-      }
-    },
-    {
-      "id": "AUDIT_1762451791684_khynyxh",
-      "timestamp": "2025-11-06T17:56:31.684Z",
-      "event_type": "PAYOUT_ATTEMPT",
-      "status": "SUCCESS",
-      "pr_number": 45,
-      "contributor": "jane-designer",
-      "amount": 500,
-      "currency": "USD",
-      "issue_number": 45,
-      "bounty_label": "bounty",
-      "metadata": {
-        "repository": "unknown",
-        "workflow_run_id": "unknown",
-        "actor": "unknown"
-      },
-      "completed_at": "2025-11-06T17:56:32.186Z",
-      "payout_details": {
-        "transaction_id": "SIM_1762451792186_xc98n",
-        "payment_method": "SIMULATED",
-        "confirmation_hash": null,
-        "fee_amount": 25,
-        "net_amount": 475
-      }
-    },
-    {
-      "id": "AUDIT_1762453959742_21vvji6",
-      "timestamp": "2025-11-06T18:32:39.742Z",
-      "event_type": "PAYOUT_ATTEMPT",
-      "status": "SUCCESS",
-      "pr_number": 50,
-      "contributor": "alice-ng",
-      "amount": 200,
-      "currency": "USD",
-      "issue_number": 50,
-      "bounty_label": "bounty",
-      "metadata": {
-        "repository": "unknown",
-        "workflow_run_id": "unknown",
-        "actor": "unknown"
-      },
-      "completed_at": "2025-11-06T18:32:40.250Z",
-      "payout_details": {
-        "transaction_id": "SIM_1762453960249_cq2yhd",
-        "payment_method": "SIMULATED",
-        "confirmation_hash": null,
-        "fee_amount": 10,
-        "net_amount": 190
-      }
-    },
-    {
-      "id": "AUDIT_1762453960251_kdotvyu",
-      "timestamp": "2025-11-06T18:32:40.251Z",
-      "event_type": "PAYOUT_ATTEMPT",
-      "status": "SUCCESS",
-      "pr_number": 51,
-      "contributor": "bob-ke",
-      "amount": 150,
-      "currency": "USD",
-      "issue_number": 51,
-      "bounty_label": "bounty",
-      "metadata": {
-        "repository": "unknown",
-        "workflow_run_id": "unknown",
-        "actor": "unknown"
-      },
-      "completed_at": "2025-11-06T18:32:40.751Z",
-      "payout_details": {
-        "transaction_id": "SIM_1762453960751_bws64",
-        "payment_method": "SIMULATED",
-        "confirmation_hash": null,
-        "fee_amount": 7.5,
-        "net_amount": 142.5
-      }
-    },
-    {
-      "id": "AUDIT_1762453960752_0tq242j",
-      "timestamp": "2025-11-06T18:32:40.752Z",
-      "event_type": "PAYOUT_ATTEMPT",
-      "status": "SUCCESS",
-      "pr_number": 52,
-      "contributor": "carol-za",
-      "amount": 300,
-      "currency": "USD",
-      "issue_number": 52,
-      "bounty_label": "bounty",
-      "metadata": {
-        "repository": "unknown",
-        "workflow_run_id": "unknown",
-        "actor": "unknown"
-      },
-      "completed_at": "2025-11-06T18:32:41.253Z",
-      "payout_details": {
-        "transaction_id": "SIM_1762453961253_2xuttya",
-        "payment_method": "SIMULATED",
-        "confirmation_hash": null,
-        "fee_amount": 15,
-        "net_amount": 285
-      }
-    },
-    {
-      "id": "AUDIT_1762453977903_jbsb9k8",
-      "timestamp": "2025-11-06T18:32:57.903Z",
-      "event_type": "PAYOUT_ATTEMPT",
-      "status": "SUCCESS",
-      "pr_number": 50,
-      "contributor": "alice-ng",
-      "amount": 200,
-      "currency": "USD",
-      "issue_number": 50,
-      "bounty_label": "bounty",
-      "metadata": {
-        "repository": "unknown",
-        "workflow_run_id": "unknown",
-        "actor": "unknown"
-      },
-      "completed_at": "2025-11-06T18:32:58.405Z",
-      "payout_details": {
-        "transaction_id": "SIM_1762453978404_lvx7pb",
-        "payment_method": "SIMULATED",
-        "confirmation_hash": null,
-        "fee_amount": 10,
-        "net_amount": 190
-      }
-    },
-    {
-      "id": "AUDIT_1762453978405_teqxpaj",
-      "timestamp": "2025-11-06T18:32:58.405Z",
-      "event_type": "PAYOUT_ATTEMPT",
-      "status": "SUCCESS",
-      "pr_number": 51,
-      "contributor": "bob-ke",
-      "amount": 150,
-      "currency": "USD",
-      "issue_number": 51,
-      "bounty_label": "bounty",
-      "metadata": {
-        "repository": "unknown",
-        "workflow_run_id": "unknown",
-        "actor": "unknown"
-      },
-      "completed_at": "2025-11-06T18:32:58.906Z",
-      "payout_details": {
-        "transaction_id": "SIM_1762453978906_51dq0e",
-        "payment_method": "SIMULATED",
-        "confirmation_hash": null,
-        "fee_amount": 7.5,
-        "net_amount": 142.5
-      }
-    },
-    {
-      "id": "AUDIT_1762453978907_dt2a0jf",
-      "timestamp": "2025-11-06T18:32:58.907Z",
-      "event_type": "PAYOUT_ATTEMPT",
-      "status": "SUCCESS",
-      "pr_number": 52,
-      "contributor": "carol-za",
-      "amount": 300,
-      "currency": "USD",
-      "issue_number": 52,
-      "bounty_label": "bounty",
-      "metadata": {
-        "repository": "unknown",
-        "workflow_run_id": "unknown",
-        "actor": "unknown"
-      },
-      "completed_at": "2025-11-06T18:32:59.409Z",
-      "payout_details": {
-        "transaction_id": "SIM_1762453979409_plp22j",
-        "payment_method": "SIMULATED",
-        "confirmation_hash": null,
-        "fee_amount": 15,
-        "net_amount": 285
+        "wallet_address": "0x1234567890123456789012345678901234567890",
+        "currency": "USD"
       }
     }
-  ],
-  "summary": {
-    "total_entries": 9,
-    "total_payouts_processed": 8,
-    "total_amount_paid": 1947.5,
-    "failed_payouts": 0,
-    "pending_payouts": 0,
-    "currencies_supported": [
-      "USD",
-      "EUR",
-      "USDC",
-      "GBP",
-      "JPY"
-    ],
-    "last_payout_date": "2025-11-06T18:32:59.409Z"
-  }
+  ]
 }
