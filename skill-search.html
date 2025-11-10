@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GitForge Skill Search</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #f5f5f5; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 20px; }
+        .header { background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%); color: white; padding: 40px 20px; border-radius: 8px; margin-bottom: 40px; }
+        .header h1 { font-size: 2.5em; margin-bottom: 10px; }
+        .search-box { background: white; padding: 30px; border-radius: 8px; margin-bottom: 30px; }
+        .search-input { width: 100%; padding: 12px 16px; font-size: 1em; border: 2px solid #ddd; border-radius: 4px; }
+        .search-input:focus { outline: none; border-color: #6366f1; }
+        .top-skills { background: white; padding: 20px; border-radius: 8px; margin-bottom: 30px; }
+        .top-skills h2 { margin-bottom: 20px; color: #333; }
+        .skills-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 15px; }
+        .skill-card { background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%); color: white; padding: 20px; border-radius: 8px; text-align: center; cursor: pointer; transition: transform 0.3s; }
+        .skill-card:hover { transform: translateY(-4px); }
+        .skill-name { font-weight: bold; margin-bottom: 10px; }
+        .skill-count { font-size: 1.5em; font-weight: bold; margin-bottom: 5px; }
+        .skill-percentage { font-size: 0.9em; opacity: 0.9; }
+        .categories { background: white; padding: 20px; border-radius: 8px; }
+        .categories h2 { margin-bottom: 20px; color: #333; }
+        .category { margin-bottom: 30px; }
+        .category h3 { color: #6366f1; margin-bottom: 15px; font-size: 1.1em; }
+        .contributors-list { display: flex; flex-wrap: wrap; gap: 10px; }
+        .contributor-badge { background: #f0f0f0; padding: 8px 12px; border-radius: 20px; font-size: 0.9em; cursor: pointer; transition: all 0.3s; }
+        .contributor-badge:hover { background: #6366f1; color: white; }
+        .stats { background: white; padding: 20px; border-radius: 8px; margin-bottom: 30px; display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 20px; }
+        .stat { text-align: center; }
+        .stat-value { font-size: 2em; font-weight: bold; color: #6366f1; }
+        .stat-label { font-size: 0.9em; color: #666; margin-top: 5px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🔍 GitForge Skill Search</h1>
+            <p>Find contributors by verified skills</p>
+        </div>
+
+        <div class="stats">
+            <div class="stat">
+                <div class="stat-value">3</div>
+                <div class="stat-label">Profiles Indexed</div>
+            </div>
+            <div class="stat">
+                <div class="stat-value">5</div>
+                <div class="stat-label">Skills Tracked</div>
+            </div>
+            <div class="stat">
+                <div class="stat-value">5</div>
+                <div class="stat-label">Top Skills</div>
+            </div>
+        </div>
+
+        <div class="search-box">
+            <input type="text" class="search-input" id="searchInput" placeholder="Search for skills (e.g., React, DevOps, Machine Learning)...">
+        </div>
+
+        <div class="top-skills">
+            <h2>🔥 Top Skills</h2>
+            <div class="skills-grid">
+                
+                    <div class="skill-card" onclick="searchSkill('Open Source')">
+                        <div class="skill-count">3</div>
+                        <div class="skill-name">Open Source</div>
+                        <div class="skill-percentage">100.0% of contributors</div>
+                    </div>
+                
+                    <div class="skill-card" onclick="searchSkill('Frontend Development')">
+                        <div class="skill-count">2</div>
+                        <div class="skill-name">Frontend Development</div>
+                        <div class="skill-percentage">66.7% of contributors</div>
+                    </div>
+                
+                    <div class="skill-card" onclick="searchSkill('Design')">
+                        <div class="skill-count">2</div>
+                        <div class="skill-name">Design</div>
+                        <div class="skill-percentage">66.7% of contributors</div>
+                    </div>
+                
+                    <div class="skill-card" onclick="searchSkill('Backend Development')">
+                        <div class="skill-count">1</div>
+                        <div class="skill-name">Backend Development</div>
+                        <div class="skill-percentage">33.3% of contributors</div>
+                    </div>
+                
+                    <div class="skill-card" onclick="searchSkill('Documentation')">
+                        <div class="skill-count">1</div>
+                        <div class="skill-name">Documentation</div>
+                        <div class="skill-percentage">33.3% of contributors</div>
+                    </div>
+                
+            </div>
+        </div>
+
+        <div class="categories">
+            <h2>📚 All Skills by Category</h2>
+            
+                <div class="category">
+                    <h3>Frontend Development (2 contributors)</h3>
+                    <div class="contributors-list">
+                        
+                            <span class="contributor-badge">@jane-designer</span>
+                        
+                            <span class="contributor-badge">@AliRaza</span>
+                        
+                        
+                    </div>
+                </div>
+            
+                <div class="category">
+                    <h3>Design (2 contributors)</h3>
+                    <div class="contributors-list">
+                        
+                            <span class="contributor-badge">@jane-designer</span>
+                        
+                            <span class="contributor-badge">@AliRaza</span>
+                        
+                        
+                    </div>
+                </div>
+            
+                <div class="category">
+                    <h3>Open Source (3 contributors)</h3>
+                    <div class="contributors-list">
+                        
+                            <span class="contributor-badge">@jane-designer</span>
+                        
+                            <span class="contributor-badge">@john-developer</span>
+                        
+                            <span class="contributor-badge">@AliRaza</span>
+                        
+                        
+                    </div>
+                </div>
+            
+                <div class="category">
+                    <h3>Backend Development (1 contributors)</h3>
+                    <div class="contributors-list">
+                        
+                            <span class="contributor-badge">@john-developer</span>
+                        
+                        
+                    </div>
+                </div>
+            
+                <div class="category">
+                    <h3>Documentation (1 contributors)</h3>
+                    <div class="contributors-list">
+                        
+                            <span class="contributor-badge">@AliRaza</span>
+                        
+                        
+                    </div>
+                </div>
+            
+        </div>
+    </div>
+
+    <script>
+        function searchSkill(skill) {
+            document.getElementById('searchInput').value = skill;
+            // Implement search functionality
+        }
+    </script>
+</body>
+</html>

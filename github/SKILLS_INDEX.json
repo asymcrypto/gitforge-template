@@ -1,0 +1,110 @@
+{
+  "version": "1.0.0",
+  "generated_at": "2025-11-10T10:32:29.727Z",
+  "total_profiles_indexed": 3,
+  "skills_by_category": {
+    "Frontend Development": [
+      {
+        "username": "jane-designer",
+        "proficiency": "beginner",
+        "confidence": 68
+      },
+      {
+        "username": "AliRaza",
+        "proficiency": "beginner",
+        "confidence": 62
+      }
+    ],
+    "Design": [
+      {
+        "username": "jane-designer",
+        "proficiency": "beginner",
+        "confidence": 68
+      },
+      {
+        "username": "AliRaza",
+        "proficiency": "beginner",
+        "confidence": 62
+      }
+    ],
+    "Open Source": [
+      {
+        "username": "jane-designer",
+        "proficiency": "beginner",
+        "confidence": 68
+      },
+      {
+        "username": "john-developer",
+        "proficiency": "beginner",
+        "confidence": 63
+      },
+      {
+        "username": "AliRaza",
+        "proficiency": "beginner",
+        "confidence": 62
+      }
+    ],
+    "Backend Development": [
+      {
+        "username": "john-developer",
+        "proficiency": "beginner",
+        "confidence": 63
+      }
+    ],
+    "Documentation": [
+      {
+        "username": "AliRaza",
+        "proficiency": "beginner",
+        "confidence": 62
+      }
+    ]
+  },
+  "contributors_by_skill": {
+    "Frontend Development": [
+      "jane-designer",
+      "AliRaza"
+    ],
+    "Design": [
+      "jane-designer",
+      "AliRaza"
+    ],
+    "Open Source": [
+      "jane-designer",
+      "john-developer",
+      "AliRaza"
+    ],
+    "Backend Development": [
+      "john-developer"
+    ],
+    "Documentation": [
+      "AliRaza"
+    ]
+  },
+  "top_skills": [
+    {
+      "skill": "Open Source",
+      "contributors": 3,
+      "percentage": "100.0"
+    },
+    {
+      "skill": "Frontend Development",
+      "contributors": 2,
+      "percentage": "66.7"
+    },
+    {
+      "skill": "Design",
+      "contributors": 2,
+      "percentage": "66.7"
+    },
+    {
+      "skill": "Backend Development",
+      "contributors": 1,
+      "percentage": "33.3"
+    },
+    {
+      "skill": "Documentation",
+      "contributors": 1,
+      "percentage": "33.3"
+    }
+  ]
+}

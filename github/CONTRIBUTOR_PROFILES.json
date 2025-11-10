@@ -1,0 +1,202 @@
+{
+  "version": "1.0.0",
+  "generated_at": "2025-11-10T10:32:23.936Z",
+  "total_profiles": 3,
+  "profiles": [
+    {
+      "id": "profile_contributor_003",
+      "github_username": "jane-designer",
+      "display_name": "Jane Designer",
+      "profile_url": "https://github.com/jane-designer",
+      "avatar_url": "https://avatars.githubusercontent.com/u/jane-designer?v=4",
+      "joined_date": "2025-11-06T17:56:34Z",
+      "last_activity": "2025-11-06T17:56:34Z",
+      "total_bounties_completed": 1,
+      "total_equity_earned": 0,
+      "total_amount_earned_usd": 475,
+      "reputation_score": 62.5,
+      "contributor_tier": "Emerging Contributor",
+      "skills": [
+        "design",
+        "frontend",
+        "ui/ux"
+      ],
+      "achievements": [
+        "First Contribution",
+        "$100 Earner"
+      ],
+      "verified": true,
+      "verification_date": "2025-11-10T10:32:23.936Z",
+      "bio": "GitForge contributor with 1 completed bounties and 62.5/100 reputation score.",
+      "location": "Unknown",
+      "website": null,
+      "social_links": {
+        "github": "https://github.com/jane-designer",
+        "twitter": null,
+        "linkedin": null
+      },
+      "available_for_hire": true,
+      "preferred_payment_method": "flutterwave",
+      "hourly_rate_usd": null,
+      "timezone": null,
+      "statistics": {
+        "average_bounty_value_usd": 475,
+        "completion_rate": 1,
+        "average_days_to_complete": 7,
+        "code_quality_score": 62.5,
+        "reliability_score": 95
+      },
+      "verification": {
+        "verified_by": "gitforge_system",
+        "verification_method": "github_activity",
+        "verification_date": "2025-11-10T10:32:23.936Z",
+        "signature": "4867a21d27452c78c9897abf26120799c7d7132abca6235e2fde015cc2dcb276"
+      }
+    },
+    {
+      "id": "profile_contributor_002",
+      "github_username": "john-developer",
+      "display_name": "John Developer",
+      "profile_url": "https://github.com/john-developer",
+      "avatar_url": "https://avatars.githubusercontent.com/u/john-developer?v=4",
+      "joined_date": "2025-11-06T17:56:26Z",
+      "last_activity": "2025-11-06T17:56:26Z",
+      "total_bounties_completed": 1,
+      "total_equity_earned": 0,
+      "total_amount_earned_usd": 237.5,
+      "reputation_score": 57.75,
+      "contributor_tier": "Emerging Contributor",
+      "skills": [
+        "automation",
+        "backend",
+        "nodejs"
+      ],
+      "achievements": [
+        "First Contribution",
+        "$100 Earner"
+      ],
+      "verified": true,
+      "verification_date": "2025-11-10T10:32:23.936Z",
+      "bio": "GitForge contributor with 1 completed bounties and 57.75/100 reputation score.",
+      "location": "Unknown",
+      "website": null,
+      "social_links": {
+        "github": "https://github.com/john-developer",
+        "twitter": null,
+        "linkedin": null
+      },
+      "available_for_hire": true,
+      "preferred_payment_method": "flutterwave",
+      "hourly_rate_usd": null,
+      "timezone": null,
+      "statistics": {
+        "average_bounty_value_usd": 237.5,
+        "completion_rate": 1,
+        "average_days_to_complete": 7,
+        "code_quality_score": 57.75,
+        "reliability_score": 95
+      },
+      "verification": {
+        "verified_by": "gitforge_system",
+        "verification_method": "github_activity",
+        "verification_date": "2025-11-10T10:32:23.936Z",
+        "signature": "f7e1bd0420452c2210c41f81de8ec05bfb452829134b5d16c56dcbe4eb6e3e7c"
+      }
+    },
+    {
+      "id": "profile_contributor_001",
+      "github_username": "AliRaza",
+      "display_name": "Ali Raza",
+      "profile_url": "https://github.com/AliRaza",
+      "avatar_url": "https://avatars.githubusercontent.com/u/AliRaza?v=4",
+      "joined_date": "2024-10-17T00:00:00Z",
+      "last_activity": "2024-10-17T00:00:00Z",
+      "total_bounties_completed": 1,
+      "total_equity_earned": 2,
+      "total_amount_earned_usd": 0,
+      "reputation_score": 57,
+      "contributor_tier": "Emerging Contributor",
+      "skills": [
+        "design",
+        "documentation",
+        "frontend"
+      ],
+      "achievements": [
+        "First Contribution"
+      ],
+      "verified": true,
+      "verification_date": "2025-11-10T10:32:23.935Z",
+      "bio": "GitForge contributor with 1 completed bounties and 57/100 reputation score.",
+      "location": "Unknown",
+      "website": null,
+      "social_links": {
+        "github": "https://github.com/AliRaza",
+        "twitter": null,
+        "linkedin": null
+      },
+      "available_for_hire": true,
+      "preferred_payment_method": "none",
+      "hourly_rate_usd": null,
+      "timezone": null,
+      "statistics": {
+        "average_bounty_value_usd": 0,
+        "completion_rate": 1,
+        "average_days_to_complete": 7,
+        "code_quality_score": 57,
+        "reliability_score": 95
+      },
+      "verification": {
+        "verified_by": "gitforge_system",
+        "verification_method": "github_activity",
+        "verification_date": "2025-11-10T10:32:23.936Z",
+        "signature": "1d01435e564ea509028d4a1c5a1bee503bb68a8c1654a3ffc0a3fcbdfe5523fa"
+      }
+    }
+  ],
+  "index": {
+    "AliRaza": {
+      "id": "profile_contributor_001",
+      "tier": "Emerging Contributor",
+      "reputation_score": 57,
+      "skills": [
+        "design",
+        "documentation",
+        "frontend"
+      ]
+    },
+    "john-developer": {
+      "id": "profile_contributor_002",
+      "tier": "Emerging Contributor",
+      "reputation_score": 57.75,
+      "skills": [
+        "automation",
+        "backend",
+        "nodejs"
+      ]
+    },
+    "jane-designer": {
+      "id": "profile_contributor_003",
+      "tier": "Emerging Contributor",
+      "reputation_score": 62.5,
+      "skills": [
+        "design",
+        "frontend",
+        "ui/ux"
+      ]
+    }
+  },
+  "statistics": {
+    "total_contributors": 3,
+    "average_reputation_score": "59.08",
+    "total_bounties_completed": 3,
+    "total_amount_earned": 712.5,
+    "tiers": {
+      "Core Team Member": 0,
+      "Founding Contributor": 0,
+      "Veteran Contributor": 0,
+      "Rising Star": 0,
+      "Emerging Contributor": 3,
+      "New Contributor": 0
+    }
+  }
+}
